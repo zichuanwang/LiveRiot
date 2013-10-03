@@ -14,14 +14,23 @@
 		E1A4823C17FC560D00ECFF57 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4823B17FC560D00ECFF57 /* main.m */; };
 		E1A4824017FC560D00ECFF57 /* LRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4823F17FC560D00ECFF57 /* LRAppDelegate.m */; };
 		E1A4824317FC560D00ECFF57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1A4824117FC560D00ECFF57 /* Main.storyboard */; };
-		E1A4824617FC560D00ECFF57 /* LRFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4824517FC560D00ECFF57 /* LRFirstViewController.m */; };
-		E1A4824917FC560D00ECFF57 /* LRSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4824817FC560D00ECFF57 /* LRSecondViewController.m */; };
-		E1A4824B17FC560D00ECFF57 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1A4824A17FC560D00ECFF57 /* Images.xcassets */; };
 		E1A4825217FC560D00ECFF57 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4825117FC560D00ECFF57 /* XCTest.framework */; };
 		E1A4825317FC560D00ECFF57 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4822F17FC560D00ECFF57 /* Foundation.framework */; };
 		E1A4825417FC560D00ECFF57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4823317FC560D00ECFF57 /* UIKit.framework */; };
 		E1A4825C17FC560D00ECFF57 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1A4825A17FC560D00ECFF57 /* InfoPlist.strings */; };
 		E1A4825E17FC560D00ECFF57 /* LiveRiotSocialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4825D17FC560D00ECFF57 /* LiveRiotSocialTests.m */; };
+		E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1A4826917FD517700ECFF57 /* images.xcassets */; };
+		E1A4826C17FD527D00ECFF57 /* 宝宝大图.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1A4826B17FD527D00ECFF57 /* 宝宝大图.jpg */; };
+		E1A4826F17FD53C900ECFF57 /* LRVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4826E17FD53C900ECFF57 /* LRVideoViewController.m */; };
+		E1A4827217FD66F100ECFF57 /* LRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4827117FD66F100ECFF57 /* LRTabBarController.m */; };
+		E1A4827417FD6E0A00ECFF57 /* livemusic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1A4827317FD6E0A00ECFF57 /* livemusic.jpg */; };
+		E1A4827617FD741700ECFF57 /* zichuanwang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A4827517FD741700ECFF57 /* zichuanwang.png */; };
+		E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4827817FD7DE800ECFF57 /* LRVideoDetailViewController.m */; };
+		E1A4827B17FD81C500ECFF57 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4827A17FD81C500ECFF57 /* Social.framework */; };
+		E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4827E17FD822900ECFF57 /* RDActivityViewController.m */; };
+		E1A4828217FD94DA00ECFF57 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4828117FD94DA00ECFF57 /* FacebookSDK.framework */; };
+		E1A4828617FD9CD300ECFF57 /* LRFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4828417FD9CD300ECFF57 /* LRFacebookLoginViewController.m */; };
+		E1A4828717FD9CD300ECFF57 /* LRFacebookLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A4828517FD9CD300ECFF57 /* LRFacebookLoginViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,16 +55,29 @@
 		E1A4823E17FC560D00ECFF57 /* LRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LRAppDelegate.h; sourceTree = "<group>"; };
 		E1A4823F17FC560D00ECFF57 /* LRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LRAppDelegate.m; sourceTree = "<group>"; };
 		E1A4824217FC560D00ECFF57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E1A4824417FC560D00ECFF57 /* LRFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LRFirstViewController.h; sourceTree = "<group>"; };
-		E1A4824517FC560D00ECFF57 /* LRFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LRFirstViewController.m; sourceTree = "<group>"; };
-		E1A4824717FC560D00ECFF57 /* LRSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LRSecondViewController.h; sourceTree = "<group>"; };
-		E1A4824817FC560D00ECFF57 /* LRSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LRSecondViewController.m; sourceTree = "<group>"; };
-		E1A4824A17FC560D00ECFF57 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E1A4825017FC560D00ECFF57 /* LiveRiotSocialTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveRiotSocialTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A4825117FC560D00ECFF57 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E1A4825917FC560D00ECFF57 /* LiveRiotSocialTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LiveRiotSocialTests-Info.plist"; sourceTree = "<group>"; };
 		E1A4825B17FC560D00ECFF57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E1A4825D17FC560D00ECFF57 /* LiveRiotSocialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveRiotSocialTests.m; sourceTree = "<group>"; };
+		E1A4826917FD517700ECFF57 /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
+		E1A4826B17FD527D00ECFF57 /* 宝宝大图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "宝宝大图.jpg"; sourceTree = "<group>"; };
+		E1A4826D17FD53C900ECFF57 /* LRVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRVideoViewController.h; sourceTree = "<group>"; };
+		E1A4826E17FD53C900ECFF57 /* LRVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRVideoViewController.m; sourceTree = "<group>"; };
+		E1A4827017FD66F100ECFF57 /* LRTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTabBarController.h; sourceTree = "<group>"; };
+		E1A4827117FD66F100ECFF57 /* LRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTabBarController.m; sourceTree = "<group>"; };
+		E1A4827317FD6E0A00ECFF57 /* livemusic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = livemusic.jpg; sourceTree = "<group>"; };
+		E1A4827517FD741700ECFF57 /* zichuanwang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zichuanwang.png; sourceTree = "<group>"; };
+		E1A4827717FD7DE800ECFF57 /* LRVideoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRVideoDetailViewController.h; sourceTree = "<group>"; };
+		E1A4827817FD7DE800ECFF57 /* LRVideoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRVideoDetailViewController.m; sourceTree = "<group>"; };
+		E1A4827A17FD81C500ECFF57 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		E1A4827D17FD822900ECFF57 /* RDActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDActivityViewController.h; sourceTree = "<group>"; };
+		E1A4827E17FD822900ECFF57 /* RDActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDActivityViewController.m; sourceTree = "<group>"; };
+		E1A4827F17FD822900ECFF57 /* RDActivityViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDActivityViewControllerDelegate.h; sourceTree = "<group>"; };
+		E1A4828117FD94DA00ECFF57 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		E1A4828317FD9CD300ECFF57 /* LRFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFacebookLoginViewController.h; sourceTree = "<group>"; };
+		E1A4828417FD9CD300ECFF57 /* LRFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFacebookLoginViewController.m; sourceTree = "<group>"; };
+		E1A4828517FD9CD300ECFF57 /* LRFacebookLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRFacebookLoginViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1A4827B17FD81C500ECFF57 /* Social.framework in Frameworks */,
+				E1A4828217FD94DA00ECFF57 /* FacebookSDK.framework in Frameworks */,
 				E1A4823217FC560D00ECFF57 /* CoreGraphics.framework in Frameworks */,
 				E1A4823417FC560D00ECFF57 /* UIKit.framework in Frameworks */,
 				E1A4823017FC560D00ECFF57 /* Foundation.framework in Frameworks */,
@@ -104,6 +128,8 @@
 		E1A4822E17FC560D00ECFF57 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E1A4828117FD94DA00ECFF57 /* FacebookSDK.framework */,
+				E1A4827A17FD81C500ECFF57 /* Social.framework */,
 				E1A4822F17FC560D00ECFF57 /* Foundation.framework */,
 				E1A4823117FC560D00ECFF57 /* CoreGraphics.framework */,
 				E1A4823317FC560D00ECFF57 /* UIKit.framework */,
@@ -115,15 +141,24 @@
 		E1A4823517FC560D00ECFF57 /* LiveRiotSocial */ = {
 			isa = PBXGroup;
 			children = (
+				E1A4827C17FD822900ECFF57 /* RDActivityViewController */,
 				E1A4823E17FC560D00ECFF57 /* LRAppDelegate.h */,
 				E1A4823F17FC560D00ECFF57 /* LRAppDelegate.m */,
 				E1A4824117FC560D00ECFF57 /* Main.storyboard */,
-				E1A4824417FC560D00ECFF57 /* LRFirstViewController.h */,
-				E1A4824517FC560D00ECFF57 /* LRFirstViewController.m */,
-				E1A4824717FC560D00ECFF57 /* LRSecondViewController.h */,
-				E1A4824817FC560D00ECFF57 /* LRSecondViewController.m */,
-				E1A4824A17FC560D00ECFF57 /* Images.xcassets */,
+				E1A4827517FD741700ECFF57 /* zichuanwang.png */,
+				E1A4827317FD6E0A00ECFF57 /* livemusic.jpg */,
+				E1A4826B17FD527D00ECFF57 /* 宝宝大图.jpg */,
 				E1A4823617FC560D00ECFF57 /* Supporting Files */,
+				E1A4826917FD517700ECFF57 /* images.xcassets */,
+				E1A4826D17FD53C900ECFF57 /* LRVideoViewController.h */,
+				E1A4826E17FD53C900ECFF57 /* LRVideoViewController.m */,
+				E1A4827017FD66F100ECFF57 /* LRTabBarController.h */,
+				E1A4827117FD66F100ECFF57 /* LRTabBarController.m */,
+				E1A4827717FD7DE800ECFF57 /* LRVideoDetailViewController.h */,
+				E1A4827817FD7DE800ECFF57 /* LRVideoDetailViewController.m */,
+				E1A4828317FD9CD300ECFF57 /* LRFacebookLoginViewController.h */,
+				E1A4828417FD9CD300ECFF57 /* LRFacebookLoginViewController.m */,
+				E1A4828517FD9CD300ECFF57 /* LRFacebookLoginViewController.xib */,
 			);
 			path = LiveRiotSocial;
 			sourceTree = "<group>";
@@ -155,6 +190,16 @@
 				E1A4825A17FC560D00ECFF57 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1A4827C17FD822900ECFF57 /* RDActivityViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E1A4827D17FD822900ECFF57 /* RDActivityViewController.h */,
+				E1A4827E17FD822900ECFF57 /* RDActivityViewController.m */,
+				E1A4827F17FD822900ECFF57 /* RDActivityViewControllerDelegate.h */,
+			);
+			path = RDActivityViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,8 +279,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1A4824B17FC560D00ECFF57 /* Images.xcassets in Resources */,
+				E1A4828717FD9CD300ECFF57 /* LRFacebookLoginViewController.xib in Resources */,
 				E1A4823A17FC560D00ECFF57 /* InfoPlist.strings in Resources */,
+				E1A4827617FD741700ECFF57 /* zichuanwang.png in Resources */,
+				E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */,
+				E1A4826C17FD527D00ECFF57 /* 宝宝大图.jpg in Resources */,
+				E1A4827417FD6E0A00ECFF57 /* livemusic.jpg in Resources */,
 				E1A4824317FC560D00ECFF57 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,10 +304,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1A4824917FC560D00ECFF57 /* LRSecondViewController.m in Sources */,
 				E1A4824017FC560D00ECFF57 /* LRAppDelegate.m in Sources */,
+				E1A4828617FD9CD300ECFF57 /* LRFacebookLoginViewController.m in Sources */,
+				E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */,
+				E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */,
+				E1A4827217FD66F100ECFF57 /* LRTabBarController.m in Sources */,
+				E1A4826F17FD53C900ECFF57 /* LRVideoViewController.m in Sources */,
 				E1A4823C17FC560D00ECFF57 /* main.m in Sources */,
-				E1A4824617FC560D00ECFF57 /* LRFirstViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,9 +437,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bluebitch/ios_project/LiveRiotSocial,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveRiotSocial/LiveRiotSocial-Prefix.pch";
 				INFOPLIST_FILE = "LiveRiotSocial/LiveRiotSocial-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -398,9 +456,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bluebitch/ios_project/LiveRiotSocial,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveRiotSocial/LiveRiotSocial-Prefix.pch";
 				INFOPLIST_FILE = "LiveRiotSocial/LiveRiotSocial-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -467,6 +531,7 @@
 				E1A4826317FC560D00ECFF57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E1A4826417FC560D00ECFF57 /* Build configuration list for PBXNativeTarget "LiveRiotSocialTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +540,7 @@
 				E1A4826617FC560D00ECFF57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
