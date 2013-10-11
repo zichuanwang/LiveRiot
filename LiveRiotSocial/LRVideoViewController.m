@@ -7,6 +7,8 @@
 //
 
 #import "LRVideoViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "LRFacebookLoginViewController.h"
 
 @interface LRVideoViewController ()
 
@@ -32,9 +34,6 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
-    [refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refresh;
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,7 +44,7 @@
 
 #pragma mark - Actions
 
-- (void)refreshView:(UIRefreshControl *)control {
+- (IBAction)refreshControlDidChange:(UIRefreshControl *)control {
     [control endRefreshing];
 }
 
@@ -60,7 +59,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 1;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,6 +70,12 @@
     // Configure the cell...
     
     return cell;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSLog(@"%@, %@", NSStringFromCGPoint(scrollView.contentOffset), NSStringFromUIEdgeInsets(scrollView.contentInset));
 }
 
 /*

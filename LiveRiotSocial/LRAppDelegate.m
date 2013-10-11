@@ -80,11 +80,41 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [FBAppEvents activateApp];
+    
+    // Facebook SDK * login flow *
+    // We need to properly handle activation of the application with regards to SSO
+    //  (e.g., returning from iOS 6.0 authorization dialog or from fast app switching).
+    [FBAppCall handleDidBecomeActive];
+}
+
+- (void)checkSessionState:(FBSessionState)state {
+    switch (state) {
+        case FBSessionStateOpen:
+            break;
+        case FBSessionStateCreated:
+            break;
+        case FBSessionStateCreatedOpening:
+            break;
+        case FBSessionStateCreatedTokenLoaded:
+            break;
+        case FBSessionStateOpenTokenExtended:
+            // I think this is the state that is calling
+            break;
+        case FBSessionStateClosed:
+            break;
+        case FBSessionStateClosedLoginFailed:
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [FBSession.activeSession close];
 }
 
 @end

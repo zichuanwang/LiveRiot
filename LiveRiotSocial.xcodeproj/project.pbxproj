@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A451807DE1900266DDF /* CRNavigationBar.m */; };
+		E19A6A491807DE1900266DDF /* CRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A471807DE1900266DDF /* CRNavigationController.m */; };
+		E19A6A4F1807E07E00266DDF /* CRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A4E1807E07E00266DDF /* CRTabBar.m */; };
+		E19A6A531807F0C000266DDF /* LRFacebookShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A511807F0C000266DDF /* LRFacebookShareViewController.m */; };
+		E19A6A541807F0C000266DDF /* LRFacebookShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E19A6A521807F0C000266DDF /* LRFacebookShareViewController.xib */; };
 		E1A4823017FC560D00ECFF57 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4822F17FC560D00ECFF57 /* Foundation.framework */; };
 		E1A4823217FC560D00ECFF57 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4823117FC560D00ECFF57 /* CoreGraphics.framework */; };
 		E1A4823417FC560D00ECFF57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4823317FC560D00ECFF57 /* UIKit.framework */; };
@@ -44,6 +49,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E19A6A441807DE1900266DDF /* CRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationBar.h; sourceTree = "<group>"; };
+		E19A6A451807DE1900266DDF /* CRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNavigationBar.m; sourceTree = "<group>"; };
+		E19A6A461807DE1900266DDF /* CRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationController.h; sourceTree = "<group>"; };
+		E19A6A471807DE1900266DDF /* CRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNavigationController.m; sourceTree = "<group>"; };
+		E19A6A4D1807E07E00266DDF /* CRTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRTabBar.h; sourceTree = "<group>"; };
+		E19A6A4E1807E07E00266DDF /* CRTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRTabBar.m; sourceTree = "<group>"; };
+		E19A6A501807F0C000266DDF /* LRFacebookShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFacebookShareViewController.h; sourceTree = "<group>"; };
+		E19A6A511807F0C000266DDF /* LRFacebookShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFacebookShareViewController.m; sourceTree = "<group>"; };
+		E19A6A521807F0C000266DDF /* LRFacebookShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRFacebookShareViewController.xib; sourceTree = "<group>"; };
+		E19A6A551808055900266DDF /* LRFacebookProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LRFacebookProtocols.h; sourceTree = "<group>"; };
 		E1A4822C17FC560D00ECFF57 /* LiveRiotSocial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveRiotSocial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A4822F17FC560D00ECFF57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E1A4823117FC560D00ECFF57 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -141,6 +156,13 @@
 		E1A4823517FC560D00ECFF57 /* LiveRiotSocial */ = {
 			isa = PBXGroup;
 			children = (
+				E19A6A551808055900266DDF /* LRFacebookProtocols.h */,
+				E19A6A441807DE1900266DDF /* CRNavigationBar.h */,
+				E19A6A451807DE1900266DDF /* CRNavigationBar.m */,
+				E19A6A461807DE1900266DDF /* CRNavigationController.h */,
+				E19A6A471807DE1900266DDF /* CRNavigationController.m */,
+				E19A6A4D1807E07E00266DDF /* CRTabBar.h */,
+				E19A6A4E1807E07E00266DDF /* CRTabBar.m */,
 				E1A4827C17FD822900ECFF57 /* RDActivityViewController */,
 				E1A4823E17FC560D00ECFF57 /* LRAppDelegate.h */,
 				E1A4823F17FC560D00ECFF57 /* LRAppDelegate.m */,
@@ -159,6 +181,9 @@
 				E1A4828317FD9CD300ECFF57 /* LRFacebookLoginViewController.h */,
 				E1A4828417FD9CD300ECFF57 /* LRFacebookLoginViewController.m */,
 				E1A4828517FD9CD300ECFF57 /* LRFacebookLoginViewController.xib */,
+				E19A6A501807F0C000266DDF /* LRFacebookShareViewController.h */,
+				E19A6A511807F0C000266DDF /* LRFacebookShareViewController.m */,
+				E19A6A521807F0C000266DDF /* LRFacebookShareViewController.xib */,
 			);
 			path = LiveRiotSocial;
 			sourceTree = "<group>";
@@ -283,6 +308,7 @@
 				E1A4823A17FC560D00ECFF57 /* InfoPlist.strings in Resources */,
 				E1A4827617FD741700ECFF57 /* zichuanwang.png in Resources */,
 				E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */,
+				E19A6A541807F0C000266DDF /* LRFacebookShareViewController.xib in Resources */,
 				E1A4826C17FD527D00ECFF57 /* 宝宝大图.jpg in Resources */,
 				E1A4827417FD6E0A00ECFF57 /* livemusic.jpg in Resources */,
 				E1A4824317FC560D00ECFF57 /* Main.storyboard in Resources */,
@@ -305,11 +331,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A4824017FC560D00ECFF57 /* LRAppDelegate.m in Sources */,
+				E19A6A4F1807E07E00266DDF /* CRTabBar.m in Sources */,
 				E1A4828617FD9CD300ECFF57 /* LRFacebookLoginViewController.m in Sources */,
+				E19A6A491807DE1900266DDF /* CRNavigationController.m in Sources */,
 				E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */,
 				E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */,
 				E1A4827217FD66F100ECFF57 /* LRTabBarController.m in Sources */,
 				E1A4826F17FD53C900ECFF57 /* LRVideoViewController.m in Sources */,
+				E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */,
+				E19A6A531807F0C000266DDF /* LRFacebookShareViewController.m in Sources */,
 				E1A4823C17FC560D00ECFF57 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

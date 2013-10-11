@@ -13,6 +13,8 @@
 
 @property (nonatomic, weak) IBOutlet FBLoginView *loginView;
 
+@property (nonatomic, assign) BOOL attempLogin;
+
 @end
 
 @implementation LRFacebookLoginViewController
@@ -49,14 +51,14 @@
     LRFacebookLoginViewController *loginViewController = [[LRFacebookLoginViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     [viewController presentViewController:nav animated:YES completion:nil];
-    
 }
 
 #pragma mark - FBLoginView delegate
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     // if you become logged in, no longer flag to skip log in
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.attempLogin)
+        [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)loginView:(FBLoginView *)loginView
@@ -70,6 +72,11 @@
     // as a token becoming invalid). Please see the [- postOpenGraphAction:]
     // and [- requestPermissionAndPost] on `SCViewController` for further
     // error handling on other operations.
+    
+    if (self.attempLogin) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+        return;
+    }
     
     if (error.fberrorShouldNotifyUser) {
         // If the SDK has a message for the user, surface it. This conveniently
@@ -102,24 +109,13 @@
     }
 }
 
-//- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-//    // Facebook SDK * login flow *
-//    // It is important to always handle session closure because it can happen
-//    // externally; for example, if the current session's access token becomes
-//    // invalid. For this sample, we simply pop back to the landing page.
-//    SCAppDelegate *appDelegate = (SCAppDelegate *)[UIApplication sharedApplication].delegate;
-//    if (appDelegate.isNavigating) {
-//        // The delay is for the edge case where a session is immediately closed after
-//        // logging in and our navigation controller is still animating a push.
-//        [self performSelector:@selector(logOut) withObject:nil afterDelay:.5];
-//    } else {
-//        [self logOut];
-//    }
-//}
-
-- (void)logOut {
-    // on log out we reset the main view controller
-    [self.navigationController popToRootViewControllerAnimated:YES];
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
+    // Facebook SDK * login flow *
+    // It is important to always handle session closure because it can happen
+    // externally; for example, if the current session's access token becomes
+    // invalid. For this sample, we simply pop back to the landing page.
+    if (self.attempLogin)
+        [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

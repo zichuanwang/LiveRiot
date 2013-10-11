@@ -8,8 +8,7 @@
 
 #import "LRVideoDetailViewController.h"
 #import "RDActivityViewController.h"
-#import <FacebookSDK/FacebookSDK.h>
-#import "LRFacebookLoginViewController.h"
+#import "LRFacebookShareViewController.h"
 
 @interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate>
 
@@ -53,34 +52,8 @@
         vc.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeCopyToPasteboard, UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeAirDrop];
         [self presentViewController:vc animated:YES completion:nil];
     } else if (buttonIndex == 1) {
-        [LRFacebookLoginViewController showInViewController:self];
-        // id image = @"https://fbcdn-photos-a.akamaihd.net/photos-ak-snc7/v85005/200/233936543368280/app_1_233936543368280_595563194.gif";
-        // Create an Open Graph eat action with the meal, our location, and the people we were with.
-//        id<SCOGEatMealAction> action = [self actionFromMealInfo];
-//        
-//        if (self.selectedPhoto) {
-//            self.selectedPhoto = [self normalizedImage:self.selectedPhoto];
-//            action.image = self.selectedPhoto;
-//            image = @[@{@"url":self.selectedPhoto, @"user_generated":@"true"}];
-//        }
-//        
-//        id object = [FBGraphObject openGraphObjectForPostWithType:@"fb_sample_scrumps:meal"
-//                                                            title:self.selectedMeal
-//                                                            image:image
-//                                                              url:nil
-//                                                      description:[@"Delicious " stringByAppendingString:self.selectedMeal]];
-//        action.meal = object;
-//        
-//        BOOL presentable = nil != [FBDialogs presentShareDialogWithOpenGraphAction:action
-//                                                                        actionType:@"fb_sample_scrumps:eat"
-//                                                               previewPropertyName:@"meal"
-//                                                                           handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-//                                                                               if (!error) {
-//                                                                                   [self resetMealInfo];
-//                                                                               } else {
-//                                                                                   NSLog(@"%@", error);
-//                                                                               }
-//                                                                           }];
+        [LRFacebookShareViewController showInViewController:self];
+
     }
 }
 
