@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1098F82180EA76700F6D9CE /* haishanye.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7D180EA76700F6D9CE /* haishanye.png */; };
+		E1098F83180EA76700F6D9CE /* haoyuhuang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7E180EA76700F6D9CE /* haoyuhuang.png */; };
+		E1098F84180EA76700F6D9CE /* kaiqizhang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7F180EA76700F6D9CE /* kaiqizhang.png */; };
+		E1098F85180EA76700F6D9CE /* yangli.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F80180EA76700F6D9CE /* yangli.png */; };
+		E1098F86180EA76700F6D9CE /* yetian.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F81180EA76700F6D9CE /* yetian.png */; };
 		E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A451807DE1900266DDF /* CRNavigationBar.m */; };
 		E19A6A491807DE1900266DDF /* CRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A471807DE1900266DDF /* CRNavigationController.m */; };
 		E19A6A4F1807E07E00266DDF /* CRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A4E1807E07E00266DDF /* CRTabBar.m */; };
@@ -36,6 +41,13 @@
 		E1A4828217FD94DA00ECFF57 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4828117FD94DA00ECFF57 /* FacebookSDK.framework */; };
 		E1A4828617FD9CD300ECFF57 /* LRFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4828417FD9CD300ECFF57 /* LRFacebookLoginViewController.m */; };
 		E1A4828717FD9CD300ECFF57 /* LRFacebookLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1A4828517FD9CD300ECFF57 /* LRFacebookLoginViewController.xib */; };
+		E1BAE432180FAB5B00895A69 /* LRSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BAE431180FAB5B00895A69 /* LRSearchViewController.m */; };
+		E1BAE435180FAFC600895A69 /* LRSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BAE434180FAFC600895A69 /* LRSettingViewController.m */; };
+		E1BAE439180FB93800895A69 /* LRFriendShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BAE437180FB93800895A69 /* LRFriendShareViewController.m */; };
+		E1BAE43A180FB93800895A69 /* LRFriendShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BAE438180FB93800895A69 /* LRFriendShareViewController.xib */; };
+		E1BAE43D180FBB2B00895A69 /* LRFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BAE43C180FBB2B00895A69 /* LRFriendCell.m */; };
+		E1BAE43F180FBB3C00895A69 /* LRFriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BAE43E180FBB3C00895A69 /* LRFriendCell.xib */; };
+		E1BAE442180FC71100895A69 /* LRFriendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BAE441180FC71100895A69 /* LRFriendMessageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +61,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E1098F7D180EA76700F6D9CE /* haishanye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haishanye.png; sourceTree = "<group>"; };
+		E1098F7E180EA76700F6D9CE /* haoyuhuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haoyuhuang.png; sourceTree = "<group>"; };
+		E1098F7F180EA76700F6D9CE /* kaiqizhang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kaiqizhang.png; sourceTree = "<group>"; };
+		E1098F80180EA76700F6D9CE /* yangli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yangli.png; sourceTree = "<group>"; };
+		E1098F81180EA76700F6D9CE /* yetian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yetian.png; sourceTree = "<group>"; };
 		E19A6A441807DE1900266DDF /* CRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationBar.h; sourceTree = "<group>"; };
 		E19A6A451807DE1900266DDF /* CRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNavigationBar.m; sourceTree = "<group>"; };
 		E19A6A461807DE1900266DDF /* CRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationController.h; sourceTree = "<group>"; };
@@ -93,6 +110,18 @@
 		E1A4828317FD9CD300ECFF57 /* LRFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFacebookLoginViewController.h; sourceTree = "<group>"; };
 		E1A4828417FD9CD300ECFF57 /* LRFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFacebookLoginViewController.m; sourceTree = "<group>"; };
 		E1A4828517FD9CD300ECFF57 /* LRFacebookLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRFacebookLoginViewController.xib; sourceTree = "<group>"; };
+		E1BAE430180FAB5B00895A69 /* LRSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRSearchViewController.h; sourceTree = "<group>"; };
+		E1BAE431180FAB5B00895A69 /* LRSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRSearchViewController.m; sourceTree = "<group>"; };
+		E1BAE433180FAFC600895A69 /* LRSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRSettingViewController.h; sourceTree = "<group>"; };
+		E1BAE434180FAFC600895A69 /* LRSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRSettingViewController.m; sourceTree = "<group>"; };
+		E1BAE436180FB93800895A69 /* LRFriendShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFriendShareViewController.h; sourceTree = "<group>"; };
+		E1BAE437180FB93800895A69 /* LRFriendShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFriendShareViewController.m; sourceTree = "<group>"; };
+		E1BAE438180FB93800895A69 /* LRFriendShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRFriendShareViewController.xib; sourceTree = "<group>"; };
+		E1BAE43B180FBB2B00895A69 /* LRFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFriendCell.h; sourceTree = "<group>"; };
+		E1BAE43C180FBB2B00895A69 /* LRFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFriendCell.m; sourceTree = "<group>"; };
+		E1BAE43E180FBB3C00895A69 /* LRFriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRFriendCell.xib; sourceTree = "<group>"; };
+		E1BAE440180FC71100895A69 /* LRFriendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFriendMessageViewController.h; sourceTree = "<group>"; };
+		E1BAE441180FC71100895A69 /* LRFriendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFriendMessageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +197,11 @@
 				E1A4823F17FC560D00ECFF57 /* LRAppDelegate.m */,
 				E1A4824117FC560D00ECFF57 /* Main.storyboard */,
 				E1A4827517FD741700ECFF57 /* zichuanwang.png */,
+				E1098F7D180EA76700F6D9CE /* haishanye.png */,
+				E1098F7E180EA76700F6D9CE /* haoyuhuang.png */,
+				E1098F7F180EA76700F6D9CE /* kaiqizhang.png */,
+				E1098F80180EA76700F6D9CE /* yangli.png */,
+				E1098F81180EA76700F6D9CE /* yetian.png */,
 				E1A4827317FD6E0A00ECFF57 /* livemusic.jpg */,
 				E1A4826B17FD527D00ECFF57 /* 宝宝大图.jpg */,
 				E1A4823617FC560D00ECFF57 /* Supporting Files */,
@@ -178,12 +212,24 @@
 				E1A4827117FD66F100ECFF57 /* LRTabBarController.m */,
 				E1A4827717FD7DE800ECFF57 /* LRVideoDetailViewController.h */,
 				E1A4827817FD7DE800ECFF57 /* LRVideoDetailViewController.m */,
+				E1BAE430180FAB5B00895A69 /* LRSearchViewController.h */,
+				E1BAE431180FAB5B00895A69 /* LRSearchViewController.m */,
 				E1A4828317FD9CD300ECFF57 /* LRFacebookLoginViewController.h */,
 				E1A4828417FD9CD300ECFF57 /* LRFacebookLoginViewController.m */,
 				E1A4828517FD9CD300ECFF57 /* LRFacebookLoginViewController.xib */,
 				E19A6A501807F0C000266DDF /* LRFacebookShareViewController.h */,
 				E19A6A511807F0C000266DDF /* LRFacebookShareViewController.m */,
 				E19A6A521807F0C000266DDF /* LRFacebookShareViewController.xib */,
+				E1BAE433180FAFC600895A69 /* LRSettingViewController.h */,
+				E1BAE434180FAFC600895A69 /* LRSettingViewController.m */,
+				E1BAE436180FB93800895A69 /* LRFriendShareViewController.h */,
+				E1BAE437180FB93800895A69 /* LRFriendShareViewController.m */,
+				E1BAE438180FB93800895A69 /* LRFriendShareViewController.xib */,
+				E1BAE440180FC71100895A69 /* LRFriendMessageViewController.h */,
+				E1BAE441180FC71100895A69 /* LRFriendMessageViewController.m */,
+				E1BAE43B180FBB2B00895A69 /* LRFriendCell.h */,
+				E1BAE43C180FBB2B00895A69 /* LRFriendCell.m */,
+				E1BAE43E180FBB3C00895A69 /* LRFriendCell.xib */,
 			);
 			path = LiveRiotSocial;
 			sourceTree = "<group>";
@@ -305,13 +351,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A4828717FD9CD300ECFF57 /* LRFacebookLoginViewController.xib in Resources */,
+				E1098F84180EA76700F6D9CE /* kaiqizhang.png in Resources */,
 				E1A4823A17FC560D00ECFF57 /* InfoPlist.strings in Resources */,
 				E1A4827617FD741700ECFF57 /* zichuanwang.png in Resources */,
 				E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */,
 				E19A6A541807F0C000266DDF /* LRFacebookShareViewController.xib in Resources */,
 				E1A4826C17FD527D00ECFF57 /* 宝宝大图.jpg in Resources */,
+				E1098F83180EA76700F6D9CE /* haoyuhuang.png in Resources */,
 				E1A4827417FD6E0A00ECFF57 /* livemusic.jpg in Resources */,
+				E1098F85180EA76700F6D9CE /* yangli.png in Resources */,
 				E1A4824317FC560D00ECFF57 /* Main.storyboard in Resources */,
+				E1BAE43F180FBB3C00895A69 /* LRFriendCell.xib in Resources */,
+				E1098F82180EA76700F6D9CE /* haishanye.png in Resources */,
+				E1BAE43A180FB93800895A69 /* LRFriendShareViewController.xib in Resources */,
+				E1098F86180EA76700F6D9CE /* yetian.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,13 +387,18 @@
 				E19A6A4F1807E07E00266DDF /* CRTabBar.m in Sources */,
 				E1A4828617FD9CD300ECFF57 /* LRFacebookLoginViewController.m in Sources */,
 				E19A6A491807DE1900266DDF /* CRNavigationController.m in Sources */,
+				E1BAE442180FC71100895A69 /* LRFriendMessageViewController.m in Sources */,
+				E1BAE439180FB93800895A69 /* LRFriendShareViewController.m in Sources */,
 				E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */,
 				E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */,
+				E1BAE432180FAB5B00895A69 /* LRSearchViewController.m in Sources */,
+				E1BAE435180FAFC600895A69 /* LRSettingViewController.m in Sources */,
 				E1A4827217FD66F100ECFF57 /* LRTabBarController.m in Sources */,
 				E1A4826F17FD53C900ECFF57 /* LRVideoViewController.m in Sources */,
 				E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */,
 				E19A6A531807F0C000266DDF /* LRFacebookShareViewController.m in Sources */,
 				E1A4823C17FC560D00ECFF57 /* main.m in Sources */,
+				E1BAE43D180FBB2B00895A69 /* LRFriendCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,10 +526,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/bluebitch/ios_project/LiveRiotSocial,
-				);
+				FRAMEWORK_SEARCH_PATHS = .;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveRiotSocial/LiveRiotSocial-Prefix.pch";
 				INFOPLIST_FILE = "LiveRiotSocial/LiveRiotSocial-Info.plist";
@@ -487,10 +542,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/bluebitch/ios_project/LiveRiotSocial,
-				);
+				FRAMEWORK_SEARCH_PATHS = .;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveRiotSocial/LiveRiotSocial-Prefix.pch";
 				INFOPLIST_FILE = "LiveRiotSocial/LiveRiotSocial-Info.plist";

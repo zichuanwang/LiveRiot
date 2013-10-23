@@ -33,7 +33,82 @@
     // Do any additional setup after loading the view from its nib.
     [self configureNavigationBar];
     [self.textView becomeFirstResponder];
+    
+    self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (BOOL)automaticallyAdjustsScrollViewInsets {
+    return NO;
+}
+
+#pragma mark - Handle notification
+
+- (void)handleKeyboardWillShowNotification:(NSNotification*)notification {
+    UIEdgeInsets insets = self.textView.contentInset;
+    insets.bottom += [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    self.textView.contentInset = insets;
+    
+    insets = self.textView.scrollIndicatorInsets;
+    insets.bottom += [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    self.textView.scrollIndicatorInsets = insets;
+}
+
+- (void)handleKeyboardWillHideNotification:(NSNotification*)notification {
+    UIEdgeInsets insets = self.textView.contentInset;
+    insets.bottom -= [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
+    self.textView.contentInset = insets;
+    
+    insets = self.textView.scrollIndicatorInsets;
+    insets.bottom -= [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
+    self.textView.scrollIndicatorInsets = insets;
+}
+
+#pragma mark - UITextFiledDelegate 
+
+//- (void)textViewDidBeginEditing:(UITextView *)textView {
+//    _oldRect = [self.textView caretRectForPosition:self.textView.selectedTextRange.end];
+//    
+//    _caretVisibilityTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(_scrollCaretToVisible) userInfo:nil repeats:YES];
+//}
+//
+//- (void)textViewDidEndEditing:(UITextView *)textView {
+//    [_caretVisibilityTimer invalidate];
+//    _caretVisibilityTimer = nil;
+//}
+//
+//- (void)_scrollCaretToVisible {
+//    //This is where the cursor is at.
+//    CGRect caretRect = [self.textView caretRectForPosition:self.textView.selectedTextRange.end];
+//    
+//    if(CGRectEqualToRect(caretRect, _oldRect))
+//        return;
+//    
+//    _oldRect = caretRect;
+//    
+//    //This is the visible rect of the textview.
+//    CGRect visibleRect = self.textView.bounds;
+//    visibleRect.size.height -= (self.textView.contentInset.top + self.textView.contentInset.bottom);
+//    visibleRect.origin.y = self.textView.contentOffset.y;
+//    
+//    //We will scroll only if the caret falls outside of the visible rect.
+//    if(!CGRectContainsRect(visibleRect, caretRect))
+//    {
+//        CGPoint newOffset = self.textView.contentOffset;
+//        
+//        newOffset.y = MAX((caretRect.origin.y + caretRect.size.height) - visibleRect.size.height + 5, 0);
+//        
+//        [self.textView setContentOffset:newOffset animated:YES];
+//    }
+//}
 
 #pragma mark - Logic
 
@@ -88,7 +163,7 @@
                                         }];
 }
 
-- (void) presentAlertForError:(NSError *)error {
+- (void)presentAlertForError:(NSError *)error {
     // Facebook SDK * error handling *
     // Error handling is an important part of providing a good user experience.
     // When fberrorShouldNotifyUser is YES, a fberrorUserMessage can be

@@ -9,6 +9,8 @@
 #import "LRVideoDetailViewController.h"
 #import "RDActivityViewController.h"
 #import "LRFacebookShareViewController.h"
+#import <Social/Social.h>
+#import "LRFriendShareViewController.h"
 
 @interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate>
 
@@ -42,18 +44,25 @@
 #pragma mark - Actions
 
 - (IBAction)didClickActionButton:(id)sender {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Choose a share method" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Use Social.framework", @"Use Facebook SDK", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Choose a share method"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:@"Share to Friends", @"Share to Facebook", @"Share to Twitter", nil];
     [sheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        RDActivityViewController *vc = [[RDActivityViewController alloc] initWithDelegate:self];
-        vc.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeCopyToPasteboard, UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeAirDrop];
-        [self presentViewController:vc animated:YES completion:nil];
+//        RDActivityViewController *vc = [[RDActivityViewController alloc] initWithDelegate:self];
+//        vc.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeCopyToPasteboard, UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeAirDrop];
+//        [self presentViewController:vc animated:YES completion:nil];
+        [LRFriendShareViewController showInViewController:self];
     } else if (buttonIndex == 1) {
         [LRFacebookShareViewController showInViewController:self];
-
+    } else if (buttonIndex == 2) {
+        SLComposeViewController *vc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
