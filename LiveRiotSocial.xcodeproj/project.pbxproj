@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18461BAA181F725E009438F7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18461BA9181F725E009438F7 /* SystemConfiguration.framework */; };
+		18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */; };
+		18461BB7181F7B2E009438F7 /* LRTwitterShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */; };
+		18461BB8181F7B2E009438F7 /* LRTwitterShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */; };
 		E1098F82180EA76700F6D9CE /* haishanye.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7D180EA76700F6D9CE /* haishanye.png */; };
 		E1098F83180EA76700F6D9CE /* haoyuhuang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7E180EA76700F6D9CE /* haoyuhuang.png */; };
 		E1098F84180EA76700F6D9CE /* kaiqizhang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7F180EA76700F6D9CE /* kaiqizhang.png */; };
@@ -61,6 +65,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18461BA9181F725E009438F7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		18461BAC181F7633009438F7 /* FHSTwitterEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FHSTwitterEngine.h; sourceTree = "<group>"; };
+		18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FHSTwitterEngine.m; sourceTree = "<group>"; };
+		18461BB4181F7B2E009438F7 /* LRTwitterShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTwitterShareViewController.h; sourceTree = "<group>"; };
+		18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTwitterShareViewController.m; sourceTree = "<group>"; };
+		18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRTwitterShareViewController.xib; sourceTree = "<group>"; };
 		E1098F7D180EA76700F6D9CE /* haishanye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haishanye.png; sourceTree = "<group>"; };
 		E1098F7E180EA76700F6D9CE /* haoyuhuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haoyuhuang.png; sourceTree = "<group>"; };
 		E1098F7F180EA76700F6D9CE /* kaiqizhang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kaiqizhang.png; sourceTree = "<group>"; };
@@ -129,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18461BAA181F725E009438F7 /* SystemConfiguration.framework in Frameworks */,
 				E1A4827B17FD81C500ECFF57 /* Social.framework in Frameworks */,
 				E1A4828217FD94DA00ECFF57 /* FacebookSDK.framework in Frameworks */,
 				E1A4823217FC560D00ECFF57 /* CoreGraphics.framework in Frameworks */,
@@ -150,12 +161,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18461BAB181F75F9009438F7 /* FHSTwitterEngine */ = {
+			isa = PBXGroup;
+			children = (
+				18461BAC181F7633009438F7 /* FHSTwitterEngine.h */,
+				18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */,
+			);
+			name = FHSTwitterEngine;
+			sourceTree = "<group>";
+		};
 		E1A4822317FC560D00ECFF57 = {
 			isa = PBXGroup;
 			children = (
+				E1A4822E17FC560D00ECFF57 /* Frameworks */,
 				E1A4823517FC560D00ECFF57 /* LiveRiotSocial */,
 				E1A4825717FC560D00ECFF57 /* LiveRiotSocialTests */,
-				E1A4822E17FC560D00ECFF57 /* Frameworks */,
 				E1A4822D17FC560D00ECFF57 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -172,6 +192,7 @@
 		E1A4822E17FC560D00ECFF57 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18461BA9181F725E009438F7 /* SystemConfiguration.framework */,
 				E1A4828117FD94DA00ECFF57 /* FacebookSDK.framework */,
 				E1A4827A17FD81C500ECFF57 /* Social.framework */,
 				E1A4822F17FC560D00ECFF57 /* Foundation.framework */,
@@ -185,6 +206,10 @@
 		E1A4823517FC560D00ECFF57 /* LiveRiotSocial */ = {
 			isa = PBXGroup;
 			children = (
+				18461BB4181F7B2E009438F7 /* LRTwitterShareViewController.h */,
+				18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */,
+				18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */,
+				18461BAB181F75F9009438F7 /* FHSTwitterEngine */,
 				E19A6A551808055900266DDF /* LRFacebookProtocols.h */,
 				E19A6A441807DE1900266DDF /* CRNavigationBar.h */,
 				E19A6A451807DE1900266DDF /* CRNavigationBar.m */,
@@ -358,6 +383,7 @@
 				E19A6A541807F0C000266DDF /* LRFacebookShareViewController.xib in Resources */,
 				E1A4826C17FD527D00ECFF57 /* 宝宝大图.jpg in Resources */,
 				E1098F83180EA76700F6D9CE /* haoyuhuang.png in Resources */,
+				18461BB8181F7B2E009438F7 /* LRTwitterShareViewController.xib in Resources */,
 				E1A4827417FD6E0A00ECFF57 /* livemusic.jpg in Resources */,
 				E1098F85180EA76700F6D9CE /* yangli.png in Resources */,
 				E1A4824317FC560D00ECFF57 /* Main.storyboard in Resources */,
@@ -388,6 +414,7 @@
 				E1A4828617FD9CD300ECFF57 /* LRFacebookLoginViewController.m in Sources */,
 				E19A6A491807DE1900266DDF /* CRNavigationController.m in Sources */,
 				E1BAE442180FC71100895A69 /* LRFriendMessageViewController.m in Sources */,
+				18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */,
 				E1BAE439180FB93800895A69 /* LRFriendShareViewController.m in Sources */,
 				E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */,
 				E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */,
@@ -398,6 +425,7 @@
 				E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */,
 				E19A6A531807F0C000266DDF /* LRFacebookShareViewController.m in Sources */,
 				E1A4823C17FC560D00ECFF57 /* main.m in Sources */,
+				18461BB7181F7B2E009438F7 /* LRTwitterShareViewController.m in Sources */,
 				E1BAE43D180FBB2B00895A69 /* LRFriendCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

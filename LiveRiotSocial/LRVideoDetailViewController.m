@@ -11,8 +11,10 @@
 #import "LRFacebookShareViewController.h"
 #import <Social/Social.h>
 #import "LRFriendShareViewController.h"
+#import "FHSTwitterEngine.h"
+#import "LRTwitterShareViewController.h"
 
-@interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate>
+@interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate, FHSTwitterEngineAccessTokenDelegate, UIAlertViewDelegate>
 
 // @property (nonatomic, weak)
 
@@ -66,11 +68,24 @@
 //        [self presentViewController:vc animated:YES completion:nil];
         [LRFriendShareViewController showInViewController:self];
     } else if (buttonIndex == 1) {
+        // Facebook share view
         [LRFacebookShareViewController showInViewController:self];
     } else if (buttonIndex == 2) {
-        SLComposeViewController *vc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        [self presentViewController:vc animated:YES completion:nil];
+        // Twitter share view
+        [LRTwitterShareViewController showInViewController:self];
+//        SLComposeViewController *vc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+//        [self presentViewController:vc animated:YES completion:nil];
     }
+}
+
+#pragma mark - FHSTwitterEngineAccessTokenDelegate
+
+- (void)storeAccessToken:(NSString *)accessToken {
+    [[NSUserDefaults standardUserDefaults]setObject:accessToken forKey:@"SavedAccessHTTPBody"];
+}
+
+- (NSString *)loadAccessToken {
+    return [[NSUserDefaults standardUserDefaults]objectForKey:@"SavedAccessHTTPBody"];
 }
 
 #pragma mark - RDActivityViewControllerDelegate

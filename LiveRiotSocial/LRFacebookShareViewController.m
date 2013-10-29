@@ -78,7 +78,7 @@
 //    _oldRect = [self.textView caretRectForPosition:self.textView.selectedTextRange.end];
 //    
 //    _caretVisibilityTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(_scrollCaretToVisible) userInfo:nil repeats:YES];
-//}
+//}m
 //
 //- (void)textViewDidEndEditing:(UITextView *)textView {
 //    [_caretVisibilityTimer invalidate];
