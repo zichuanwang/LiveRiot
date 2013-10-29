@@ -36,10 +36,16 @@
     [super viewDidLoad];
     //NSString *embedHTML = @"<html><body><iframe width=\"320\" height=\"240\" src=\"embed/5KsabeJ1UEk\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
     
+    for (UIView *view in self.videoWebView.subviews) {
+        if ([view isKindOfClass:[UIScrollView class]]) {
+            ((UIScrollView *)view).scrollEnabled = NO;
+        }
+    }
+    
     NSURL *ytVideo = [NSURL URLWithString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/EmbedVideo.html"];
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:ytVideo];
-    _videoView.allowsInlineMediaPlayback = true;
-    [_videoView loadRequest:requestObj];
+    self.videoWebView.allowsInlineMediaPlayback = true;
+    [self.videoWebView loadRequest:requestObj];
     //[_videoView loadHTMLString:embedHTML baseURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
     //[self.view addSubview:_videoView];
 }

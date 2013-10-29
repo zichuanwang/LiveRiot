@@ -217,14 +217,21 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vwy-Qd-i0g">
+                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p4V-rt-Avd">
                                 <rect key="frame" x="0.0" y="64" width="320" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="delegate" destination="ajL-q7-xia" id="gnu-6P-jlU"/>
-                                </connections>
-                            </webView>
+                                <subviews>
+                                    <webView opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vwy-Qd-i0g">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="ajL-q7-xia" id="gnu-6P-jlU"/>
+                                        </connections>
+                                    </webView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -239,7 +246,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="videoView" destination="Vwy-Qd-i0g" id="J3s-kJ-aIa"/>
+                        <outlet property="videoWebView" destination="Vwy-Qd-i0g" id="TQx-fE-czD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q4H-av-FZ8" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -10,5 +10,6 @@
 
 @interface LRVideoDetailViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIWebView *videoView;
+@property (weak, nonatomic) IBOutlet UIWebView *videoWebView;
+
 @end
