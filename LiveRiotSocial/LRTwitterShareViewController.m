@@ -126,10 +126,7 @@
 
 - (void)didClickPostButton:(UIButton *)sender {
     
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] == YES) {
-        // the built-in twitter service is accessible and has at least one account set up
-        [self postTweetByTwitterSheet];
-    } else if ([[FHSTwitterEngine sharedEngine]isAuthorized] == YES) {
+    if ([[FHSTwitterEngine sharedEngine]isAuthorized] == YES) {
         // the access token is authorzied
         [self postTweets];
     } else {
@@ -138,6 +135,7 @@
             NSLog(success?@"Twitter OAuth Login success":@"Twitter OAuth Loggin Failed");
             if (success == YES) {
                 [self postTweets];
+                
             }
         }];
     }
@@ -182,39 +180,11 @@
                 @autoreleasepool {
                     UIAlertView *av = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [av show];
+                    [self dismissViewControllerAnimated:YES completion:nil];
                 }
             });
         }
     });
-}
-
-- (void) postTweetByTwitterSheet {
-    //  Create an instance of the Tweet Sheet
-    SLComposeViewController *tweetSheet = [SLComposeViewController
-                                           composeViewControllerForServiceType:SLServiceTypeTwitter];
-    
-    // Sets the completion handler.  Note that we don't know which thread the
-    // block will be called on, so we need to ensure that any required UI
-    // updates occur on the main queue
-    tweetSheet.completionHandler = ^(SLComposeViewControllerResult result) {
-        switch(result) {
-                //  This means the user cancelled without sending the Tweet
-            case SLComposeViewControllerResultCancelled:
-                break;
-                //  This means the user hit 'Send'
-            case SLComposeViewControllerResultDone:
-                break;
-        }
-    };
-    // add the twitter photo card url to the tweet
-    [tweetSheet addURL:[NSURL URLWithString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"]];
-    //  Set the initial body of the Tweet
-    [tweetSheet setInitialText:@""];
-    
-    //  Presents the Tweet Sheet to the user
-    [self presentViewController:tweetSheet animated:NO completion:^{
-        NSLog(@"Tweet sheet has been presented.");
-    }];
 }
 
 

@@ -14,7 +14,7 @@
 #import "FHSTwitterEngine.h"
 #import "LRTwitterShareViewController.h"
 
-@interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate, FHSTwitterEngineAccessTokenDelegate, UIAlertViewDelegate>
+@interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate, UIAlertViewDelegate>
 
 // @property (nonatomic, weak)
 
@@ -72,21 +72,47 @@
         [LRFacebookShareViewController showInViewController:self];
     } else if (buttonIndex == 2) {
         // Twitter share view
-        [LRTwitterShareViewController showInViewController:self];
-//        SLComposeViewController *vc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-//        [self presentViewController:vc animated:YES completion:nil];
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] == YES) {
+            // the built-in twitter service is accessible and has at least one account set up
+            [self postTweetByTwitterSheet];
+        } else {
+            [LRTwitterShareViewController showInViewController:self];
+        }
     }
 }
 
 #pragma mark - FHSTwitterEngineAccessTokenDelegate
 
-- (void)storeAccessToken:(NSString *)accessToken {
-    [[NSUserDefaults standardUserDefaults]setObject:accessToken forKey:@"SavedAccessHTTPBody"];
+// post tweet by twitter sheet
+- (void) postTweetByTwitterSheet {
+    //  Create an instance of the Tweet Sheet
+    SLComposeViewController *tweetSheet = [SLComposeViewController
+                                           composeViewControllerForServiceType:SLServiceTypeTwitter];
+    
+    // Sets the completion handler.  Note that we don't know which thread the
+    // block will be called on, so we need to ensure that any required UI
+    // updates occur on the main queue
+    tweetSheet.completionHandler = ^(SLComposeViewControllerResult result) {
+        switch(result) {
+                //  This means the user cancelled without sending the Tweet
+            case SLComposeViewControllerResultCancelled:
+                break;
+                //  This means the user hit 'Send'
+            case SLComposeViewControllerResultDone:
+                break;
+        }
+    };
+    // add the twitter photo card url to the tweet
+    [tweetSheet addURL:[NSURL URLWithString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"]];
+    //  Set the initial body of the Tweet
+    [tweetSheet setInitialText:@""];
+    
+    //  Presents the Tweet Sheet to the user
+    [self presentViewController:tweetSheet animated:NO completion:^{
+        NSLog(@"Tweet sheet has been presented.");
+    }];
 }
 
-- (NSString *)loadAccessToken {
-    return [[NSUserDefaults standardUserDefaults]objectForKey:@"SavedAccessHTTPBody"];
-}
 
 #pragma mark - RDActivityViewControllerDelegate
 
