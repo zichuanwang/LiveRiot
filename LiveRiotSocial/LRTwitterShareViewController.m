@@ -47,7 +47,6 @@
     // Do any additional setup after loading the view from its nib.
     [self configureNavigationBar];
     [self.textView becomeFirstResponder];
-    [[FHSTwitterEngine sharedEngine] clearAccessToken];
     self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     
     // twitter engine setup

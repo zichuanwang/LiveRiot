@@ -21,7 +21,8 @@
                     <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" red="1" green="0.25271960760000001" blue="0.42695563479999998" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="100" id="3oz-Ej-CkS"/>
+                        <constraint firstAttribute="height" constant="100" id="4oM-Y2-91s"/>
+                        <constraint firstAttribute="width" constant="100" id="jwS-EX-W7X"/>
                     </constraints>
                 </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dkw-c2-avJ">
@@ -34,11 +35,9 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="7nx-jH-Ee5" secondAttribute="bottom" constant="301" id="4EL-y9-bqu"/>
-                <constraint firstItem="7nx-jH-Ee5" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="B3M-J6-zXQ"/>
-                <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="7nx-jH-Ee5" secondAttribute="bottom" constant="301" id="Djd-rD-tbJ"/>
+                <constraint firstAttribute="trailing" secondItem="7nx-jH-Ee5" secondAttribute="trailing" constant="15" id="3HC-Fb-2kd"/>
                 <constraint firstAttribute="bottom" secondItem="dkw-c2-avJ" secondAttribute="bottom" constant="261" id="NaZ-jm-brL"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="7nx-jH-Ee5" secondAttribute="bottom" constant="301" id="y0U-vc-dd2"/>
+                <constraint firstItem="7nx-jH-Ee5" firstAttribute="top" secondItem="1" secondAttribute="top" constant="79" id="bpl-bF-U8t"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
         </view>
