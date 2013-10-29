@@ -11,11 +11,10 @@
 		18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */; };
 		18461BB7181F7B2E009438F7 /* LRTwitterShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */; };
 		18461BB8181F7B2E009438F7 /* LRTwitterShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */; };
-		E1098F82180EA76700F6D9CE /* haishanye.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7D180EA76700F6D9CE /* haishanye.png */; };
-		E1098F83180EA76700F6D9CE /* haoyuhuang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7E180EA76700F6D9CE /* haoyuhuang.png */; };
-		E1098F84180EA76700F6D9CE /* kaiqizhang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F7F180EA76700F6D9CE /* kaiqizhang.png */; };
-		E1098F85180EA76700F6D9CE /* yangli.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F80180EA76700F6D9CE /* yangli.png */; };
-		E1098F86180EA76700F6D9CE /* yetian.png in Resources */ = {isa = PBXBuildFile; fileRef = E1098F81180EA76700F6D9CE /* yetian.png */; };
+		E1945919182060B1003BA03B /* Gothic Tropic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945915182060B1003BA03B /* Gothic Tropic.jpg */; };
+		E194591A182060B1003BA03B /* Hands.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E1945916182060B1003BA03B /* Hands.jpeg */; };
+		E194591B182060B1003BA03B /* The Dead Ships.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945917182060B1003BA03B /* The Dead Ships.jpg */; };
+		E194591C182060B1003BA03B /* Vanaprasta.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945918182060B1003BA03B /* Vanaprasta.jpg */; };
 		E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A451807DE1900266DDF /* CRNavigationBar.m */; };
 		E19A6A491807DE1900266DDF /* CRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A471807DE1900266DDF /* CRNavigationController.m */; };
 		E19A6A4F1807E07E00266DDF /* CRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A4E1807E07E00266DDF /* CRTabBar.m */; };
@@ -34,11 +33,8 @@
 		E1A4825C17FC560D00ECFF57 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1A4825A17FC560D00ECFF57 /* InfoPlist.strings */; };
 		E1A4825E17FC560D00ECFF57 /* LiveRiotSocialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4825D17FC560D00ECFF57 /* LiveRiotSocialTests.m */; };
 		E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1A4826917FD517700ECFF57 /* images.xcassets */; };
-		E1A4826C17FD527D00ECFF57 /* 宝宝大图.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1A4826B17FD527D00ECFF57 /* 宝宝大图.jpg */; };
 		E1A4826F17FD53C900ECFF57 /* LRVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4826E17FD53C900ECFF57 /* LRVideoViewController.m */; };
 		E1A4827217FD66F100ECFF57 /* LRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4827117FD66F100ECFF57 /* LRTabBarController.m */; };
-		E1A4827417FD6E0A00ECFF57 /* livemusic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1A4827317FD6E0A00ECFF57 /* livemusic.jpg */; };
-		E1A4827617FD741700ECFF57 /* zichuanwang.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A4827517FD741700ECFF57 /* zichuanwang.png */; };
 		E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4827817FD7DE800ECFF57 /* LRVideoDetailViewController.m */; };
 		E1A4827B17FD81C500ECFF57 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A4827A17FD81C500ECFF57 /* Social.framework */; };
 		E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4827E17FD822900ECFF57 /* RDActivityViewController.m */; };
@@ -71,11 +67,10 @@
 		18461BB4181F7B2E009438F7 /* LRTwitterShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTwitterShareViewController.h; sourceTree = "<group>"; };
 		18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTwitterShareViewController.m; sourceTree = "<group>"; };
 		18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRTwitterShareViewController.xib; sourceTree = "<group>"; };
-		E1098F7D180EA76700F6D9CE /* haishanye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haishanye.png; sourceTree = "<group>"; };
-		E1098F7E180EA76700F6D9CE /* haoyuhuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = haoyuhuang.png; sourceTree = "<group>"; };
-		E1098F7F180EA76700F6D9CE /* kaiqizhang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kaiqizhang.png; sourceTree = "<group>"; };
-		E1098F80180EA76700F6D9CE /* yangli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yangli.png; sourceTree = "<group>"; };
-		E1098F81180EA76700F6D9CE /* yetian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yetian.png; sourceTree = "<group>"; };
+		E1945915182060B1003BA03B /* Gothic Tropic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Gothic Tropic.jpg"; sourceTree = "<group>"; };
+		E1945916182060B1003BA03B /* Hands.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hands.jpeg; sourceTree = "<group>"; };
+		E1945917182060B1003BA03B /* The Dead Ships.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "The Dead Ships.jpg"; sourceTree = "<group>"; };
+		E1945918182060B1003BA03B /* Vanaprasta.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Vanaprasta.jpg; sourceTree = "<group>"; };
 		E19A6A441807DE1900266DDF /* CRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationBar.h; sourceTree = "<group>"; };
 		E19A6A451807DE1900266DDF /* CRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNavigationBar.m; sourceTree = "<group>"; };
 		E19A6A461807DE1900266DDF /* CRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationController.h; sourceTree = "<group>"; };
@@ -103,13 +98,10 @@
 		E1A4825B17FC560D00ECFF57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E1A4825D17FC560D00ECFF57 /* LiveRiotSocialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveRiotSocialTests.m; sourceTree = "<group>"; };
 		E1A4826917FD517700ECFF57 /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
-		E1A4826B17FD527D00ECFF57 /* 宝宝大图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "宝宝大图.jpg"; sourceTree = "<group>"; };
 		E1A4826D17FD53C900ECFF57 /* LRVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRVideoViewController.h; sourceTree = "<group>"; };
 		E1A4826E17FD53C900ECFF57 /* LRVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRVideoViewController.m; sourceTree = "<group>"; };
 		E1A4827017FD66F100ECFF57 /* LRTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTabBarController.h; sourceTree = "<group>"; };
 		E1A4827117FD66F100ECFF57 /* LRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTabBarController.m; sourceTree = "<group>"; };
-		E1A4827317FD6E0A00ECFF57 /* livemusic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = livemusic.jpg; sourceTree = "<group>"; };
-		E1A4827517FD741700ECFF57 /* zichuanwang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zichuanwang.png; sourceTree = "<group>"; };
 		E1A4827717FD7DE800ECFF57 /* LRVideoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRVideoDetailViewController.h; sourceTree = "<group>"; };
 		E1A4827817FD7DE800ECFF57 /* LRVideoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRVideoDetailViewController.m; sourceTree = "<group>"; };
 		E1A4827A17FD81C500ECFF57 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -221,16 +213,12 @@
 				E1A4823E17FC560D00ECFF57 /* LRAppDelegate.h */,
 				E1A4823F17FC560D00ECFF57 /* LRAppDelegate.m */,
 				E1A4824117FC560D00ECFF57 /* Main.storyboard */,
-				E1A4827517FD741700ECFF57 /* zichuanwang.png */,
-				E1098F7D180EA76700F6D9CE /* haishanye.png */,
-				E1098F7E180EA76700F6D9CE /* haoyuhuang.png */,
-				E1098F7F180EA76700F6D9CE /* kaiqizhang.png */,
-				E1098F80180EA76700F6D9CE /* yangli.png */,
-				E1098F81180EA76700F6D9CE /* yetian.png */,
-				E1A4827317FD6E0A00ECFF57 /* livemusic.jpg */,
-				E1A4826B17FD527D00ECFF57 /* 宝宝大图.jpg */,
 				E1A4823617FC560D00ECFF57 /* Supporting Files */,
 				E1A4826917FD517700ECFF57 /* images.xcassets */,
+				E1945915182060B1003BA03B /* Gothic Tropic.jpg */,
+				E1945916182060B1003BA03B /* Hands.jpeg */,
+				E1945917182060B1003BA03B /* The Dead Ships.jpg */,
+				E1945918182060B1003BA03B /* Vanaprasta.jpg */,
 				E1A4826D17FD53C900ECFF57 /* LRVideoViewController.h */,
 				E1A4826E17FD53C900ECFF57 /* LRVideoViewController.m */,
 				E1A4827017FD66F100ECFF57 /* LRTabBarController.h */,
@@ -376,21 +364,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A4828717FD9CD300ECFF57 /* LRFacebookLoginViewController.xib in Resources */,
-				E1098F84180EA76700F6D9CE /* kaiqizhang.png in Resources */,
 				E1A4823A17FC560D00ECFF57 /* InfoPlist.strings in Resources */,
-				E1A4827617FD741700ECFF57 /* zichuanwang.png in Resources */,
 				E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */,
 				E19A6A541807F0C000266DDF /* LRFacebookShareViewController.xib in Resources */,
-				E1A4826C17FD527D00ECFF57 /* 宝宝大图.jpg in Resources */,
-				E1098F83180EA76700F6D9CE /* haoyuhuang.png in Resources */,
+				E1945919182060B1003BA03B /* Gothic Tropic.jpg in Resources */,
 				18461BB8181F7B2E009438F7 /* LRTwitterShareViewController.xib in Resources */,
-				E1A4827417FD6E0A00ECFF57 /* livemusic.jpg in Resources */,
-				E1098F85180EA76700F6D9CE /* yangli.png in Resources */,
+				E194591C182060B1003BA03B /* Vanaprasta.jpg in Resources */,
+				E194591A182060B1003BA03B /* Hands.jpeg in Resources */,
 				E1A4824317FC560D00ECFF57 /* Main.storyboard in Resources */,
 				E1BAE43F180FBB3C00895A69 /* LRFriendCell.xib in Resources */,
-				E1098F82180EA76700F6D9CE /* haishanye.png in Resources */,
+				E194591B182060B1003BA03B /* The Dead Ships.jpg in Resources */,
 				E1BAE43A180FB93800895A69 /* LRFriendShareViewController.xib in Resources */,
-				E1098F86180EA76700F6D9CE /* yetian.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
