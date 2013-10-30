@@ -133,6 +133,15 @@
 }
 
 - (void)didClickPostButton:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[[UIAlertView alloc] initWithTitle:@"Success"
+                                    message:[NSString stringWithFormat:@"Post succeeded :)"]
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil]
+         show];
+    }];
+    return;
     if (FBSession.activeSession.isOpen) {
         // Facebook SDK * pro-tip *
         // Ask for publish permissions only at the time they are needed.
@@ -186,20 +195,7 @@
 - (void)postOpenGraphAction {
     
     FBRequestConnection *requestConnection = [[FBRequestConnection alloc] init];
-    requestConnection.errorBehavior = FBRequestConnectionErrorBehaviorRetry
-    | FBRequestConnectionErrorBehaviorReconnectSession;
-//    if (self.selectedPhoto) {
-//        self.selectedPhoto = [self normalizedImage:self.selectedPhoto];
-//        FBRequest *stagingRequest = [FBRequest requestForUploadStagingResourceWithImage:self.selectedPhoto];
-//        [requestConnection addRequest:stagingRequest
-//                    completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//                        if (error) {
-//                            [self enableUserInteraction:YES];
-//                            [self handlePostOpenGraphActionError:error];
-//                        }
-//                    }
-//                       batchEntryName:@"stagedphoto"];
-//    }
+    requestConnection.errorBehavior = FBRequestConnectionErrorBehaviorRetry | FBRequestConnectionErrorBehaviorReconnectSession;
     
     // Create an Open Graph eat action with the meal, our location, and the people we were with.
     id<LRLiveShow> video = (id<LRLiveShow>)[FBGraphObject graphObject];

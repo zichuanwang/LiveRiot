@@ -7,6 +7,8 @@
 //
 
 #import "LRSettingViewController.h"
+#import "LRFacebookLoginViewController.h"
+#import "LRSettingCell.h"
 
 @interface LRSettingViewController ()
 
@@ -51,23 +53,35 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"SettingCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"LRSettingCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     // Configure the cell...
-    
-    cell.textLabel.text = @"Messages";
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (!cell) {
+        cell = [LRSettingCell createCell];
+    }
+    LRSettingCell *setting = (LRSettingCell *)cell;
+    setting.platformLabel.text = @[@"Facebook", @"Twitter"][indexPath.row];
+    setting.iconImageView.image = [UIImage imageNamed:@[@"facebook_logo", @"twitter_logo"][indexPath.row]];
+    setting.detailLabel.text = @"ZichuanWang";
     
     return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"";
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.row) {
+        case 0:
+            [LRFacebookLoginViewController showInViewController:self];
+            break;
+        case 1:
+            break;
+        default:
+            break;
+    }
 }
 
 /*

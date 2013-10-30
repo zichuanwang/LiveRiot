@@ -14,6 +14,8 @@
 		69B572F41DA3461E9894E7AB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD843D1A93524B6CABDDDB01 /* libPods.a */; };
 		E10FE849182118C400A31323 /* LRTwitterShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10FE848182118C400A31323 /* LRTwitterShareViewController.xib */; };
 		E10FE84B182118CE00A31323 /* LRTumblrShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10FE84A182118CE00A31323 /* LRTumblrShareViewController.xib */; };
+		E10FE84E18219CF100A31323 /* LRSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E10FE84D18219CF100A31323 /* LRSettingCell.m */; };
+		E10FE85018219D0400A31323 /* LRSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10FE84F18219D0400A31323 /* LRSettingCell.xib */; };
 		E1945919182060B1003BA03B /* Gothic Tropic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945915182060B1003BA03B /* Gothic Tropic.jpg */; };
 		E194591A182060B1003BA03B /* Hands.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945916182060B1003BA03B /* Hands.jpg */; };
 		E194591B182060B1003BA03B /* The Dead Ships.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945917182060B1003BA03B /* The Dead Ships.jpg */; };
@@ -74,6 +76,9 @@
 		1DFB7BB3B9074B66908223A9 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E10FE848182118C400A31323 /* LRTwitterShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRTwitterShareViewController.xib; sourceTree = "<group>"; };
 		E10FE84A182118CE00A31323 /* LRTumblrShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRTumblrShareViewController.xib; sourceTree = "<group>"; };
+		E10FE84C18219CF100A31323 /* LRSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRSettingCell.h; sourceTree = "<group>"; };
+		E10FE84D18219CF100A31323 /* LRSettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRSettingCell.m; sourceTree = "<group>"; };
+		E10FE84F18219D0400A31323 /* LRSettingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRSettingCell.xib; sourceTree = "<group>"; };
 		E1945915182060B1003BA03B /* Gothic Tropic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Gothic Tropic.jpg"; sourceTree = "<group>"; };
 		E1945916182060B1003BA03B /* Hands.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hands.jpg; sourceTree = "<group>"; };
 		E1945917182060B1003BA03B /* The Dead Ships.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "The Dead Ships.jpg"; sourceTree = "<group>"; };
@@ -257,6 +262,9 @@
 				E1BAE43B180FBB2B00895A69 /* LRFriendCell.h */,
 				E1BAE43C180FBB2B00895A69 /* LRFriendCell.m */,
 				E1BAE43E180FBB3C00895A69 /* LRFriendCell.xib */,
+				E10FE84C18219CF100A31323 /* LRSettingCell.h */,
+				E10FE84D18219CF100A31323 /* LRSettingCell.m */,
+				E10FE84F18219D0400A31323 /* LRSettingCell.xib */,
 			);
 			path = LiveRiotSocial;
 			sourceTree = "<group>";
@@ -381,6 +389,7 @@
 			files = (
 				E10FE84B182118CE00A31323 /* LRTumblrShareViewController.xib in Resources */,
 				E1A4828717FD9CD300ECFF57 /* LRFacebookLoginViewController.xib in Resources */,
+				E10FE85018219D0400A31323 /* LRSettingCell.xib in Resources */,
 				E1A4823A17FC560D00ECFF57 /* InfoPlist.strings in Resources */,
 				E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */,
 				E19A6A541807F0C000266DDF /* LRFacebookShareViewController.xib in Resources */,
@@ -449,6 +458,7 @@
 				E19A6A491807DE1900266DDF /* CRNavigationController.m in Sources */,
 				E1BAE442180FC71100895A69 /* LRFriendMessageViewController.m in Sources */,
 				18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */,
+				E10FE84E18219CF100A31323 /* LRSettingCell.m in Sources */,
 				E1BAE439180FB93800895A69 /* LRFriendShareViewController.m in Sources */,
 				E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */,
 				E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */,
