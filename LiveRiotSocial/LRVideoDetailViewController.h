@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface LRVideoDetailViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIWebView *videoWebView;
-
+//@property (weak, nonatomic) IBOutlet UIWebView *videoWebView;
+@property (nonatomic, strong) MPMoviePlayerController *videoPlayer;
+@property (nonatomic, weak) IBOutlet UIView *videoView;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *avatarImageName;
 @property (nonatomic, copy) NSString *previewImageName;

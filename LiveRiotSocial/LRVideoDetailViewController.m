@@ -30,7 +30,9 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        NSURL *ytvideo = [NSURL URLWithString:@"https://s3.amazonaws.com/lr-chaos/videos/files/000/000/548/original/sd_Hands-Elegant-Road-04-22-13.mp4"];
+        _videoPlayer = [[MPMoviePlayerController alloc] initWithContentURL:ytvideo];
+        [_videoPlayer prepareToPlay];
     }
     return self;
 }
@@ -46,18 +48,26 @@
     
     //NSString *embedHTML = @"<html><body><iframe width=\"320\" height=\"240\" src=\"embed/5KsabeJ1UEk\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
     
-    for (UIView *view in self.videoWebView.subviews) {
+    /*for (UIView *view in self.videoWebView.subviews) {
         if ([view isKindOfClass:[UIScrollView class]]) {
             ((UIScrollView *)view).scrollEnabled = NO;
         }
-    }
+    }*/
+    NSURL *ytvideo = [NSURL URLWithString:@"https://s3.amazonaws.com/lr-chaos/videos/files/000/000/548/original/sd_Hands-Elegant-Road-04-22-13.mp4"];
+    _videoPlayer = [[MPMoviePlayerController alloc] initWithContentURL:ytvideo];
+    [_videoPlayer prepareToPlay];
     
-    NSURL *ytVideo = [NSURL URLWithString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/EmbedVideo.html"];
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:ytVideo];
-    self.videoWebView.allowsInlineMediaPlayback = true;
-    [self.videoWebView loadRequest:requestObj];
+    [_videoPlayer.view setFrame:_videoView.bounds];
+    [_videoView addSubview:_videoPlayer.view];
+    
+    //NSURL *ytVideo = [NSURL URLWithString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/EmbedVideo.html"];
+    //NSURLRequest *requestObj = [NSURLRequest requestWithURL:ytVideo];
+    //self.videoWebView.allowsInlineMediaPlayback = true;
+    //[self.videoWebView loadRequest:requestObj];
     //[_videoView loadHTMLString:embedHTML baseURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
     //[self.view addSubview:_videoView];
+    
+    [_videoPlayer play];
 }
 
 - (void)didReceiveMemoryWarning
