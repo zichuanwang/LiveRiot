@@ -85,7 +85,7 @@
         [LRFriendShareViewController showInViewController:self];
     } else if (buttonIndex == 1) {
         // Facebook share view
-        [LRFacebookShareViewController showInViewController:self];
+        [LRFacebookShareViewController showInViewController:self shareLink:self.videoLink shareImageName:self.previewImageName];
     } else if (buttonIndex == 2) {
         // Twitter share view
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] == YES) {
@@ -102,7 +102,7 @@
 #pragma mark - FHSTwitterEngineAccessTokenDelegate
 
 // post tweet by twitter sheet
-- (void) postTweetByTwitterSheet {
+- (void)postTweetByTwitterSheet {
     //  Create an instance of the Tweet Sheet
     SLComposeViewController *tweetSheet = [SLComposeViewController
                                            composeViewControllerForServiceType:SLServiceTypeTwitter];

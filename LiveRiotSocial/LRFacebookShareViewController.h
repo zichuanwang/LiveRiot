@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface LRFacebookShareViewController : UIViewController {
-    CGRect _oldRect;
-    NSTimer *_caretVisibilityTimer;
 }
 
-+ (void)showInViewController:(UIViewController *)viewController;
++ (void)showInViewController:(UIViewController *)viewController
+                   shareLink:(NSString *)shareLink
+              shareImageName:(NSString *)imageName;
 
 @end

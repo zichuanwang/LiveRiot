@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LRFacebookShareViewController">
             <connections>
+                <outlet property="shareImageView" destination="ubn-Qh-rCF" id="CVQ-jo-b8A"/>
                 <outlet property="textView" destination="PSx-l7-DWp" id="2Rr-IT-iXl"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -47,6 +48,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Hands.jpg" width="300" height="300"/>
+        <image name="Hands.jpg" width="960" height="540"/>
     </resources>
 </document>

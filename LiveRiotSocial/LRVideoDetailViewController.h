@@ -14,6 +14,7 @@
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *avatarImageName;
+@property (nonatomic, copy) NSString *previewImageName;
 @property (nonatomic, copy) NSString *videoLink;
 @property (nonatomic, copy) NSString *timeString;
 

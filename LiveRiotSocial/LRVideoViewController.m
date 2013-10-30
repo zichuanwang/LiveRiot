@@ -35,6 +35,7 @@ static NSArray *staticTitleArray = nil;
 static NSArray *staticVideoImageNameArray = nil;
 static NSArray *staticAvatarImageNameArray = nil;
 static NSArray *staticTimeStringArray = nil;
+static NSArray *staticLinkArray = nil;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -45,6 +46,7 @@ static NSArray *staticTimeStringArray = nil;
             staticAvatarImageNameArray = @[@"zichuanwang", @"haoyuhuang", @"haishanye"];
             staticTitleArray = @[@"Check out this Dead Ships show!", @"Amazing live show", @"I love this song :)"];
             staticTimeStringArray = @[@"09:00 p.m. Today", @"08:31 p.m. 10/24/2013", @"11:20 p.m. 10/23/2013"];
+            staticLinkArray = @[@"http://chaos.liveriot.net/videos/542", @"http://chaos.liveriot.net/videos/548", @"http://chaos.liveriot.net/videos/387"];
         });
     }
     return self;
@@ -163,6 +165,8 @@ static NSArray *staticTimeStringArray = nil;
         detailController.title = staticTitleArray[rowOfCell];
         detailController.timeString = staticTimeStringArray[rowOfCell];
         detailController.avatarImageName = staticAvatarImageNameArray[rowOfCell];
+        detailController.videoLink = staticLinkArray[rowOfCell];
+        detailController.previewImageName = staticVideoImageNameArray[rowOfCell];
     }
 }
 

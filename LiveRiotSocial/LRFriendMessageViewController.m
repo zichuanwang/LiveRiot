@@ -10,6 +10,8 @@
 
 @interface LRFriendMessageViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+
 @end
 
 @implementation LRFriendMessageViewController

@@ -63,6 +63,10 @@
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (BOOL)automaticallyAdjustsScrollViewInsets {
+    return NO;
+}
+
 - (void)didClickPostButton:(UIButton *)sender {
   NSLog(@"token %@", [TMAPIClient sharedInstance].OAuthToken);
   NSLog(@"key %@", [TMAPIClient sharedInstance].OAuthTokenSecret);

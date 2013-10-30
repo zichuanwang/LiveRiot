@@ -126,14 +126,14 @@
 
 - (void)didClickPostButton:(UIButton *)sender {
     
-    if ([[FHSTwitterEngine sharedEngine]isAuthorized] == YES) {
+    if ([[FHSTwitterEngine sharedEngine] isAuthorized] == YES) {
         // the access token is authorzied
         [self postTweets];
     } else {
         // the access token is not existed or invalid, authenticate user with OAuth
-        [[FHSTwitterEngine sharedEngine]showOAuthLoginControllerFromViewController:self withCompletion:^(BOOL success) {
-            NSLog(success?@"Twitter OAuth Login success":@"Twitter OAuth Loggin Failed");
-            if (success == YES) {
+        [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:self withCompletion:^(BOOL success) {
+            NSLog(success ? @"Twitter OAuth Login success" : @"Twitter OAuth Loggin Failed");
+            if (success) {
                 [self postTweets];
                 
             }
@@ -152,14 +152,14 @@
 }
 
 // Post tweets to Twitter after OAuth success
-- (void) postTweets {
+- (void)postTweets {
     [_textView resignFirstResponder];
     
     dispatch_async(GCDBackgroundThread, ^{
         @autoreleasepool {
             NSString* tweet = self.textView.text;
             // append the twitter photo card link to the tweet
-            tweet = [tweet stringByAppendingString:@" http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"];
+            tweet = [tweet stringByAppendingString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"];
             
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             NSError *returnCode = [[FHSTwitterEngine sharedEngine]postTweet:tweet];

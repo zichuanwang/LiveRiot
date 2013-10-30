@@ -15,13 +15,23 @@
 @interface LRFacebookShareViewController ()
 
 @property (nonatomic, weak) IBOutlet UITextView *textView;
+@property (nonatomic, weak) IBOutlet UIImageView *shareImageView;
+
+@property (nonatomic, copy) NSString *shareLink;
+@property (nonatomic, copy) NSString *shareImageName;
 
 @end
 
 @implementation LRFacebookShareViewController
 
-+ (void)showInViewController:(UIViewController *)viewController {
++ (void)showInViewController:(UIViewController *)viewController
+                   shareLink:(NSString *)shareLink
+              shareImageName:(NSString *)imageName {
+    
     LRFacebookShareViewController *loginViewController = [[LRFacebookShareViewController alloc] init];
+    loginViewController.shareLink = shareLink;
+    loginViewController.shareImageName = imageName;
+    
     CRNavigationController *nav = [[CRNavigationController alloc] initWithRootViewController:loginViewController];
     [viewController presentViewController:nav animated:YES completion:nil];
     
@@ -33,17 +43,9 @@
     // Do any additional setup after loading the view from its nib.
     [self configureNavigationBar];
     [self.textView becomeFirstResponder];
-    
     self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    self.shareImageView.image = [UIImage imageNamed:self.shareImageName];
 }
 
 - (BOOL)automaticallyAdjustsScrollViewInsets {
@@ -201,7 +203,7 @@
     
     // Create an Open Graph eat action with the meal, our location, and the people we were with.
     id<LRLiveShow> video = (id<LRLiveShow>)[FBGraphObject graphObject];
-    video.url = @"http://greenbay.usc.edu/csci577/fall2013/projects/team04/website/video001";
+    video.url = self.shareLink;
     
     id<LRWatchVideoAction> action = (id<LRWatchVideoAction>)[FBGraphObject graphObject];
     action.live_show = video;
@@ -210,7 +212,7 @@
     [(NSMutableDictionary *)action setValue:@"true" forKey:@"fb:explicitly_shared"];
 
     // Create the request and post the action to the "me/fb_sample_scrumps:eat" path.
-    FBRequest *actionRequest = [FBRequest requestForPostWithGraphPath:@"me/live_riot:review"
+    FBRequest *actionRequest = [FBRequest requestForPostWithGraphPath:@"me/liveriot:share"
                                                           graphObject:action];
     
     [requestConnection addRequest:actionRequest
@@ -219,14 +221,15 @@
                                     NSError *error) {
                     
                     if (!error) {
-                        [[[UIAlertView alloc] initWithTitle:@"Result"
-                                                    message:[NSString stringWithFormat:@"Posted Open Graph action, id: %@",
-                                                             [result objectForKey:@"id"]]
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil]
-                         show];
-                        
+                        [self dismissViewControllerAnimated:YES completion:^{
+                            [[[UIAlertView alloc] initWithTitle:@"Result"
+                                                        message:[NSString stringWithFormat:@"Posted Open Graph action, id: %@",
+                                                                 [result objectForKey:@"id"]]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil]
+                             show];
+                        }];
                     } else {
                         [self handlePostOpenGraphActionError:error];
                     }
@@ -241,35 +244,43 @@
 
 
 - (void)presentShareDialogForVideoInfo {
-    UIImage *image = [UIImage imageNamed:@"livemusic.jpg"];
-    
-    id object = [FBGraphObject openGraphObjectForPostWithType:@"live_riot:video"
+    id liveShow = [FBGraphObject openGraphObjectForPostWithType:@"liveriot:live_show"
                                                         title:@"Amazing live music"
-                                                        image:image
-                                                          url:nil
+                                                        image:nil
+                                                          url:self.shareLink
                                                   description:[@"Description " stringByAppendingString:@"test."]];
     
-    id<FBGraphObject> app = [FBGraphObject graphObject];
-    
-    id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
-    action.image = image;
-    // action.application = app;
+    id<LRWatchVideoAction> action = (id<LRWatchVideoAction>)[FBGraphObject graphObject];
+    action.live_show = liveShow;
     
     BOOL presentable = nil != [FBDialogs presentShareDialogWithOpenGraphAction:action
-                                                                    actionType:@"live_riot:watch"
-                                                           previewPropertyName:@"video"
+                                                                    actionType:@"liveriot:share"
+                                                           previewPropertyName:@"live_show"
                                                                        handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
                                                                            if (!error) {
-                                                                               // [self resetMealInfo];
+                                                                               [self dismissViewControllerAnimated:YES completion:^{
+                                                                                   [[[UIAlertView alloc] initWithTitle:@"Result"
+                                                                                                               message:[NSString stringWithFormat:@"Posted Open Graph action, id: %@", [results objectForKey:@"id"]]
+                                                                                                              delegate:nil
+                                                                                                     cancelButtonTitle:@"OK"
+                                                                                                     otherButtonTitles:nil]
+                                                                                    show];
+                                                                               }];
                                                                            } else {
                                                                                NSLog(@"%@", error);
+                                                                               [[[UIAlertView alloc] initWithTitle:@"Failure"
+                                                                                                           message:[NSString stringWithFormat:@"%@", error]
+                                                                                                          delegate:nil
+                                                                                                 cancelButtonTitle:@"I See"
+                                                                                                 otherButtonTitles:nil]
+                                                                                show];
                                                                            }
                                                                        }];
     
     if (!presentable) {
+        NSLog(@"Can not present Facebook share dialog.");
         [LRFacebookLoginViewController showInViewController:self];
     }
-
 }
 
 @end
