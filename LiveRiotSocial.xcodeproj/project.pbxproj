@@ -11,6 +11,9 @@
 		18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */; };
 		18461BB7181F7B2E009438F7 /* LRTwitterShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */; };
 		18461BB8181F7B2E009438F7 /* LRTwitterShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */; };
+		18A5453E1820E5FB00F31E73 /* LRTumblrShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A5453C1820E5FB00F31E73 /* LRTumblrShareViewController.m */; };
+		18A5453F1820E5FB00F31E73 /* LRTumblrShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A5453D1820E5FB00F31E73 /* LRTumblrShareViewController.xib */; };
+		69B572F41DA3461E9894E7AB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD843D1A93524B6CABDDDB01 /* libPods.a */; };
 		E1945919182060B1003BA03B /* Gothic Tropic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945915182060B1003BA03B /* Gothic Tropic.jpg */; };
 		E194591A182060B1003BA03B /* Hands.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945916182060B1003BA03B /* Hands.jpg */; };
 		E194591B182060B1003BA03B /* The Dead Ships.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945917182060B1003BA03B /* The Dead Ships.jpg */; };
@@ -67,6 +70,10 @@
 		18461BB4181F7B2E009438F7 /* LRTwitterShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTwitterShareViewController.h; sourceTree = "<group>"; };
 		18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTwitterShareViewController.m; sourceTree = "<group>"; };
 		18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRTwitterShareViewController.xib; sourceTree = "<group>"; };
+		18A5453B1820E5FB00F31E73 /* LRTumblrShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTumblrShareViewController.h; sourceTree = "<group>"; };
+		18A5453C1820E5FB00F31E73 /* LRTumblrShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTumblrShareViewController.m; sourceTree = "<group>"; };
+		18A5453D1820E5FB00F31E73 /* LRTumblrShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRTumblrShareViewController.xib; sourceTree = "<group>"; };
+		1DFB7BB3B9074B66908223A9 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E1945915182060B1003BA03B /* Gothic Tropic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Gothic Tropic.jpg"; sourceTree = "<group>"; };
 		E1945916182060B1003BA03B /* Hands.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hands.jpg; sourceTree = "<group>"; };
 		E1945917182060B1003BA03B /* The Dead Ships.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "The Dead Ships.jpg"; sourceTree = "<group>"; };
@@ -124,6 +131,7 @@
 		E1BAE43E180FBB3C00895A69 /* LRFriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRFriendCell.xib; sourceTree = "<group>"; };
 		E1BAE440180FC71100895A69 /* LRFriendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFriendMessageViewController.h; sourceTree = "<group>"; };
 		E1BAE441180FC71100895A69 /* LRFriendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFriendMessageViewController.m; sourceTree = "<group>"; };
+		FD843D1A93524B6CABDDDB01 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +145,7 @@
 				E1A4823217FC560D00ECFF57 /* CoreGraphics.framework in Frameworks */,
 				E1A4823417FC560D00ECFF57 /* UIKit.framework in Frameworks */,
 				E1A4823017FC560D00ECFF57 /* Foundation.framework in Frameworks */,
+				69B572F41DA3461E9894E7AB /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +178,7 @@
 				E1A4823517FC560D00ECFF57 /* LiveRiotSocial */,
 				E1A4825717FC560D00ECFF57 /* LiveRiotSocialTests */,
 				E1A4822D17FC560D00ECFF57 /* Products */,
+				1DFB7BB3B9074B66908223A9 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +201,7 @@
 				E1A4823117FC560D00ECFF57 /* CoreGraphics.framework */,
 				E1A4823317FC560D00ECFF57 /* UIKit.framework */,
 				E1A4825117FC560D00ECFF57 /* XCTest.framework */,
+				FD843D1A93524B6CABDDDB01 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -233,6 +244,9 @@
 				E19A6A501807F0C000266DDF /* LRFacebookShareViewController.h */,
 				E19A6A511807F0C000266DDF /* LRFacebookShareViewController.m */,
 				E19A6A521807F0C000266DDF /* LRFacebookShareViewController.xib */,
+				18A5453B1820E5FB00F31E73 /* LRTumblrShareViewController.h */,
+				18A5453C1820E5FB00F31E73 /* LRTumblrShareViewController.m */,
+				18A5453D1820E5FB00F31E73 /* LRTumblrShareViewController.xib */,
 				E1BAE433180FAFC600895A69 /* LRSettingViewController.h */,
 				E1BAE434180FAFC600895A69 /* LRSettingViewController.m */,
 				E1BAE436180FB93800895A69 /* LRFriendShareViewController.h */,
@@ -293,9 +307,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1A4826117FC560D00ECFF57 /* Build configuration list for PBXNativeTarget "LiveRiotSocial" */;
 			buildPhases = (
+				CF730CD52C844EB285881681 /* Check Pods Manifest.lock */,
 				E1A4822817FC560D00ECFF57 /* Sources */,
 				E1A4822917FC560D00ECFF57 /* Frameworks */,
 				E1A4822A17FC560D00ECFF57 /* Resources */,
+				3F1B3E59D1EA4E6AAA8573C6 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -363,6 +379,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A5453F1820E5FB00F31E73 /* LRTumblrShareViewController.xib in Resources */,
 				E1A4828717FD9CD300ECFF57 /* LRFacebookLoginViewController.xib in Resources */,
 				E1A4823A17FC560D00ECFF57 /* InfoPlist.strings in Resources */,
 				E1A4826A17FD517700ECFF57 /* images.xcassets in Resources */,
@@ -388,6 +405,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3F1B3E59D1EA4E6AAA8573C6 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF730CD52C844EB285881681 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E1A4822817FC560D00ECFF57 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -405,6 +455,7 @@
 				E1BAE432180FAB5B00895A69 /* LRSearchViewController.m in Sources */,
 				E1BAE435180FAFC600895A69 /* LRSettingViewController.m in Sources */,
 				E1A4827217FD66F100ECFF57 /* LRTabBarController.m in Sources */,
+				18A5453E1820E5FB00F31E73 /* LRTumblrShareViewController.m in Sources */,
 				E1A4826F17FD53C900ECFF57 /* LRVideoViewController.m in Sources */,
 				E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */,
 				E19A6A531807F0C000266DDF /* LRFacebookShareViewController.m in Sources */,
@@ -534,6 +585,7 @@
 		};
 		E1A4826217FC560D00ECFF57 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DFB7BB3B9074B66908223A9 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -550,6 +602,7 @@
 		};
 		E1A4826317FC560D00ECFF57 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DFB7BB3B9074B66908223A9 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

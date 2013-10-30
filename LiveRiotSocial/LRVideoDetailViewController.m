@@ -13,6 +13,8 @@
 #import "LRFriendShareViewController.h"
 #import "FHSTwitterEngine.h"
 #import "LRTwitterShareViewController.h"
+#import "LRTumblrShareViewController.h"
+#import "TMAPIClient.h"
 
 @interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate, UIAlertViewDelegate>
 
@@ -63,7 +65,7 @@
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                          destructiveButtonTitle:nil
-                                              otherButtonTitles:@"Share to Friends", @"Share to Facebook", @"Share to Twitter", nil];
+                                              otherButtonTitles:@"Share to Friends", @"Share to Facebook", @"Share to Twitter", @"Share to Tumblr", nil];
     [sheet showInView:self.view];
 }
 
@@ -84,6 +86,8 @@
         } else {
             [LRTwitterShareViewController showInViewController:self];
         }
+    } else if (buttonIndex == 3) {
+      [self authenticateWithTumblr];
     }
 }
 
@@ -117,6 +121,18 @@
     [self presentViewController:tweetSheet animated:NO completion:^{
         NSLog(@"Tweet sheet has been presented.");
     }];
+}
+
+#pragma mark - TumblrSDK
+- (void)authenticateWithTumblr
+{
+  [TMAPIClient sharedInstance].OAuthConsumerKey = @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
+  [TMAPIClient sharedInstance].OAuthConsumerSecret = @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
+  [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
+    if (!error) {
+      [LRTumblrShareViewController showInViewController:self];
+    }
+  }];
 }
 
 
