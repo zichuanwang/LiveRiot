@@ -12,4 +12,9 @@
 
 @property (weak, nonatomic) IBOutlet UIWebView *videoWebView;
 
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *avatarImageName;
+@property (nonatomic, copy) NSString *videoLink;
+@property (nonatomic, copy) NSString *timeString;
+
 @end

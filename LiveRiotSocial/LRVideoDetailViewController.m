@@ -16,7 +16,9 @@
 
 @interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate, UIAlertViewDelegate>
 
-// @property (nonatomic, weak)
+@property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 
 @end
 
@@ -34,6 +36,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = self.title;
+    self.timeLabel.text = self.timeString;
+    self.titleLabel.text = self.title;
+    self.avatarImageView.image = [UIImage imageNamed:self.avatarImageName];
+    
     //NSString *embedHTML = @"<html><body><iframe width=\"320\" height=\"240\" src=\"embed/5KsabeJ1UEk\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
     
     for (UIView *view in self.videoWebView.subviews) {
@@ -63,7 +71,7 @@
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                          destructiveButtonTitle:nil
-                                              otherButtonTitles:@"Share to Friends", @"Share to Facebook", @"Share to Twitter", nil];
+                                              otherButtonTitles:@"Share to Friends", @"Share to Facebook", @"Share to Twitter", @"Share to Tumblr", nil];
     [sheet showInView:self.view];
 }
 
@@ -84,6 +92,8 @@
         } else {
             [LRTwitterShareViewController showInViewController:self];
         }
+    } else if (buttonIndex == 3) {
+        
     }
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LRTwitterShareViewController">
@@ -15,8 +15,8 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="livemusic.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="7nx-jH-Ee5">
-                    <rect key="frame" x="203" y="79" width="100" height="100"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="livemusic.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="7nx-jH-Ee5">
+                    <rect key="frame" x="205" y="79" width="100" height="100"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" red="1" green="0.25271960760000001" blue="0.42695563479999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -25,10 +25,14 @@
                         <constraint firstAttribute="width" constant="100" id="jwS-EX-W7X"/>
                     </constraints>
                 </imageView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dkw-c2-avJ">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dkw-c2-avJ">
                     <rect key="frame" x="15" y="79" width="180" height="140"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="140" id="b0c-Gd-rLU"/>
+                        <constraint firstAttribute="width" constant="180" id="uT2-SA-ET1"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
@@ -36,8 +40,9 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="7nx-jH-Ee5" secondAttribute="trailing" constant="15" id="3HC-Fb-2kd"/>
-                <constraint firstAttribute="bottom" secondItem="dkw-c2-avJ" secondAttribute="bottom" constant="261" id="NaZ-jm-brL"/>
+                <constraint firstItem="dkw-c2-avJ" firstAttribute="top" secondItem="1" secondAttribute="top" constant="79" id="GbP-lH-vbJ"/>
                 <constraint firstItem="7nx-jH-Ee5" firstAttribute="top" secondItem="1" secondAttribute="top" constant="79" id="bpl-bF-U8t"/>
+                <constraint firstItem="dkw-c2-avJ" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="15" id="s9I-o8-la1"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
         </view>
