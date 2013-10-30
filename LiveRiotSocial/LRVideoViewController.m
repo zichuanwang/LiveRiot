@@ -10,6 +10,20 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "LRFacebookLoginViewController.h"
 
+@interface LRVideoCell ()
+
+@property (nonatomic, weak) IBOutlet UIImageView *videoPreviewImageView;
+@property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *timestampLabel;
+
+@end
+
+@implementation LRVideoCell
+
+
+@end
+
 @interface LRVideoViewController ()
 
 @end
@@ -64,18 +78,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"VideoCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
+    static NSString *CellIdentifier = @"LRVideoCell";
+    LRVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    cell.videoPreviewImageView.image = [UIImage imageNamed:@[@"The Dead Ships.jpg", @"Hands.jpg", @"Vanaprasta.jpg"][indexPath.row]];
+    cell.avatarImageView.image = [UIImage imageNamed:@[@"zichuanwang", @"haoyuhuang", @"haishanye"][indexPath.row]];
+    cell.titleLabel.text = @[@"Check out this Dead Ships show!", @"Amazing live show", @"I love this song :)"][indexPath.row];
+    cell.timestampLabel.text = @[@"09:00 p.m. Today", @"08:31 p.m. 10/24/2013", @"11:20 p.m. 10/23/2013"][indexPath.row];
     
     return cell;
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSLog(@"%@, %@", NSStringFromCGPoint(scrollView.contentOffset), NSStringFromUIEdgeInsets(scrollView.contentInset));
 }
 
 /*

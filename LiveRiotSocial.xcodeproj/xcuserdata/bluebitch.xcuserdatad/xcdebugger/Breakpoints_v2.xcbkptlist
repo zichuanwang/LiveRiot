@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LiveRiotSocial/LRVideoViewController.m"
-            timestampString = "403186426.706205"
+            timestampString = "404784044.358625"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "-initWithStyle:"
             landmarkType = "5">
          </BreakpointContent>

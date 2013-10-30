@@ -10,9 +10,6 @@
 
 @interface LRVideoCell : UITableViewCell
 
-@property (nonatomic, weak) IBOutlet UIImageView *videoPreviewImageView;
-@property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
-
 @end
 
 @interface LRVideoViewController : UITableViewController

@@ -12,7 +12,7 @@
 		18461BB7181F7B2E009438F7 /* LRTwitterShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */; };
 		18461BB8181F7B2E009438F7 /* LRTwitterShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */; };
 		E1945919182060B1003BA03B /* Gothic Tropic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945915182060B1003BA03B /* Gothic Tropic.jpg */; };
-		E194591A182060B1003BA03B /* Hands.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E1945916182060B1003BA03B /* Hands.jpeg */; };
+		E194591A182060B1003BA03B /* Hands.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945916182060B1003BA03B /* Hands.jpg */; };
 		E194591B182060B1003BA03B /* The Dead Ships.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945917182060B1003BA03B /* The Dead Ships.jpg */; };
 		E194591C182060B1003BA03B /* Vanaprasta.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945918182060B1003BA03B /* Vanaprasta.jpg */; };
 		E19A6A481807DE1900266DDF /* CRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E19A6A451807DE1900266DDF /* CRNavigationBar.m */; };
@@ -68,7 +68,7 @@
 		18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTwitterShareViewController.m; sourceTree = "<group>"; };
 		18461BB6181F7B2E009438F7 /* LRTwitterShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LRTwitterShareViewController.xib; sourceTree = "<group>"; };
 		E1945915182060B1003BA03B /* Gothic Tropic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Gothic Tropic.jpg"; sourceTree = "<group>"; };
-		E1945916182060B1003BA03B /* Hands.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hands.jpeg; sourceTree = "<group>"; };
+		E1945916182060B1003BA03B /* Hands.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hands.jpg; sourceTree = "<group>"; };
 		E1945917182060B1003BA03B /* The Dead Ships.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "The Dead Ships.jpg"; sourceTree = "<group>"; };
 		E1945918182060B1003BA03B /* Vanaprasta.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Vanaprasta.jpg; sourceTree = "<group>"; };
 		E19A6A441807DE1900266DDF /* CRNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationBar.h; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 				E1A4823617FC560D00ECFF57 /* Supporting Files */,
 				E1A4826917FD517700ECFF57 /* images.xcassets */,
 				E1945915182060B1003BA03B /* Gothic Tropic.jpg */,
-				E1945916182060B1003BA03B /* Hands.jpeg */,
+				E1945916182060B1003BA03B /* Hands.jpg */,
 				E1945917182060B1003BA03B /* The Dead Ships.jpg */,
 				E1945918182060B1003BA03B /* Vanaprasta.jpg */,
 				E1A4826D17FD53C900ECFF57 /* LRVideoViewController.h */,
@@ -370,7 +370,7 @@
 				E1945919182060B1003BA03B /* Gothic Tropic.jpg in Resources */,
 				18461BB8181F7B2E009438F7 /* LRTwitterShareViewController.xib in Resources */,
 				E194591C182060B1003BA03B /* Vanaprasta.jpg in Resources */,
-				E194591A182060B1003BA03B /* Hands.jpeg in Resources */,
+				E194591A182060B1003BA03B /* Hands.jpg in Resources */,
 				E1A4824317FC560D00ECFF57 /* Main.storyboard in Resources */,
 				E1BAE43F180FBB3C00895A69 /* LRFriendCell.xib in Resources */,
 				E194591B182060B1003BA03B /* The Dead Ships.jpg in Resources */,

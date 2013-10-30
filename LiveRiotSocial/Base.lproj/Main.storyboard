@@ -13,7 +13,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.94000000000000006" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="VideoCell" rowHeight="280" id="dil-nA-nNd">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="LRVideoCell" rowHeight="280" id="dil-nA-nNd" customClass="LRVideoCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="280"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dil-nA-nNd" id="thc-vY-KNr">
@@ -64,7 +64,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="livemusic.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="bRb-CG-j8p">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="livemusic.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="bRb-CG-j8p">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="201"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
@@ -73,6 +73,10 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="avatarImageView" destination="gBY-BC-WUs" id="AcK-rm-BLE"/>
+                                    <outlet property="timestampLabel" destination="7K6-lD-4hd" id="zrS-X0-y3Y"/>
+                                    <outlet property="titleLabel" destination="IWC-th-67x" id="4ST-tx-gKS"/>
+                                    <outlet property="videoPreviewImageView" destination="bRb-CG-j8p" id="Qj3-LN-Po0"/>
                                     <segue destination="ajL-q7-xia" kind="push" id="N0p-BQ-rJE"/>
                                 </connections>
                             </tableViewCell>
