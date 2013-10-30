@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A095338C-9B0B-470A-A14A-535DAC873E3A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>LiveRiotSocial</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1E9C1CC8-910A-4FB0-A0F4-88674EC05031</key>
+		<string>https://github.com/zichuanwang/LiveRiot.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>LiveRiotSocial.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1E9C1CC8-910A-4FB0-A0F4-88674EC05031</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/zichuanwang/LiveRiot.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1E9C1CC8-910A-4FB0-A0F4-88674EC05031</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1E9C1CC8-910A-4FB0-A0F4-88674EC05031</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LiveRiot</string>
+		</dict>
+	</array>
+</dict>
+</plist>
