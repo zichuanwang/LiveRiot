@@ -13,6 +13,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *platformLabel;
 @property (nonatomic, weak) IBOutlet UILabel *detailLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *iconImageView;
+@property (nonatomic, weak) IBOutlet UIImageView *separatorImageView;
 
 + (LRSettingCell *)createCell;
 

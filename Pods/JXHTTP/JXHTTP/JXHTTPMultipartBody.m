@@ -91,7 +91,7 @@ typedef enum {
     NSUInteger bytesAppended = 0;
     
     for (NSData *data in @[self.preData, self.contentData, self.postData]) {
-        NSUInteger dataLength = data == self.contentData ? [self contentLength] : [data length];
+        NSUInteger dataLength = data == self.contentData ? (NSUInteger)[self contentLength] : [data length];
         NSRange dataRange = NSMakeRange(dataOffset, dataLength);
         NSRange intersection = NSIntersectionRange(dataRange, searchRange);
         
@@ -317,10 +317,10 @@ typedef enum {
         return;
     }
     
-    NSUInteger bytesRemaining = self.httpContentLength - self.bytesWritten;
+    NSUInteger bytesRemaining = (NSUInteger)self.httpContentLength - (NSUInteger)self.bytesWritten;
     NSUInteger length = bytesRemaining < self.streamBufferLength ? bytesRemaining : self.streamBufferLength;
     
-    NSUInteger bytesLoaded = [self loadMutableData:self.bodyDataBuffer withDataInRange:NSMakeRange(self.bytesWritten, length)];
+    NSUInteger bytesLoaded = [self loadMutableData:self.bodyDataBuffer withDataInRange:NSMakeRange((NSUInteger)self.bytesWritten, length)];
     NSInteger bytesOutput = bytesLoaded ? [self.httpOutputStream write:[self.bodyDataBuffer bytes] maxLength:bytesLoaded] : 0;
     
     if (bytesOutput > 0) {
@@ -338,7 +338,7 @@ typedef enum {
     NSUInteger bytesLoaded = 0;
     
     for (JXHTTPMultipartPart *part in self.partsArray) {
-        NSUInteger partLength = [part dataLength];
+        NSUInteger partLength = (NSUInteger)[part dataLength];
         NSRange partRange = NSMakeRange(partOffset, partLength);
         
         NSRange intersection = NSIntersectionRange(partRange, searchRange);

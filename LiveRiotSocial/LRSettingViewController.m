@@ -9,6 +9,8 @@
 #import "LRSettingViewController.h"
 #import "LRFacebookLoginViewController.h"
 #import "LRSettingCell.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "FHSTwitterEngine.h"
 
 @interface LRSettingViewController ()
 
@@ -25,6 +27,10 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -34,6 +40,20 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    UIImageView *topSepImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 29, 320, 1)];
+    topSepImageView.image = [UIImage imageNamed:@"line_seperator"];
+    UIImageView *bottomSepImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    bottomSepImageView.image = [UIImage imageNamed:@"line_seperator_rev"];
+    
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.0f, 30.0f)];
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.0f, 30.0f)];
+    
+    [topView addSubview:topSepImageView];
+    [bottomView addSubview:bottomSepImageView];
+    
+    self.tableView.tableHeaderView = topView;
+    self.tableView.tableFooterView = bottomView;
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,10 +84,30 @@
     if (!cell) {
         cell = [LRSettingCell createCell];
     }
-    LRSettingCell *setting = (LRSettingCell *)cell;
-    setting.platformLabel.text = @[@"Facebook", @"Twitter"][indexPath.row];
-    setting.iconImageView.image = [UIImage imageNamed:@[@"facebook_logo", @"twitter_logo"][indexPath.row]];
-    setting.detailLabel.text = @"ZichuanWang";
+    LRSettingCell *settingCell = (LRSettingCell *)cell;
+    settingCell.platformLabel.text = @[@"Facebook", @"Twitter"][indexPath.row];
+    
+    switch (indexPath.row) {
+        case 0: {
+            BOOL signedIn = FBSession.activeSession.isOpen;
+            settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"facebook_logo_hl" : @"facebook_logo"];
+            break;
+        }
+        case 1: {
+            BOOL signedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
+            settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"twitter_logo_hl" : @"twitter_logo"];
+            break;
+        }
+        default:
+            break;
+    }
+    settingCell.detailLabel.text = @"ZichuanWang";
+    
+    if (indexPath.row == 1) {
+        settingCell.separatorImageView.hidden = YES;
+    } else {
+        settingCell.separatorImageView.hidden = NO;
+    }
     
     return cell;
 }
