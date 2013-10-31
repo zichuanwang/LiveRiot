@@ -133,15 +133,6 @@
 }
 
 - (void)didClickPostButton:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[[UIAlertView alloc] initWithTitle:@"Success"
-                                    message:[NSString stringWithFormat:@"Post succeeded :)"]
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil]
-         show];
-    }];
-    return;
     if (FBSession.activeSession.isOpen) {
         // Facebook SDK * pro-tip *
         // Ask for publish permissions only at the time they are needed.

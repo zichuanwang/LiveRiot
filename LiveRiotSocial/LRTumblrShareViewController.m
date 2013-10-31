@@ -71,16 +71,6 @@
     NSLog(@"token %@", [TMAPIClient sharedInstance].OAuthToken);
     NSLog(@"key %@", [TMAPIClient sharedInstance].OAuthTokenSecret);
     
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[[UIAlertView alloc] initWithTitle:@"Success"
-                                    message:[NSString stringWithFormat:@"Post succeeded :)"]
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil]
-         show];
-    }];
-    return;
-    
     [[TMAPIClient sharedInstance] link:@"Video"
                             parameters:@{@"url": @"http:\\/\\/greenbay.usc.edu\\/csci577\\/fall2013\\/projects\\/team04\\/website\\/video001",
                                          @"title" : @"Video",
@@ -88,6 +78,17 @@
                               callback:^(id a, NSError *error) {
                                   if (!error) {
                                       NSLog(@"Succeed");
+                                      
+                                      [self dismissViewControllerAnimated:YES completion:^{
+                                          [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                                      message:[NSString stringWithFormat:@"Post succeeded :)"]
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil]
+                                           show];
+                                      }];
+                                      return;
+                                      
                                   } else {
                                       NSLog(@"Failure");
                                   }
