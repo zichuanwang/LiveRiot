@@ -159,7 +159,7 @@
         @autoreleasepool {
             NSString* tweet = self.textView.text;
             // append the twitter photo card link to the tweet
-            tweet = [tweet stringByAppendingString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"];
+            tweet = [tweet stringByAppendingString:@" http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"];
             
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             NSError *returnCode = [[FHSTwitterEngine sharedEngine]postTweet:tweet];
