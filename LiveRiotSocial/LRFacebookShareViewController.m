@@ -133,6 +133,7 @@
 }
 
 - (void)didClickPostButton:(UIButton *)sender {
+
     if (FBSession.activeSession.isOpen) {
         // Facebook SDK * pro-tip *
         // Ask for publish permissions only at the time they are needed.

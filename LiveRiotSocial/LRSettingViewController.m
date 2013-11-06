@@ -11,8 +11,9 @@
 #import "LRSettingCell.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "FHSTwitterEngine.h"
+#import "LRUIAlertViewDelegate.h"
 
-@interface LRSettingViewController ()
+@interface LRSettingViewController () <FHSTwitterEngineAccessTokenDelegate>
 
 @end
 
@@ -86,6 +87,7 @@
     }
     LRSettingCell *settingCell = (LRSettingCell *)cell;
     settingCell.platformLabel.text = @[@"Facebook", @"Twitter"][indexPath.row];
+    settingCell.detailLabel.text = @"";
     
     switch (indexPath.row) {
         case 0: {
@@ -95,13 +97,16 @@
         }
         case 1: {
             BOOL signedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
+            if (signedIn) {
+                settingCell.detailLabel.text = [[FHSTwitterEngine sharedEngine] loggedInUsername];
+            }
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"twitter_logo_hl" : @"twitter_logo"];
+            
             break;
         }
         default:
             break;
     }
-    settingCell.detailLabel.text = @"ZichuanWang";
     
     if (indexPath.row == 1) {
         settingCell.separatorImageView.hidden = YES;
@@ -118,11 +123,89 @@
             [LRFacebookLoginViewController showInViewController:self];
             break;
         case 1:
+            // twitter engine set up...
+            [[FHSTwitterEngine sharedEngine]permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
+            [[FHSTwitterEngine sharedEngine]setDelegate:self];
+            
+            if ([[FHSTwitterEngine sharedEngine] isAuthorized] == YES) {
+                // the access token is authorzied
+                // ask user to unlink twitter or not.
+                UIAlertView *alert = [[UIAlertView alloc] init];
+                [alert setMessage:@"Are you sure to unlink Twitter?"];
+                [alert addButtonWithTitle:@"Yes"];
+                [alert addButtonWithTitle:@"No"];
+                [LRUIAlertViewDelegate showAlertView:alert withCallback:^(NSInteger buttonIndex) {
+                    // code to take action depending on the value of buttonIndex
+                    if (buttonIndex == 0) {
+                        // clear access toekn and update table cell
+                        [[FHSTwitterEngine sharedEngine] clearAccessToken];
+                        [self updateTableCell:tableView didSelectRowAtIndexPath:indexPath isAuthorized:NO userName:nil];
+                    } else if (buttonIndex == 1) {
+                        // update table cell
+                        [self updateTableCell:tableView didSelectRowAtIndexPath:indexPath isAuthorized:NO userName:nil];
+                    }
+                }];
+            } else {
+                // the access token is not existed or invalid, authenticate user with OAuth
+                [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:self withCompletion:^(BOOL success) {
+                    NSString* userName = [[FHSTwitterEngine sharedEngine]loggedInUsername];
+                    NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
+                    if (success) {
+                        [self updateTableCell:tableView didSelectRowAtIndexPath:indexPath isAuthorized:YES userName:userName];
+                    }
+                    
+                }];
+            }
             break;
         default:
             break;
     }
 }
+
+// update the table cell
+-(void)updateTableCell:(UITableView*) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath isAuthorized:(BOOL) isAuthorized userName:(NSString*)userName {
+//    static NSString *CellIdentifier = @"LRSettingCell";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    LRSettingCell *settingCell = (LRSettingCell *)cell;
+//    
+//    switch (indexPath.row) {
+//        case 0:
+//            // update facebook cell
+//            
+//            break;
+//        case 1:
+//            // update twitter cell
+//            settingCell.iconImageView.image = [UIImage imageNamed:isAuthorized ? @"twitter_logo_hl" : @"twitter_logo"];
+//            if (isAuthorized) {
+//                settingCell.detailLabel.text = userName;
+//                NSLog(@"in");
+//            } else {
+//                settingCell.detailLabel.text = @"";
+//            }
+//            //
+//            break;
+//        default:
+//            break;
+//    }
+    // update the table view
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView endUpdates];
+    
+}
+
+#pragma mark - Twitter
+
+- (void)storeAccessToken:(NSString *)accessToken {
+    [[NSUserDefaults standardUserDefaults]setObject:accessToken forKey:@"SavedAccessHTTPBody"];
+}
+
+- (NSString *)loadAccessToken {
+    return [[NSUserDefaults standardUserDefaults]objectForKey:@"SavedAccessHTTPBody"];
+}
+
+#pragma mark alertView delegate
+
 
 /*
 // Override to support conditional editing of the table view.
