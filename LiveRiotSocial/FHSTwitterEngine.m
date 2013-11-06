@@ -1717,10 +1717,11 @@ id removeNull(id rootObject) {
 }
 
 - (void)showOAuthLoginControllerFromViewController:(UIViewController *)sender withCompletion:(void(^)(BOOL success))block {
-    FHSTwitterEngineController *vc = [[FHSTwitterEngineController alloc]init];
+    FHSTwitterEngineController *vc = [[FHSTwitterEngineController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     objc_setAssociatedObject(vc, "FHSTwitterEngineOAuthCompletion", block, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    [sender presentViewController:vc animated:YES completion:nil];
+    [sender presentViewController:nav animated:YES completion:nil];
 }
 
 + (BOOL)isConnectedToInternet {
@@ -1777,18 +1778,18 @@ id removeNull(id rootObject) {
     self.view.backgroundColor = [UIColor grayColor];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
-    self.theWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 44, 320, 416)];
+    self.theWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, 320, 460)];
     _theWebView.hidden = YES;
     _theWebView.delegate = self;
     _theWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _theWebView.dataDetectorTypes = UIDataDetectorTypeNone;
     _theWebView.backgroundColor = [UIColor darkGrayColor];
     
-    self.navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];
-    _navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    // self.navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];
+    // _navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 	
 	[self.view addSubview:_theWebView];
-	[self.view addSubview:_navBar];
+	// [self.view addSubview:_navBar];
     
 	self.blockerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 60)];
 	_blockerView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.8];
@@ -1815,9 +1816,12 @@ id removeNull(id rootObject) {
 	[self.view addSubview:_blockerView];
 	[spinner startAnimating];
 	
-	UINavigationItem *navItem = [[UINavigationItem alloc]initWithTitle:@"Twitter Login"];
-	navItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(close)];
-	[_navBar pushNavigationItem:navItem animated:NO];
+	// UINavigationItem *navItem = [[UINavigationItem alloc]initWithTitle:@"Twitter Login"];
+	// navItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(close)];
+	// [_navBar pushNavigationItem:navItem animated:NO];
+    
+    self.navigationItem.title = @"Twitter Login";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(close)];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -1927,7 +1931,7 @@ id removeNull(id rootObject) {
     }
     
 	_pinCopyBar.center = CGPointMake(_pinCopyBar.bounds.size.width/2, _pinCopyBar.bounds.size.height/2);
-	[self.view insertSubview:_pinCopyBar belowSubview:_navBar];
+	[self.view insertSubview:_pinCopyBar aboveSubview:_theWebView];
 	
 	[UIView beginAnimations:nil context:nil];
     _pinCopyBar.center = CGPointMake(_pinCopyBar.bounds.size.width/2, _navBar.bounds.size.height+_pinCopyBar.bounds.size.height/2);
