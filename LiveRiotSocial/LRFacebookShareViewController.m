@@ -7,7 +7,6 @@
 //
 
 #import "LRFacebookShareViewController.h"
-#import "LRFacebookLoginViewController.h"
 #import "CRNavigationController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "LRFacebookProtocols.h"
@@ -28,13 +27,18 @@
                    shareLink:(NSString *)shareLink
               shareImageName:(NSString *)imageName {
     
-    LRFacebookShareViewController *loginViewController = [[LRFacebookShareViewController alloc] init];
-    loginViewController.shareLink = shareLink;
-    loginViewController.shareImageName = imageName;
-    
-    CRNavigationController *nav = [[CRNavigationController alloc] initWithRootViewController:loginViewController];
-    [viewController presentViewController:nav animated:YES completion:nil];
-    
+    if (FBSession.activeSession.isOpen) {
+        LRFacebookShareViewController *loginViewController = [[LRFacebookShareViewController alloc] init];
+        loginViewController.shareLink = shareLink;
+        loginViewController.shareImageName = imageName;
+        
+        CRNavigationController *nav = [[CRNavigationController alloc] initWithRootViewController:loginViewController];
+        [viewController presentViewController:nav animated:YES completion:nil];
+    } else {
+        // Facebook SDK * pro-tip *
+        // Support sharing even if the user isn't logged in with Facebook, by using the share dialog
+        [LRFacebookShareViewController presentShareDialogForVideoInfo:shareLink];
+    }
 }
 
 - (void)viewDidLoad
@@ -74,11 +78,11 @@
     self.textView.scrollIndicatorInsets = insets;
 }
 
-#pragma mark - UITextFiledDelegate 
+#pragma mark - UITextFiledDelegate
 
 //- (void)textViewDidBeginEditing:(UITextView *)textView {
 //    _oldRect = [self.textView caretRectForPosition:self.textView.selectedTextRange.end];
-//    
+//
 //    _caretVisibilityTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(_scrollCaretToVisible) userInfo:nil repeats:YES];
 //}m
 //
@@ -90,24 +94,24 @@
 //- (void)_scrollCaretToVisible {
 //    //This is where the cursor is at.
 //    CGRect caretRect = [self.textView caretRectForPosition:self.textView.selectedTextRange.end];
-//    
+//
 //    if(CGRectEqualToRect(caretRect, _oldRect))
 //        return;
-//    
+//
 //    _oldRect = caretRect;
-//    
+//
 //    //This is the visible rect of the textview.
 //    CGRect visibleRect = self.textView.bounds;
 //    visibleRect.size.height -= (self.textView.contentInset.top + self.textView.contentInset.bottom);
 //    visibleRect.origin.y = self.textView.contentOffset.y;
-//    
+//
 //    //We will scroll only if the caret falls outside of the visible rect.
 //    if(!CGRectContainsRect(visibleRect, caretRect))
 //    {
 //        CGPoint newOffset = self.textView.contentOffset;
-//        
+//
 //        newOffset.y = MAX((caretRect.origin.y + caretRect.size.height) - visibleRect.size.height + 5, 0);
-//        
+//
 //        [self.textView setContentOffset:newOffset animated:YES];
 //    }
 //}
@@ -133,7 +137,7 @@
 }
 
 - (void)didClickPostButton:(UIButton *)sender {
-
+    
     if (FBSession.activeSession.isOpen) {
         // Facebook SDK * pro-tip *
         // Ask for publish permissions only at the time they are needed.
@@ -145,7 +149,7 @@
     } else {
         // Facebook SDK * pro-tip *
         // Support sharing even if the user isn't logged in with Facebook, by using the share dialog
-        [self presentShareDialogForVideoInfo];
+        [LRFacebookShareViewController presentShareDialogForVideoInfo:self.shareLink];
     }
 }
 
@@ -198,7 +202,7 @@
     if (self.textView.text.length > 0)
         action.message = self.textView.text;
     [(NSMutableDictionary *)action setValue:@"true" forKey:@"fb:explicitly_shared"];
-
+    
     // Create the request and post the action to the "me/fb_sample_scrumps:eat" path.
     FBRequest *actionRequest = [FBRequest requestForPostWithGraphPath:@"me/liveriot:share"
                                                           graphObject:action];
@@ -231,44 +235,34 @@
 }
 
 
-- (void)presentShareDialogForVideoInfo {
++ (void)presentShareDialogForVideoInfo:(NSString *)shareLink {
     id liveShow = [FBGraphObject openGraphObjectForPostWithType:@"liveriot:live_show"
-                                                        title:@"Amazing live music"
-                                                        image:nil
-                                                          url:self.shareLink
-                                                  description:[@"Description " stringByAppendingString:@"test."]];
+                                                          title:@"Amazing live music"
+                                                          image:nil
+                                                            url:shareLink
+                                                    description:[@"Description " stringByAppendingString:@"test."]];
     
     id<LRWatchVideoAction> action = (id<LRWatchVideoAction>)[FBGraphObject graphObject];
     action.live_show = liveShow;
     
-    BOOL presentable = nil != [FBDialogs presentShareDialogWithOpenGraphAction:action
-                                                                    actionType:@"liveriot:share"
-                                                           previewPropertyName:@"live_show"
-                                                                       handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-                                                                           if (!error) {
-                                                                               [self dismissViewControllerAnimated:YES completion:^{
-                                                                                   [[[UIAlertView alloc] initWithTitle:@"Result"
-                                                                                                               message:[NSString stringWithFormat:@"Posted Open Graph action, id: %@", [results objectForKey:@"id"]]
-                                                                                                              delegate:nil
-                                                                                                     cancelButtonTitle:@"OK"
-                                                                                                     otherButtonTitles:nil]
-                                                                                    show];
-                                                                               }];
-                                                                           } else {
-                                                                               NSLog(@"%@", error);
-                                                                               [[[UIAlertView alloc] initWithTitle:@"Failure"
-                                                                                                           message:[NSString stringWithFormat:@"%@", error]
-                                                                                                          delegate:nil
-                                                                                                 cancelButtonTitle:@"I See"
-                                                                                                 otherButtonTitles:nil]
-                                                                                show];
-                                                                           }
-                                                                       }];
     
-    if (!presentable) {
-        NSLog(@"Can not present Facebook share dialog.");
-        [LRFacebookLoginViewController showInViewController:self];
-    }
+    [FBDialogs presentShareDialogWithOpenGraphAction:action
+                                          actionType:@"liveriot:share"
+                                 previewPropertyName:@"live_show"
+                                             handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                                                 if (!error) {
+                                                     NSLog(@"Results: %@", results);
+                                                 } else {
+                                                     NSLog(@"%@", error);
+                                                     [[[UIAlertView alloc] initWithTitle:@"Failure"
+                                                                                 message:[NSString stringWithFormat:@"%@", error]
+                                                                                delegate:nil
+                                                                       cancelButtonTitle:@"I See"
+                                                                       otherButtonTitles:nil]
+                                                      show];
+                                                 }
+                                             }];
+    
 }
 
 @end

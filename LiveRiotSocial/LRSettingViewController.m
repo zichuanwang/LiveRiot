@@ -7,13 +7,13 @@
 //
 
 #import "LRSettingViewController.h"
-#import "LRFacebookLoginViewController.h"
 #import "LRSettingCell.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "FHSTwitterEngine.h"
 #import "LRUIAlertViewDelegate.h"
+#import "LRAppDelegate.h"
 
-@interface LRSettingViewController () <FHSTwitterEngineAccessTokenDelegate>
+@interface LRSettingViewController () <FHSTwitterEngineAccessTokenDelegate, UIActionSheetDelegate>
 
 @end
 
@@ -92,14 +92,13 @@
     switch (indexPath.row) {
         case 0: {
             BOOL signedIn = FBSession.activeSession.isOpen;
+            settingCell.detailLabel.text = signedIn ? [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentFacebookUserName] : @"";
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"facebook_logo_hl" : @"facebook_logo"];
             break;
         }
         case 1: {
             BOOL signedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
-            if (signedIn) {
-                settingCell.detailLabel.text = [[FHSTwitterEngine sharedEngine] loggedInUsername];
-            }
+            settingCell.detailLabel.text = signedIn ? [[FHSTwitterEngine sharedEngine] loggedInUsername] : @"";
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"twitter_logo_hl" : @"twitter_logo"];
             
             break;
@@ -117,41 +116,90 @@
     return cell;
 }
 
+static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
+
+- (void)populateUserDetails {
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+             if (!error) {
+                 [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:kCurrentFacebookUserName];
+                 [[NSUserDefaults standardUserDefaults] synchronize];
+                 // self.userProfileImage.profileID = [user objectForKey:@"id"];
+                 [self.tableView reloadData];
+             }
+         }];
+    }
+}
+
+#pragma mark - UIActionSheetDelegate>
+
+#define FACEBOOK_LOGOUT_ACTION_TAG  1
+#define TWITTER_LOGOUT_ACTION_TAG   2
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.tag == FACEBOOK_LOGOUT_ACTION_TAG) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            [self closeFacebookSession];
+        }
+    } else if (actionSheet.tag == TWITTER_LOGOUT_ACTION_TAG) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            // clear access token
+            [[FHSTwitterEngine sharedEngine] clearAccessToken];
+        }
+    }
+    [self.tableView reloadData];
+}
+
+- (void)closeFacebookSession {
+    [FBSession.activeSession closeAndClearTokenInformation];
+    [FBSession setActiveSession:nil];
+}
+
+- (void)openFacebookSession {
+    // if the session isn't open, let's open it now and present the login UX to the user
+    [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
+                                         FBSessionState status,
+                                         NSError *error) {
+        // and here we make sure to update our UX according to the new session state
+        if (error) {
+            [[[UIAlertView alloc] initWithTitle:@"Failure" message:error.localizedDescription delegate:nil cancelButtonTitle:@"I see" otherButtonTitles:nil] show];
+        }
+        [self populateUserDetails];
+        [self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]].selected = NO;
+    }];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:
-            [LRFacebookLoginViewController showInViewController:self];
+            if (![FBSession activeSession].isOpen) {
+                [self openFacebookSession];
+            } else {
+                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Facebook?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Facebook" otherButtonTitles:nil];
+                actionSheet.tag = FACEBOOK_LOGOUT_ACTION_TAG;
+                [actionSheet showInView:self.view];
+            }
+            
             break;
         case 1:
             // twitter engine set up...
-            [[FHSTwitterEngine sharedEngine]permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
-            [[FHSTwitterEngine sharedEngine]setDelegate:self];
+            [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
+            [[FHSTwitterEngine sharedEngine] setDelegate:self];
             
             if ([[FHSTwitterEngine sharedEngine] isAuthorized] == YES) {
                 // the access token is authorzied
                 // ask user to unlink twitter or not.
-                UIAlertView *alert = [[UIAlertView alloc] init];
-                [alert setMessage:@"Are you sure to unlink Twitter?"];
-                [alert addButtonWithTitle:@"Yes"];
-                [alert addButtonWithTitle:@"No"];
-                [LRUIAlertViewDelegate showAlertView:alert withCallback:^(NSInteger buttonIndex) {
-                    // code to take action depending on the value of buttonIndex
-                    if (buttonIndex == 0) {
-                        // clear access toekn and update table cell
-                        [[FHSTwitterEngine sharedEngine] clearAccessToken];
-                        [self updateTableCell:tableView didSelectRowAtIndexPath:indexPath isAuthorized:NO userName:nil];
-                    } else if (buttonIndex == 1) {
-                        // update table cell
-                        [self updateTableCell:tableView didSelectRowAtIndexPath:indexPath isAuthorized:NO userName:nil];
-                    }
-                }];
+                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Twitter?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Twitter" otherButtonTitles:nil];
+                actionSheet.tag = TWITTER_LOGOUT_ACTION_TAG;
+                [actionSheet showInView:self.view];
             } else {
                 // the access token is not existed or invalid, authenticate user with OAuth
                 [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:self withCompletion:^(BOOL success) {
                     NSString* userName = [[FHSTwitterEngine sharedEngine]loggedInUsername];
                     NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
                     if (success) {
-                        [self updateTableCell:tableView didSelectRowAtIndexPath:indexPath isAuthorized:YES userName:userName];
+                        [tableView reloadData];
                     }
                     
                 }];
@@ -160,38 +208,6 @@
         default:
             break;
     }
-}
-
-// update the table cell
--(void)updateTableCell:(UITableView*) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath isAuthorized:(BOOL) isAuthorized userName:(NSString*)userName {
-//    static NSString *CellIdentifier = @"LRSettingCell";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    LRSettingCell *settingCell = (LRSettingCell *)cell;
-//    
-//    switch (indexPath.row) {
-//        case 0:
-//            // update facebook cell
-//            
-//            break;
-//        case 1:
-//            // update twitter cell
-//            settingCell.iconImageView.image = [UIImage imageNamed:isAuthorized ? @"twitter_logo_hl" : @"twitter_logo"];
-//            if (isAuthorized) {
-//                settingCell.detailLabel.text = userName;
-//                NSLog(@"in");
-//            } else {
-//                settingCell.detailLabel.text = @"";
-//            }
-//            //
-//            break;
-//        default:
-//            break;
-//    }
-    // update the table view
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
-    
 }
 
 #pragma mark - Twitter

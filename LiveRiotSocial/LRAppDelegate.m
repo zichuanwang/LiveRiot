@@ -47,7 +47,7 @@
                                                      permissions:nil
                                                  defaultAudience:FBSessionDefaultAudienceNone
                                                  urlSchemeSuffix:nil
-                                              tokenCacheStrategy:[FBSessionTokenCachingStrategy nullCacheInstance] ];
+                                              tokenCacheStrategy:[FBSessionTokenCachingStrategy defaultInstance]];
     [FBSession setActiveSession:appLinkSession];
     // ... and open it from the App Link's Token.
     [appLinkSession openFromAccessTokenData:appLinkToken
@@ -62,6 +62,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    if (!FBSession.activeSession.isOpen) {
+        // create a fresh session object
+        
+        // if we don't have a cached token, a call to open here would cause UX for login to
+        // occur; we don't want that to happen unless the user clicks the login button, and so
+        // we check here to make sure we have a token before calling open
+        if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+            // even though we had a cached token, we need to login to make the session usable
+            [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
+                                                              FBSessionState status,
+                                                              NSError *error) {
+                // we recurse here, in order to update buttons and labels
+                NSLog(@"Facebook session status %d", status);
+            }];
+        }
+    }
+    
     return YES;
 }
 							
@@ -84,8 +102,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface. 
     [FBAppEvents activateApp];
     
     // Facebook SDK * login flow *
@@ -94,30 +111,7 @@
     [FBAppCall handleDidBecomeActive];
 }
 
-- (void)checkSessionState:(FBSessionState)state {
-    switch (state) {
-        case FBSessionStateOpen:
-            break;
-        case FBSessionStateCreated:
-            break;
-        case FBSessionStateCreatedOpening:
-            break;
-        case FBSessionStateCreatedTokenLoaded:
-            break;
-        case FBSessionStateOpenTokenExtended:
-            // I think this is the state that is calling
-            break;
-        case FBSessionStateClosed:
-            break;
-        case FBSessionStateClosedLoginFailed:
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
+- (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [FBSession.activeSession close];
 }

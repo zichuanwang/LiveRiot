@@ -8,7 +8,6 @@
 
 #import "LRVideoViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
-#import "LRFacebookLoginViewController.h"
 #import "LRVideoDetailViewController.h"
 
 @interface LRVideoCell ()
