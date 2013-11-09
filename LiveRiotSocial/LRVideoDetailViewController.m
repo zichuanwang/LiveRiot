@@ -133,7 +133,7 @@
     // add the twitter photo card url to the tweet
     [tweetSheet addURL:[NSURL URLWithString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"]];
     //  Set the initial body of the Tweet
-    [tweetSheet setInitialText:@""];
+    [tweetSheet setInitialText:@"#LiveRiotMusic"];
     
     //  Presents the Tweet Sheet to the user
     [self presentViewController:tweetSheet animated:NO completion:^{
