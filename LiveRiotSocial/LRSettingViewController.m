@@ -55,6 +55,8 @@
     
     self.tableView.tableHeaderView = topView;
     self.tableView.tableFooterView = bottomView;
+    
+    [self setupTwitterEngine];
 }
 
 - (void)didReceiveMemoryWarning
@@ -112,7 +114,6 @@
     } else {
         settingCell.separatorImageView.hidden = NO;
     }
-    
     return cell;
 }
 
@@ -183,9 +184,6 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
             
             break;
         case 1:
-            // twitter engine set up...
-            [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
-            [[FHSTwitterEngine sharedEngine] setDelegate:self];
             
             if ([[FHSTwitterEngine sharedEngine] isAuthorized] == YES) {
                 // the access token is authorzied
@@ -218,6 +216,13 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
 
 - (NSString *)loadAccessToken {
     return [[NSUserDefaults standardUserDefaults]objectForKey:@"SavedAccessHTTPBody"];
+}
+
+- (void) setupTwitterEngine {
+    // twitter engine set up...
+    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
+    [[FHSTwitterEngine sharedEngine] setDelegate:self];
+    [[FHSTwitterEngine sharedEngine] loadAccessToken];
 }
 
 #pragma mark alertView delegate
