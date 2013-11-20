@@ -37,10 +37,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -111,10 +111,10 @@
             BOOL signedIn = [NSUserDefaults isTMLoggedIn];
             settingCell.detailLabel.text = signedIn ? [NSUserDefaults getTMUserName] : @"";
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"tumblr_logo_hl" : @"tumblr_logo"];
-          
-          break;
+            
+            break;
         }
-
+            
         default:
             break;
     }
@@ -127,23 +127,7 @@
     return cell;
 }
 
-static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
-
-- (void)populateUserDetails {
-    if (FBSession.activeSession.isOpen) {
-        [[FBRequest requestForMe] startWithCompletionHandler:
-         ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-             if (!error) {
-                 [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:kCurrentFacebookUserName];
-                 [[NSUserDefaults standardUserDefaults] synchronize];
-                 // self.userProfileImage.profileID = [user objectForKey:@"id"];
-                 [self.tableView reloadData];
-             }
-         }];
-    }
-}
-
-#pragma mark - UIActionSheetDelegate>
+#pragma mark - UIActionSheetDelegate
 
 #define FACEBOOK_LOGOUT_ACTION_TAG  1
 #define TWITTER_LOGOUT_ACTION_TAG   2
@@ -160,30 +144,11 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
             [[FHSTwitterEngine sharedEngine] clearAccessToken];
         }
     } else if (actionSheet.tag == TUMBLR_LOGOUT_ACTION_TAG) {
-      if (buttonIndex != actionSheet.cancelButtonIndex) {
-        [NSUserDefaults logoutTM];
-      }
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            [NSUserDefaults logoutTM];
+        }
     }
     [self.tableView reloadData];
-}
-
-- (void)closeFacebookSession {
-    [FBSession.activeSession closeAndClearTokenInformation];
-    [FBSession setActiveSession:nil];
-}
-
-- (void)openFacebookSession {
-    // if the session isn't open, let's open it now and present the login UX to the user
-    [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
-                                         FBSessionState status,
-                                         NSError *error) {
-        // and here we make sure to update our UX according to the new session state
-        if (error) {
-            [[[UIAlertView alloc] initWithTitle:@"Failure" message:error.localizedDescription delegate:nil cancelButtonTitle:@"I see" otherButtonTitles:nil] show];
-        }
-        [self populateUserDetails];
-        [self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]].selected = NO;
-    }];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -208,29 +173,59 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
                 [actionSheet showInView:self.view];
             } else {
                 // the access token is not existed or invalid, authenticate user with OAuth
-                [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:self withCompletion:^(BOOL success) {
-                    NSString* userName = [[FHSTwitterEngine sharedEngine]loggedInUsername];
-                    NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
-                    if (success) {
-                        [tableView reloadData];
-                    }
-                    
-                }];
+                [self openTwitterConnection];
             }
             break;
         case 2:
-          if (![NSUserDefaults isTMLoggedIn]) {
-            [self loginTumblr];
-          } else {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Tumblr?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Tumblr" otherButtonTitles:nil];
-            actionSheet.tag = TUMBLR_LOGOUT_ACTION_TAG;
-            [actionSheet showInView:self.view];
-          }
-          
-          break;
+            if (![NSUserDefaults isTMLoggedIn]) {
+                [self openTumblrConnection];
+            } else {
+                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Tumblr?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Tumblr" otherButtonTitles:nil];
+                actionSheet.tag = TUMBLR_LOGOUT_ACTION_TAG;
+                [actionSheet showInView:self.view];
+            }
+            
+            break;
         default:
             break;
     }
+}
+
+#pragma mark - Facebook
+
+static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
+
+- (void)populateFacebookUserDetails {
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+             if (!error) {
+                 [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:kCurrentFacebookUserName];
+                 [[NSUserDefaults standardUserDefaults] synchronize];
+                 // self.userProfileImage.profileID = [user objectForKey:@"id"];
+             }
+             [self.tableView reloadData];
+         }];
+    }
+}
+
+- (void)openFacebookSession {
+    // if the session isn't open, let's open it now and present the login UX to the user
+    [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
+                                                         FBSessionState status,
+                                                         NSError *error) {
+        // and here we make sure to update our UX according to the new session state
+        if (error) {
+            [[[UIAlertView alloc] initWithTitle:@"Failure" message:error.localizedDescription delegate:nil cancelButtonTitle:@"I see" otherButtonTitles:nil] show];
+        }
+        [self populateFacebookUserDetails];
+        [self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]].selected = NO;
+    }];
+}
+
+- (void)closeFacebookSession {
+    [FBSession.activeSession closeAndClearTokenInformation];
+    [FBSession setActiveSession:nil];
 }
 
 #pragma mark - Twitter
@@ -240,88 +235,43 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
 }
 
 - (NSString *)loadAccessToken {
-    return [[NSUserDefaults standardUserDefaults]objectForKey:@"SavedAccessHTTPBody"];
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"SavedAccessHTTPBody"];
 }
 
-- (void) setupTwitterEngine {
+- (void)setupTwitterEngine {
     // twitter engine set up...
     [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
     [[FHSTwitterEngine sharedEngine] setDelegate:self];
     [[FHSTwitterEngine sharedEngine] loadAccessToken];
 }
 
+- (void)openTwitterConnection {
+    [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:self withCompletion:^(BOOL success) {
+        NSString* userName = [[FHSTwitterEngine sharedEngine]loggedInUsername];
+        NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
+        [self.tableView reloadData];
+    }];
+}
+
 #pragma mark - Tumblr
-- (void)loginTumblr
-{
-  [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
-    if (!error) {
-      [NSUserDefaults loginTMWithToken:[TMAPIClient sharedInstance].OAuthToken
-                                secret:[TMAPIClient sharedInstance].OAuthTokenSecret];
-      [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
+
+- (void)openTumblrConnection {
+    [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
         if (!error) {
-          if ([dict isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *userInfoDict = dict[@"user"];
-            NSString *userName = userInfoDict[@"name"];
-            [NSUserDefaults setTMUserName:userName];
-          }
+            [NSUserDefaults loginTMWithToken:[TMAPIClient sharedInstance].OAuthToken
+                                      secret:[TMAPIClient sharedInstance].OAuthTokenSecret];
+            [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
+                if (!error) {
+                    if ([dict isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *userInfoDict = dict[@"user"];
+                        NSString *userName = userInfoDict[@"name"];
+                        [NSUserDefaults setTMUserName:userName];
+                    }
+                }
+                [self.tableView reloadData];
+            }];
         }
-      }];
-    }
-  }];
+    }];
 }
-
-#pragma mark alertView delegate
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
 
 @end
