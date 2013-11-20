@@ -10,6 +10,7 @@
 		18461BAA181F725E009438F7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18461BA9181F725E009438F7 /* SystemConfiguration.framework */; };
 		18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */; };
 		18461BB7181F7B2E009438F7 /* LRTwitterShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */; };
+		184F7860183C6A0300D73488 /* NSUserDefaults+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F785F183C6A0300D73488 /* NSUserDefaults+Addition.m */; };
 		18A5453E1820E5FB00F31E73 /* LRTumblrShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A5453C1820E5FB00F31E73 /* LRTumblrShareViewController.m */; };
 		18ACC928182A13F100978A80 /* LRUIAlertViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ACC927182A13F100978A80 /* LRUIAlertViewDelegate.m */; };
 		69B572F41DA3461E9894E7AB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD843D1A93524B6CABDDDB01 /* libPods.a */; };
@@ -71,6 +72,8 @@
 		18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FHSTwitterEngine.m; sourceTree = "<group>"; };
 		18461BB4181F7B2E009438F7 /* LRTwitterShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTwitterShareViewController.h; sourceTree = "<group>"; };
 		18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTwitterShareViewController.m; sourceTree = "<group>"; };
+		184F785E183C6A0300D73488 /* NSUserDefaults+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Addition.h"; sourceTree = "<group>"; };
+		184F785F183C6A0300D73488 /* NSUserDefaults+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Addition.m"; sourceTree = "<group>"; };
 		18A5453B1820E5FB00F31E73 /* LRTumblrShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTumblrShareViewController.h; sourceTree = "<group>"; };
 		18A5453C1820E5FB00F31E73 /* LRTumblrShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTumblrShareViewController.m; sourceTree = "<group>"; };
 		18ACC926182A13F100978A80 /* LRUIAlertViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUIAlertViewDelegate.h; sourceTree = "<group>"; };
@@ -266,6 +269,8 @@
 				E10FE84F18219D0400A31323 /* LRSettingCell.xib */,
 				18ACC926182A13F100978A80 /* LRUIAlertViewDelegate.h */,
 				18ACC927182A13F100978A80 /* LRUIAlertViewDelegate.m */,
+				184F785E183C6A0300D73488 /* NSUserDefaults+Addition.h */,
+				184F785F183C6A0300D73488 /* NSUserDefaults+Addition.m */,
 			);
 			path = LiveRiotSocial;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				E1BAE439180FB93800895A69 /* LRFriendShareViewController.m in Sources */,
 				E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */,
 				E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */,
+				184F7860183C6A0300D73488 /* NSUserDefaults+Addition.m in Sources */,
 				18ACC928182A13F100978A80 /* LRUIAlertViewDelegate.m in Sources */,
 				E1BAE432180FAB5B00895A69 /* LRSearchViewController.m in Sources */,
 				E1BAE435180FAFC600895A69 /* LRSettingViewController.m in Sources */,

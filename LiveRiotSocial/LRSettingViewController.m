@@ -12,6 +12,8 @@
 #import "FHSTwitterEngine.h"
 #import "LRUIAlertViewDelegate.h"
 #import "LRAppDelegate.h"
+#import "TMAPIClient.h"
+#import "NSUserDefaults+Addition.h"
 
 @interface LRSettingViewController () <FHSTwitterEngineAccessTokenDelegate, UIActionSheetDelegate>
 
@@ -76,7 +78,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -88,7 +90,7 @@
         cell = [LRSettingCell createCell];
     }
     LRSettingCell *settingCell = (LRSettingCell *)cell;
-    settingCell.platformLabel.text = @[@"Facebook", @"Twitter"][indexPath.row];
+    settingCell.platformLabel.text = @[@"Facebook", @"Twitter", @"Tumblr"][indexPath.row];
     settingCell.detailLabel.text = @"";
     
     switch (indexPath.row) {
@@ -105,11 +107,19 @@
             
             break;
         }
+        case 2: {
+            BOOL signedIn = [NSUserDefaults isTMLoggedIn];
+            settingCell.detailLabel.text = signedIn ? [NSUserDefaults getTMUserName] : @"";
+            settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"twitter_logo_hl" : @"twitter_logo"];
+          
+          break;
+        }
+
         default:
             break;
     }
     
-    if (indexPath.row == 1) {
+    if (indexPath.row == 2) {
         settingCell.separatorImageView.hidden = YES;
     } else {
         settingCell.separatorImageView.hidden = NO;
@@ -137,6 +147,7 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
 
 #define FACEBOOK_LOGOUT_ACTION_TAG  1
 #define TWITTER_LOGOUT_ACTION_TAG   2
+#define TUMBLR_LOGOUT_ACTION_TAG    3
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (actionSheet.tag == FACEBOOK_LOGOUT_ACTION_TAG) {
@@ -148,6 +159,10 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
             // clear access token
             [[FHSTwitterEngine sharedEngine] clearAccessToken];
         }
+    } else if (actionSheet.tag == TUMBLR_LOGOUT_ACTION_TAG) {
+      if (buttonIndex != actionSheet.cancelButtonIndex) {
+        [NSUserDefaults logoutTM];
+      }
     }
     [self.tableView reloadData];
 }
@@ -203,6 +218,16 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
                 }];
             }
             break;
+        case 2:
+          if (![NSUserDefaults isTMLoggedIn]) {
+            [self loginTumblr];
+          } else {
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Tumblr?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Tumblr" otherButtonTitles:nil];
+            actionSheet.tag = TUMBLR_LOGOUT_ACTION_TAG;
+            [actionSheet showInView:self.view];
+          }
+          
+          break;
         default:
             break;
     }
@@ -223,6 +248,26 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
     [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
     [[FHSTwitterEngine sharedEngine] setDelegate:self];
     [[FHSTwitterEngine sharedEngine] loadAccessToken];
+}
+
+#pragma mark - Tumblr
+- (void)loginTumblr
+{
+  [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
+    if (!error) {
+      [NSUserDefaults loginTMWithToken:[TMAPIClient sharedInstance].OAuthToken
+                                secret:[TMAPIClient sharedInstance].OAuthTokenSecret];
+      [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
+        if (!error) {
+          if ([dict isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *userInfoDict = dict[@"user"];
+            NSString *userName = userInfoDict[@"name"];
+            [NSUserDefaults setTMUserName:userName];
+          }
+        }
+      }];
+    }
+  }];
 }
 
 #pragma mark alertView delegate

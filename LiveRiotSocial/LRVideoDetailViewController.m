@@ -15,6 +15,7 @@
 #import "LRTwitterShareViewController.h"
 #import "LRTumblrShareViewController.h"
 #import "TMAPIClient.h"
+#import "NSUserDefaults+Addition.h"
 
 @interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate, UIAlertViewDelegate>
 
@@ -144,15 +145,28 @@
 #pragma mark - TumblrSDK
 - (void)authenticateWithTumblr
 {
-  [TMAPIClient sharedInstance].OAuthConsumerKey = @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
-  [TMAPIClient sharedInstance].OAuthConsumerSecret = @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
-  [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
-    if (!error) {
-      [LRTumblrShareViewController showInViewController:self];
-    }
-  }];
-}
+  if ([NSUserDefaults isTMLoggedIn]) {
+    [LRTumblrShareViewController showInViewController:self];
+  } else {
+    [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
+      if (!error) {
+        [NSUserDefaults loginTMWithToken:[TMAPIClient sharedInstance].OAuthToken
+                                  secret:[TMAPIClient sharedInstance].OAuthTokenSecret];
+        [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
+          if (!error) {
+            if ([dict isKindOfClass:[NSDictionary class]]) {
+              NSDictionary *userInfoDict = dict[@"user"];
+              NSString *userName = userInfoDict[@"name"];
+              [NSUserDefaults setTMUserName:userName];
+              [LRTumblrShareViewController showInViewController:self];
+            }
+          }
+        }];
+      }
+    }];
 
+  }
+}
 
 #pragma mark - RDActivityViewControllerDelegate
 

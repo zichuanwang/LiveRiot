@@ -10,6 +10,7 @@
 #import <FacebookSDK/FBSessionTokenCachingStrategy.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "TMAPIClient.h"
+#import "NSUserDefaults+Addition.h"
 
 @implementation LRAppDelegate
 
@@ -79,7 +80,14 @@
             }];
         }
     }
-    
+  
+  [TMAPIClient sharedInstance].OAuthConsumerKey = @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
+  [TMAPIClient sharedInstance].OAuthConsumerSecret = @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
+  if ([NSUserDefaults isTMLoggedIn]) {
+    [TMAPIClient sharedInstance].OAuthToken = [NSUserDefaults getTMToken];
+    [TMAPIClient sharedInstance].OAuthTokenSecret = [NSUserDefaults getTMSecret];
+  }
+  
     return YES;
 }
 							
