@@ -48,7 +48,7 @@
     [self configureNavigationBar];
     [self.textView becomeFirstResponder];
     self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-    
+    [self.textView setText:@"#LiveRiotMusic http://chaos.liveriot.net/videos/548"];
     // twitter engine setup
     [[FHSTwitterEngine sharedEngine]permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
     [[FHSTwitterEngine sharedEngine]setDelegate:self];
@@ -159,7 +159,7 @@
         @autoreleasepool {
             NSString* tweet = self.textView.text;
             // append the twitter photo card link to the tweet
-            tweet = [tweet stringByAppendingString:@" http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"];
+            //tweet = [tweet stringByAppendingString:@" http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"];
             
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             NSError *returnCode = [[FHSTwitterEngine sharedEngine]postTweet:tweet];
@@ -169,8 +169,15 @@
             NSString *message = nil;
             
             if (returnCode) {
+                switch (returnCode.code) {
+                    case 204:
+                        message = @"Whoops!You already tweeted that...";
+                        break;
+                    default:
+                        message = returnCode.description;
+                        break;
+                }
                 title = [NSString stringWithFormat:@"Error %d",returnCode.code];
-                message = returnCode.localizedDescription;
             } else {
                 title = @"Tweet Posted";
                 message = _textView.text;
