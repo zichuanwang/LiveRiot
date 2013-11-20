@@ -110,7 +110,7 @@
         case 2: {
             BOOL signedIn = [NSUserDefaults isTMLoggedIn];
             settingCell.detailLabel.text = signedIn ? [NSUserDefaults getTMUserName] : @"";
-            settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"twitter_logo_hl" : @"twitter_logo"];
+            settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"tumblr_logo_hl" : @"tumblr_logo"];
           
           break;
         }
