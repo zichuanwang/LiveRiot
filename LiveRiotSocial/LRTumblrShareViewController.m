@@ -7,7 +7,6 @@
 //
 
 #import "LRTumblrShareViewController.h"
-#import "LRSocialNetworkManager.h"
 
 @interface LRTumblrShareViewController ()
 

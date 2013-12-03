@@ -7,7 +7,6 @@
 //
 
 #import "LRTwitterShareViewController.h"
-#import "LRSocialNetworkManager.h"
 
 @interface LRTwitterShareViewController () <UIAlertViewDelegate>
 

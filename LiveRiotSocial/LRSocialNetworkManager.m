@@ -176,8 +176,8 @@ static LRSocialNetworkManager *sharedManager = nil;
 
 // Creates the Open Graph Action.
 - (void)postFacebookOpenGraphAction:(NSString *)msg
-                                link:(NSString *)link
-                        completion:(void (^)(NSError *error))completion {
+                               link:(NSString *)link
+                         completion:(void (^)(NSError *error))completion {
     
     FBRequestConnection *requestConnection = [[FBRequestConnection alloc] init];
     requestConnection.errorBehavior = FBRequestConnectionErrorBehaviorRetry | FBRequestConnectionErrorBehaviorReconnectSession;
@@ -234,103 +234,108 @@ static LRSocialNetworkManager *sharedManager = nil;
                                              }];
     
 }
-            
+
 #pragma mark - Twitter
-            
-            - (void)setupTwitter {
-                [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:kTwitterCosumerKey
-                                                                 andSecret:kTwitterCosumerSecret];
-                [[FHSTwitterEngine sharedEngine] loadAccessToken];
-            }
-            
-            - (void)closeTwitterConnection {
-                [[FHSTwitterEngine sharedEngine] clearAccessToken];
-            }
-            
-            - (void)openTwitterConnectionWithController:(UIViewController *)sender
-            callback:(void(^)(BOOL success))callback {
-                [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:sender withCompletion:^(BOOL success) {
-                    NSString* userName = [[FHSTwitterEngine sharedEngine] loggedInUsername];
-                    NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
-                    if (callback) callback(success);
-                }];
-            }
-            
-            - (void)postOnTwitter:(NSString *)post completion:(void (^)(NSError *))completion {
-                dispatch_async(GCDBackgroundThread, ^{
-                    // append the twitter photo card link to the tweet
-                    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-                    NSError *error = [[FHSTwitterEngine sharedEngine] postTweet:post];
-                    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-                    
-                    dispatch_sync(GCDMainThread, ^{
-                        if (completion) (completion(error));
-                    });
-                });
-            }
-            
+
+- (void)setupTwitter {
+    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:kTwitterCosumerKey
+                                                     andSecret:kTwitterCosumerSecret];
+    [[FHSTwitterEngine sharedEngine] loadAccessToken];
+}
+
+- (void)closeTwitterConnection {
+    [[FHSTwitterEngine sharedEngine] clearAccessToken];
+}
+
+- (void)openTwitterConnectionWithController:(UIViewController *)sender
+                                   callback:(void(^)(BOOL success))callback {
+    [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:sender withCompletion:^(BOOL success) {
+        NSString* userName = [[FHSTwitterEngine sharedEngine] loggedInUsername];
+        NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
+        if (callback) callback(success);
+    }];
+}
+
+- (void)postOnTwitter:(NSString *)post completion:(void (^)(NSError *))completion {
+    dispatch_async(GCDBackgroundThread, ^{
+        // append the twitter photo card link to the tweet
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        NSError *error = [[FHSTwitterEngine sharedEngine] postTweet:post];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+        if (error.code == 204) {
+            error = [NSError errorWithDomain:@"" code:204 userInfo:@{NSLocalizedDescriptionKey : @"Whoops!You already tweeted that..."}];
+        }
+        
+        dispatch_sync(GCDMainThread, ^{
+            if (completion) completion(error);
+            NSLog(@"%d, %@", error.code, error.localizedDescription);
+        });
+    });
+}
+
 #pragma mark - Tumblr
-            
-            - (void)postOnTumblr:(NSString *)post
-            link:(NSString *)link
-            completion:(void (^)(NSError *))completion {
-                [[TMAPIClient sharedInstance] link:[NSUserDefaults getTumblrUserLink]
-                                        parameters:@{@"url": link,
-                                                     @"title" : @"Video from LiveRiot",
-                                                     @"description" : post}
-                                          callback:^(id a, NSError *error) {
-                                              if (completion) completion(error);
-                                          }];
+
+- (void)postOnTumblr:(NSString *)post
+                link:(NSString *)link
+          completion:(void (^)(NSError *))completion {
+    [[TMAPIClient sharedInstance] link:[NSUserDefaults getTumblrUserLink]
+                            parameters:@{@"url": link,
+                                         @"title" : @"Video from LiveRiot",
+                                         @"description" : post}
+                              callback:^(id a, NSError *error) {
+                                  if (completion) completion(error);
+                              }];
+}
+
+- (void)setupTumblr {
+    [TMAPIClient sharedInstance].OAuthConsumerKey = kTumblrCosumerKey;
+    [TMAPIClient sharedInstance].OAuthConsumerSecret = kTumblrCosumerSecret;
+    if ([self checkPlatformLoginStatus:SocialNetworkTypeTumblr]) {
+        [TMAPIClient sharedInstance].OAuthToken = [NSUserDefaults getTumblrTokenKey];
+        [TMAPIClient sharedInstance].OAuthTokenSecret = [NSUserDefaults getTumblrTokenSecret];
+    }
+}
+
+- (void)closeTumblrConnection {
+    [NSUserDefaults setTumblrTokenKey:nil];
+    [NSUserDefaults setTumblrTokenSecret:nil];
+    
+    NSHTTPCookieStorage *cookieStorage =  [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie  *cookie in [cookieStorage cookies]) {
+        NSLog(@"%@, %@", cookie.name, cookie.domain);
+        if ([cookie.domain rangeOfString:@"tumblr"].location != NSNotFound) {
+            NSLog(@"%@", cookie.name);
+            [cookieStorage deleteCookie:cookie];
+        }
+    }
+}
+
+- (void)populateTumblrUserDetailsWithCallback:(void(^)(NSError *))callback {
+    [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
+        if (!error) {
+            if ([dict isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *userInfoDict = dict[@"user"];
+                NSString *userName = userInfoDict[@"name"];
+                [NSUserDefaults setTumblrUserName:userName];
             }
+        }
+        if (callback) callback(error);
+    }];
+}
+
+- (void)openTumblrConnectionWithCallback:(void(^)(NSError *))callback {
+    [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
+        if (!error) {
+            [NSUserDefaults setTumblrTokenKey:[TMAPIClient sharedInstance].OAuthToken];
+            [NSUserDefaults setTumblrTokenSecret:[TMAPIClient sharedInstance].OAuthTokenSecret];
             
-            - (void)setupTumblr {
-                [TMAPIClient sharedInstance].OAuthConsumerKey = kTumblrCosumerKey;
-                [TMAPIClient sharedInstance].OAuthConsumerSecret = kTumblrCosumerSecret;
-                if ([self checkPlatformLoginStatus:SocialNetworkTypeTumblr]) {
-                    [TMAPIClient sharedInstance].OAuthToken = [NSUserDefaults getTumblrTokenKey];
-                    [TMAPIClient sharedInstance].OAuthTokenSecret = [NSUserDefaults getTumblrTokenSecret];
-                }
-            }
-            
-            - (void)closeTumblrConnection {
-                [NSUserDefaults setTumblrTokenKey:nil];
-                [NSUserDefaults setTumblrTokenSecret:nil];
-                
-                NSHTTPCookieStorage *cookieStorage =  [NSHTTPCookieStorage sharedHTTPCookieStorage];
-                for (NSHTTPCookie  *cookie in [cookieStorage cookies]) {
-                    NSLog(@"%@, %@", cookie.name, cookie.domain);
-                    if ([cookie.domain rangeOfString:@"tumblr"].location != NSNotFound) {
-                        NSLog(@"%@", cookie.name);
-                        [cookieStorage deleteCookie:cookie];
-                    }
-                }
-            }
-            
-            - (void)populateTumblrUserDetailsWithCallback:(void(^)(NSError *))callback {
-                [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
-                    if (!error) {
-                        if ([dict isKindOfClass:[NSDictionary class]]) {
-                            NSDictionary *userInfoDict = dict[@"user"];
-                            NSString *userName = userInfoDict[@"name"];
-                            [NSUserDefaults setTumblrUserName:userName];
-                        }
-                    }
-                    if (callback) callback(error);
-                }];
-            }
-            
-            - (void)openTumblrConnectionWithCallback:(void(^)(NSError *))callback {
-                [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
-                    if (!error) {
-                        [NSUserDefaults setTumblrTokenKey:[TMAPIClient sharedInstance].OAuthToken];
-                        [NSUserDefaults setTumblrTokenSecret:[TMAPIClient sharedInstance].OAuthTokenSecret];
-                        
-                        [self populateTumblrUserDetailsWithCallback:callback];
-                    } else {
-                        NSLog(@"%@", error.localizedDescription);
-                        if (callback) callback(error);
-                    }
-                }];
-            }
-            
-            @end
+            [self populateTumblrUserDetailsWithCallback:callback];
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+            if (callback) callback(error);
+        }
+    }];
+}
+
+@end
