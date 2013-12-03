@@ -8,14 +8,9 @@
 
 #import "LRSettingViewController.h"
 #import "LRSettingCell.h"
-#import <FacebookSDK/FacebookSDK.h>
-#import "FHSTwitterEngine.h"
-#import "LRUIAlertViewDelegate.h"
-#import "LRAppDelegate.h"
-#import "TMAPIClient.h"
-#import "NSUserDefaults+Addition.h"
+#import "LRSocialNetworkManager.h"
 
-@interface LRSettingViewController () <FHSTwitterEngineAccessTokenDelegate, UIActionSheetDelegate>
+@interface LRSettingViewController () <UIActionSheetDelegate>
 
 @end
 
@@ -57,8 +52,6 @@
     
     self.tableView.tableHeaderView = topView;
     self.tableView.tableFooterView = bottomView;
-    
-    [self setupTwitterEngine];
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,23 +86,20 @@
     settingCell.platformLabel.text = @[@"Facebook", @"Twitter", @"Tumblr"][indexPath.row];
     settingCell.detailLabel.text = @"";
     
+    BOOL signedIn = [[LRSocialNetworkManager sharedManager] checkPlatformLoginStatus:(SocialNetworkType)indexPath.row];
+    
     switch (indexPath.row) {
         case 0: {
-            BOOL signedIn = FBSession.activeSession.isOpen;
-            settingCell.detailLabel.text = signedIn ? [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentFacebookUserName] : @"";
+            
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"facebook_logo_hl" : @"facebook_logo"];
             break;
         }
         case 1: {
-            BOOL signedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
-            settingCell.detailLabel.text = signedIn ? [[FHSTwitterEngine sharedEngine] loggedInUsername] : @"";
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"twitter_logo_hl" : @"twitter_logo"];
             
             break;
         }
         case 2: {
-            BOOL signedIn = [NSUserDefaults isTMLoggedIn];
-            settingCell.detailLabel.text = signedIn ? [NSUserDefaults getTMUserName] : @"";
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"tumblr_logo_hl" : @"tumblr_logo"];
             
             break;
@@ -118,6 +108,8 @@
         default:
             break;
     }
+    
+    settingCell.detailLabel.text = signedIn ? [[LRSocialNetworkManager sharedManager] userNameForPlatform:(SocialNetworkType)indexPath.row] : @"";
     
     if (indexPath.row == 2) {
         settingCell.separatorImageView.hidden = YES;
@@ -136,26 +128,28 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (actionSheet.tag == FACEBOOK_LOGOUT_ACTION_TAG) {
         if (buttonIndex != actionSheet.cancelButtonIndex) {
-            [self closeFacebookSession];
+            [[LRSocialNetworkManager sharedManager] closeFacebookConnection];
         }
     } else if (actionSheet.tag == TWITTER_LOGOUT_ACTION_TAG) {
         if (buttonIndex != actionSheet.cancelButtonIndex) {
-            // clear access token
-            [[FHSTwitterEngine sharedEngine] clearAccessToken];
+            [[LRSocialNetworkManager sharedManager] closeTwitterConnection];
         }
     } else if (actionSheet.tag == TUMBLR_LOGOUT_ACTION_TAG) {
         if (buttonIndex != actionSheet.cancelButtonIndex) {
-            [NSUserDefaults logoutTM];
+            [[LRSocialNetworkManager sharedManager] closeTumblrConnection];
         }
     }
     [self.tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BOOL signedIn = [[LRSocialNetworkManager sharedManager] checkPlatformLoginStatus:(SocialNetworkType)indexPath.row];
     switch (indexPath.row) {
         case 0:
-            if (![FBSession activeSession].isOpen) {
-                [self openFacebookSession];
+            if (!signedIn) {
+                [[LRSocialNetworkManager sharedManager] openFacebookConnectionWithCallback:^(NSError *error) {
+                    [self.tableView reloadData];
+                }];
             } else {
                 UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Facebook?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Facebook" otherButtonTitles:nil];
                 actionSheet.tag = FACEBOOK_LOGOUT_ACTION_TAG;
@@ -164,8 +158,7 @@
             
             break;
         case 1:
-            
-            if ([[FHSTwitterEngine sharedEngine] isAuthorized] == YES) {
+            if (signedIn) {
                 // the access token is authorzied
                 // ask user to unlink twitter or not.
                 UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Twitter?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Twitter" otherButtonTitles:nil];
@@ -173,12 +166,16 @@
                 [actionSheet showInView:self.view];
             } else {
                 // the access token is not existed or invalid, authenticate user with OAuth
-                [self openTwitterConnection];
+                [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:self callback:^(NSError *error) {
+                    [self.tableView reloadData];
+                }];
             }
             break;
         case 2:
-            if (![NSUserDefaults isTMLoggedIn]) {
-                [self openTumblrConnection];
+            if (!signedIn) {
+                [[LRSocialNetworkManager sharedManager] openTumblrConnectionWithCallback:^(NSError *error) {
+                    [self.tableView reloadData];
+                }];
             } else {
                 UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Tumblr?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Tumblr" otherButtonTitles:nil];
                 actionSheet.tag = TUMBLR_LOGOUT_ACTION_TAG;
@@ -189,89 +186,6 @@
         default:
             break;
     }
-}
-
-#pragma mark - Facebook
-
-static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
-
-- (void)populateFacebookUserDetails {
-    if (FBSession.activeSession.isOpen) {
-        [[FBRequest requestForMe] startWithCompletionHandler:
-         ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-             if (!error) {
-                 [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:kCurrentFacebookUserName];
-                 [[NSUserDefaults standardUserDefaults] synchronize];
-                 // self.userProfileImage.profileID = [user objectForKey:@"id"];
-             }
-             [self.tableView reloadData];
-         }];
-    }
-}
-
-- (void)openFacebookSession {
-    // if the session isn't open, let's open it now and present the login UX to the user
-    [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
-                                                         FBSessionState status,
-                                                         NSError *error) {
-        // and here we make sure to update our UX according to the new session state
-        if (error) {
-            [[[UIAlertView alloc] initWithTitle:@"Failure" message:error.localizedDescription delegate:nil cancelButtonTitle:@"I see" otherButtonTitles:nil] show];
-        }
-        [self populateFacebookUserDetails];
-        [self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]].selected = NO;
-    }];
-}
-
-- (void)closeFacebookSession {
-    [FBSession.activeSession closeAndClearTokenInformation];
-    [FBSession setActiveSession:nil];
-}
-
-#pragma mark - Twitter
-
-- (void)storeAccessToken:(NSString *)accessToken {
-    [[NSUserDefaults standardUserDefaults]setObject:accessToken forKey:@"SavedAccessHTTPBody"];
-}
-
-- (NSString *)loadAccessToken {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"SavedAccessHTTPBody"];
-}
-
-- (void)setupTwitterEngine {
-    // twitter engine set up...
-    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
-    [[FHSTwitterEngine sharedEngine] setDelegate:self];
-    [[FHSTwitterEngine sharedEngine] loadAccessToken];
-}
-
-- (void)openTwitterConnection {
-    [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:self withCompletion:^(BOOL success) {
-        NSString* userName = [[FHSTwitterEngine sharedEngine]loggedInUsername];
-        NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
-        [self.tableView reloadData];
-    }];
-}
-
-#pragma mark - Tumblr
-
-- (void)openTumblrConnection {
-    [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
-        if (!error) {
-            [NSUserDefaults loginTMWithToken:[TMAPIClient sharedInstance].OAuthToken
-                                      secret:[TMAPIClient sharedInstance].OAuthTokenSecret];
-            [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
-                if (!error) {
-                    if ([dict isKindOfClass:[NSDictionary class]]) {
-                        NSDictionary *userInfoDict = dict[@"user"];
-                        NSString *userName = userInfoDict[@"name"];
-                        [NSUserDefaults setTMUserName:userName];
-                    }
-                }
-                [self.tableView reloadData];
-            }];
-        }
-    }];
 }
 
 @end

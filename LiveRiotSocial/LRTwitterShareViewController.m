@@ -13,116 +13,26 @@
 #import "Social/SLServiceTypes.h"
 
 
-@interface LRTwitterShareViewController () <FHSTwitterEngineAccessTokenDelegate, UIAlertViewDelegate>
+@interface LRTwitterShareViewController () <UIAlertViewDelegate>
 
 @end
 
 @implementation LRTwitterShareViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-+ (void)showInViewController:(UIViewController *)viewController {
-    LRTwitterShareViewController *loginViewController = [[LRTwitterShareViewController alloc] init];
-    CRNavigationController *nav = [[CRNavigationController alloc] initWithRootViewController:loginViewController];
-    [viewController presentViewController:nav animated:YES completion:nil];
-    
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self configureNavigationBar];
-    [self.textView becomeFirstResponder];
-    self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-    [self.textView setText:@"#LiveRiotMusic http://chaos.liveriot.net/videos/548"];
-    // twitter engine setup
-    [[FHSTwitterEngine sharedEngine]permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
-    [[FHSTwitterEngine sharedEngine]setDelegate:self];
+    [self.textView setText:[NSString stringWithFormat:@"#LiveRiotMusic %@", self.shareLink]];
 }
-
-- (void)viewWillAppear:(BOOL)animated {
-    [[FHSTwitterEngine sharedEngine]loadAccessToken];
-    NSString* userName = [[FHSTwitterEngine sharedEngine]loggedInUsername];
-    if (userName.length > 0) {
-        // display the loggedIn UserName in the textView
-//        [_textView setText:userName];
-//        [_textView setTextColor:[UIColor lightGrayColor]];
-    } else {
-        // user needs to log in twitter by OAuth,
-        // due to the fact that user may use built-in twitter account, display no text here for now.
-//        [_textView setText:@""];
-//        [_textView setTextColor:[UIColor lightGrayColor]];
-    }
-}
-
-// clear text when begin editing
--(BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    textView.text=@"";
-    _textView.textColor = [UIColor blackColor];
-    return YES;
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (BOOL)automaticallyAdjustsScrollViewInsets {
-    return NO;
-}
-
-#pragma mark - Handle notification
-
-- (void)handleKeyboardWillShowNotification:(NSNotification*)notification {
-    UIEdgeInsets insets = self.textView.contentInset;
-    insets.bottom += [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
-    self.textView.contentInset = insets;
-    
-    insets = self.textView.scrollIndicatorInsets;
-    insets.bottom += [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
-    self.textView.scrollIndicatorInsets = insets;
-}
-
-- (void)handleKeyboardWillHideNotification:(NSNotification*)notification {
-    UIEdgeInsets insets = self.textView.contentInset;
-    insets.bottom -= [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
-    self.textView.contentInset = insets;
-    
-    insets = self.textView.scrollIndicatorInsets;
-    insets.bottom -= [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
-    self.textView.scrollIndicatorInsets = insets;
-}
-
-#pragma mark - Logic
 
 #pragma mark - UI
 
-- (void) configureNavigationBar {
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:234 / 255. green:82/255. blue:81/255. alpha:1.];
+- (void)configureNavigationBar {
+    [super configureNavigationBar];
     self.navigationItem.title = @"Share to Twitter";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(didClickCancelButton:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStyleBordered target:self action:@selector(didClickPostButton:)];
 }
 
 #pragma mark - Action
-
-- (void)didClickCancelButton:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (void)didClickPostButton:(UIButton *)sender {
     
@@ -153,13 +63,12 @@
 
 // Post tweets to Twitter after OAuth success
 - (void)postTweets {
-    [_textView resignFirstResponder];
+    [self.textView resignFirstResponder];
     
     dispatch_async(GCDBackgroundThread, ^{
         @autoreleasepool {
             NSString* tweet = self.textView.text;
             // append the twitter photo card link to the tweet
-            //tweet = [tweet stringByAppendingString:@" http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"];
             
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             NSError *returnCode = [[FHSTwitterEngine sharedEngine]postTweet:tweet];
@@ -177,10 +86,10 @@
                         message = returnCode.description;
                         break;
                 }
-                title = [NSString stringWithFormat:@"Error %d",returnCode.code];
+                title = [NSString stringWithFormat:@"Error %ld",(long)returnCode.code];
             } else {
                 title = @"Tweet Posted";
-                message = _textView.text;
+                message = self.textView.text;
             }
             
             dispatch_sync(GCDMainThread, ^{

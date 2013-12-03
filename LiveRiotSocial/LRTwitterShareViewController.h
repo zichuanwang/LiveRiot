@@ -7,14 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LRShareViewController.h"
 
-@interface LRTwitterShareViewController : UIViewController {
-    CGRect _oldRect;
-    NSTimer *_caretVisibilityTimer;
-}
-
-@property (weak, nonatomic) IBOutlet UITextView *textView;
-
-+ (void) showInViewController:(UIViewController *) viewController;
+@interface LRTwitterShareViewController : LRShareViewController
 
 @end

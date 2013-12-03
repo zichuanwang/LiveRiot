@@ -13,128 +13,23 @@
 
 @interface LRFacebookShareViewController ()
 
-@property (nonatomic, weak) IBOutlet UITextView *textView;
-@property (nonatomic, weak) IBOutlet UIImageView *shareImageView;
-
-@property (nonatomic, copy) NSString *shareLink;
-@property (nonatomic, copy) NSString *shareImageName;
-
 @end
 
 @implementation LRFacebookShareViewController
 
-+ (void)showInViewController:(UIViewController *)viewController
-                   shareLink:(NSString *)shareLink
-              shareImageName:(NSString *)imageName {
-    
-    if (FBSession.activeSession.isOpen) {
-        LRFacebookShareViewController *loginViewController = [[LRFacebookShareViewController alloc] init];
-        loginViewController.shareLink = shareLink;
-        loginViewController.shareImageName = imageName;
-        
-        CRNavigationController *nav = [[CRNavigationController alloc] initWithRootViewController:loginViewController];
-        [viewController presentViewController:nav animated:YES completion:nil];
-    } else {
-        // Facebook SDK * pro-tip *
-        // Support sharing even if the user isn't logged in with Facebook, by using the share dialog
-        [LRFacebookShareViewController presentShareDialogForVideoInfo:shareLink];
-    }
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self configureNavigationBar];
-    [self.textView becomeFirstResponder];
-    self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-    
-    self.shareImageView.image = [UIImage imageNamed:self.shareImageName];
 }
-
-- (BOOL)automaticallyAdjustsScrollViewInsets {
-    return NO;
-}
-
-#pragma mark - Handle notification
-
-- (void)handleKeyboardWillShowNotification:(NSNotification*)notification {
-    UIEdgeInsets insets = self.textView.contentInset;
-    insets.bottom += [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
-    self.textView.contentInset = insets;
-    
-    insets = self.textView.scrollIndicatorInsets;
-    insets.bottom += [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
-    self.textView.scrollIndicatorInsets = insets;
-}
-
-- (void)handleKeyboardWillHideNotification:(NSNotification*)notification {
-    UIEdgeInsets insets = self.textView.contentInset;
-    insets.bottom -= [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
-    self.textView.contentInset = insets;
-    
-    insets = self.textView.scrollIndicatorInsets;
-    insets.bottom -= [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size.height;
-    self.textView.scrollIndicatorInsets = insets;
-}
-
-#pragma mark - UITextFiledDelegate
-
-//- (void)textViewDidBeginEditing:(UITextView *)textView {
-//    _oldRect = [self.textView caretRectForPosition:self.textView.selectedTextRange.end];
-//
-//    _caretVisibilityTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(_scrollCaretToVisible) userInfo:nil repeats:YES];
-//}m
-//
-//- (void)textViewDidEndEditing:(UITextView *)textView {
-//    [_caretVisibilityTimer invalidate];
-//    _caretVisibilityTimer = nil;
-//}
-//
-//- (void)_scrollCaretToVisible {
-//    //This is where the cursor is at.
-//    CGRect caretRect = [self.textView caretRectForPosition:self.textView.selectedTextRange.end];
-//
-//    if(CGRectEqualToRect(caretRect, _oldRect))
-//        return;
-//
-//    _oldRect = caretRect;
-//
-//    //This is the visible rect of the textview.
-//    CGRect visibleRect = self.textView.bounds;
-//    visibleRect.size.height -= (self.textView.contentInset.top + self.textView.contentInset.bottom);
-//    visibleRect.origin.y = self.textView.contentOffset.y;
-//
-//    //We will scroll only if the caret falls outside of the visible rect.
-//    if(!CGRectContainsRect(visibleRect, caretRect))
-//    {
-//        CGPoint newOffset = self.textView.contentOffset;
-//
-//        newOffset.y = MAX((caretRect.origin.y + caretRect.size.height) - visibleRect.size.height + 5, 0);
-//
-//        [self.textView setContentOffset:newOffset animated:YES];
-//    }
-//}
-
-#pragma mark - Logic
 
 #pragma mark - UI
 
 - (void)configureNavigationBar {
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:234 / 255. green:82 / 255. blue:81 / 255. alpha:1.];
-    
+    [super configureNavigationBar];
     self.navigationItem.title = @"Share to Facebook";
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(didClickCancelButton:)];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStyleBordered target:self action:@selector(didClickPostButton:)];
 }
 
 #pragma mark - Action
-
-- (void)didClickCancelButton:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (void)didClickPostButton:(UIButton *)sender {
     
@@ -258,8 +153,7 @@
                                                                                  message:[NSString stringWithFormat:@"%@", error]
                                                                                 delegate:nil
                                                                        cancelButtonTitle:@"I See"
-                                                                       otherButtonTitles:nil]
-                                                      show];
+                                                                       otherButtonTitles:nil] show];
                                                  }
                                              }];
     

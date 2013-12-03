@@ -66,7 +66,7 @@
     }
     
     // Get the item
-    int index = [[activity objectForKey:@"index"] integerValue];
+    int index = [[activity objectForKey:@"index"] intValue];
     id item = nil;
     
     if (index < [items count]) {

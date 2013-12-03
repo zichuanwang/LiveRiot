@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LRShareViewController.h"
 
-@interface LRTumblrShareViewController : UIViewController
-
-+ (void)showInViewController:(UIViewController *)viewController;
+@interface LRTumblrShareViewController : LRShareViewController
 
 @end

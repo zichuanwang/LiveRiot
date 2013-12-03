@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSUserDefaults (Addition)
+@interface NSUserDefaults (SocialNetwork)
 
 + (NSString *)getTMToken;
 + (NSString *)getTMSecret;

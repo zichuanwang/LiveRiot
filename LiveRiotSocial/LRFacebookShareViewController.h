@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LRShareViewController.h"
 
-@interface LRFacebookShareViewController : UIViewController {
-}
+@interface LRFacebookShareViewController : LRShareViewController
 
-+ (void)showInViewController:(UIViewController *)viewController
-                   shareLink:(NSString *)shareLink
-              shareImageName:(NSString *)imageName;
++ (void)presentShareDialogForVideoInfo:(NSString *)shareLink;
 
 @end

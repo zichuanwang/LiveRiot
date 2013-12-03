@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LRFacebookShareViewController">
             <connections>
-                <outlet property="shareImageView" destination="ubn-Qh-rCF" id="CVQ-jo-b8A"/>
+                <outlet property="imageView" destination="ubn-Qh-rCF" id="sm2-Yo-T8z"/>
                 <outlet property="textView" destination="PSx-l7-DWp" id="2Rr-IT-iXl"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>

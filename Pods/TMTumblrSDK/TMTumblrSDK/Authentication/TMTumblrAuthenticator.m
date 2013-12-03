@@ -60,7 +60,7 @@ NSDictionary *formEncodedDataToDictionary(NSData *data);
             return;
         }
         
-        int statusCode = ((NSHTTPURLResponse *)response).statusCode;
+        NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
         
         if (statusCode == 200) {
             self.authCallback = callback;
@@ -80,7 +80,7 @@ NSDictionary *formEncodedDataToDictionary(NSData *data);
 
         } else {
             if (callback)
-                callback(nil, nil, errorWithStatusCode(statusCode));
+                callback(nil, nil, errorWithStatusCode((int)statusCode));
         }
     };
     
@@ -123,7 +123,7 @@ NSDictionary *formEncodedDataToDictionary(NSData *data);
                 self.authCallback(nil, nil, error);
             
         } else {
-            int statusCode = ((NSHTTPURLResponse *)response).statusCode;
+            NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
             
             if (self.authCallback) {
                 if (statusCode == 200) {
@@ -132,7 +132,7 @@ NSDictionary *formEncodedDataToDictionary(NSData *data);
                     self.authCallback(responseParameters[@"oauth_token"], responseParameters[@"oauth_token_secret"], nil);
                     
                 } else {
-                    self.authCallback(nil, nil, errorWithStatusCode(statusCode));
+                    self.authCallback(nil, nil, errorWithStatusCode((int)statusCode));
                 }
             }
         }
@@ -166,7 +166,7 @@ NSDictionary *formEncodedDataToDictionary(NSData *data);
             return;
         }
         
-        int statusCode = ((NSHTTPURLResponse *)response).statusCode;
+        NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
         
         if (statusCode == 200) {
             NSDictionary *responseParameters = formEncodedDataToDictionary(data);
@@ -178,7 +178,7 @@ NSDictionary *formEncodedDataToDictionary(NSData *data);
             
         } else {
             if (callback)
-                callback(nil, nil, errorWithStatusCode(statusCode));
+                callback(nil, nil, errorWithStatusCode((int)statusCode));
         }
     };
     

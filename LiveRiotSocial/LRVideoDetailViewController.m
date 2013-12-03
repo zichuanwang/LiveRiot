@@ -7,17 +7,9 @@
 //
 
 #import "LRVideoDetailViewController.h"
-#import "RDActivityViewController.h"
-#import "LRFacebookShareViewController.h"
-#import <Social/Social.h>
-#import "LRFriendShareViewController.h"
-#import "FHSTwitterEngine.h"
-#import "LRTwitterShareViewController.h"
-#import "LRTumblrShareViewController.h"
-#import "TMAPIClient.h"
-#import "NSUserDefaults+Addition.h"
+#import "LRShareViewController.h"
 
-@interface LRVideoDetailViewController () <UIActionSheetDelegate, RDActivityViewControllerDelegate, UIAlertViewDelegate>
+@interface LRVideoDetailViewController () <UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
@@ -84,96 +76,12 @@
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                          destructiveButtonTitle:nil
-                                              otherButtonTitles:@"Share to Friends", @"Share to Facebook", @"Share to Twitter", @"Share to Tumblr", nil];
+                                              otherButtonTitles:@"Share to Facebook", @"Share to Twitter", @"Share to Tumblr", nil];
     [sheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-//        RDActivityViewController *vc = [[RDActivityViewController alloc] initWithDelegate:self];
-//        vc.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll, UIActivityTypeCopyToPasteboard, UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeAirDrop];
-//        [self presentViewController:vc animated:YES completion:nil];
-        [LRFriendShareViewController showInViewController:self];
-    } else if (buttonIndex == 1) {
-        // Facebook share view
-        [LRFacebookShareViewController showInViewController:self shareLink:self.videoLink shareImageName:self.previewImageName];
-    } else if (buttonIndex == 2) {
-        // Twitter share view
-        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] == YES) {
-            // the built-in twitter service is accessible and has at least one account set up
-            [self postTweetByTwitterSheet];
-        } else {
-            [LRTwitterShareViewController showInViewController:self];
-        }
-    } else if (buttonIndex == 3) {
-      [self authenticateWithTumblr];
-    }
-}
-
-#pragma mark - FHSTwitterEngineAccessTokenDelegate
-
-// post tweet by twitter sheet
-- (void)postTweetByTwitterSheet {
-    //  Create an instance of the Tweet Sheet
-    SLComposeViewController *tweetSheet = [SLComposeViewController
-                                           composeViewControllerForServiceType:SLServiceTypeTwitter];
-    
-    // Sets the completion handler.  Note that we don't know which thread the
-    // block will be called on, so we need to ensure that any required UI
-    // updates occur on the main queue
-    tweetSheet.completionHandler = ^(SLComposeViewControllerResult result) {
-        switch(result) {
-                //  This means the user cancelled without sending the Tweet
-            case SLComposeViewControllerResultCancelled:
-                break;
-                //  This means the user hit 'Send'
-            case SLComposeViewControllerResultDone:
-                break;
-        }
-    };
-    // add the twitter photo card url to the tweet
-    //[tweetSheet addURL:[NSURL URLWithString:@"http://greenbay.usc.edu/csci577/fall2013/projects/team04/twittercard.html"]];
-    //  Set the initial body of the Tweet
-    [tweetSheet setInitialText:@"#LiveRiotMusic http://chaos.liveriot.net/videos/548"];
-    
-    //  Presents the Tweet Sheet to the user
-    [self presentViewController:tweetSheet animated:NO completion:^{
-        NSLog(@"Tweet sheet has been presented.");
-    }];
-}
-
-#pragma mark - TumblrSDK
-- (void)authenticateWithTumblr
-{
-  if ([NSUserDefaults isTMLoggedIn]) {
-    [LRTumblrShareViewController showInViewController:self];
-  } else {
-    [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
-      if (!error) {
-        [NSUserDefaults loginTMWithToken:[TMAPIClient sharedInstance].OAuthToken
-                                  secret:[TMAPIClient sharedInstance].OAuthTokenSecret];
-        [[TMAPIClient sharedInstance] userInfo:^(id dict, NSError *error) {
-          if (!error) {
-            if ([dict isKindOfClass:[NSDictionary class]]) {
-              NSDictionary *userInfoDict = dict[@"user"];
-              NSString *userName = userInfoDict[@"name"];
-              [NSUserDefaults setTMUserName:userName];
-              [LRTumblrShareViewController showInViewController:self];
-            }
-          }
-        }];
-      }
-    }];
-
-  }
-}
-
-#pragma mark - RDActivityViewControllerDelegate
-
-- (NSArray *)activityViewController:(NSArray *)activityViewController itemsForActivityType:(NSString *)activityType {
-    NSString *defaultText = [NSString stringWithFormat:@"Check this out! http://youtu.be/jXhdX9r-fi4"];
-    UIImage *defaultImage = [UIImage imageNamed:@"livemusic.jpg"];
-    return @[defaultText, defaultImage];
+    [LRShareViewController showInViewController:self shareLink:self.videoLink shareImageName:self.previewImageName socialNetworkType:(SocialNetworkType)buttonIndex];
 }
 
 @end

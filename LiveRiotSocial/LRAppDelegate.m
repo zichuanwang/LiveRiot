@@ -10,7 +10,9 @@
 #import <FacebookSDK/FBSessionTokenCachingStrategy.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "TMAPIClient.h"
-#import "NSUserDefaults+Addition.h"
+#import "NSUserDefaults+SocialNetwork.h"
+
+#import "LRSocialNetworkManager.h"
 
 @implementation LRAppDelegate
 
@@ -63,6 +65,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    // TODO:
+    [LRSocialNetworkManager sharedManager];
     
     if (!FBSession.activeSession.isOpen) {
         // create a fresh session object

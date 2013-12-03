@@ -1,12 +1,12 @@
 //
-//  NSUserDefaults+Addition.m
+//  NSUserDefaults+SocialNetwork.m
 //  LiveRiotSocial
 //
 //  Created by Gabriel Yeah on 13-11-19.
 //  Copyright (c) 2013年 LiveRiot. All rights reserved.
 //
 
-#import "NSUserDefaults+Addition.h"
+#import "NSUserDefaults+SocialNetwork.h"
 
 #define kTMTokenKey       @"kTMTokenKey"
 #define kTMTokenSecret    @"kTMTokenSecret"
@@ -14,7 +14,7 @@
 #define kTMUserName       @"kTMUserName"
 #define kTMUserLink       @"kTMUserLink"
 
-@implementation NSUserDefaults (Addition)
+@implementation NSUserDefaults (SocialNetwork)
 
 + (NSString *)getTMToken
 {
