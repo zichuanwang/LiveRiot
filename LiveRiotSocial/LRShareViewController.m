@@ -79,6 +79,7 @@
             if (!signedIn) {
                 // You can unquote this method to post in Facebook app
                 // [LRFacebookShareViewController presentShareDialogForVideoInfo:shareLink];
+                [[LRSocialNetworkManager sharedManager] openFacebookConnectionWithCallback:nil];
             } else {
                 vc = [[LRFacebookShareViewController alloc] init];
             }
@@ -88,7 +89,7 @@
         case SocialNetworkTypeTwitter:
             
             if (!signedIn) {
-                [LRFacebookShareViewController presentShareDialogForVideoInfo:shareLink];
+                [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:viewController callback:nil];
             } else {
                 vc = [[LRTwitterShareViewController alloc] init];
             }

@@ -11,6 +11,4 @@
 
 @interface LRFacebookShareViewController : LRShareViewController
 
-+ (void)presentShareDialogForVideoInfo:(NSString *)shareLink;
-
 @end

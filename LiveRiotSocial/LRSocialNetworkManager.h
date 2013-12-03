@@ -26,7 +26,7 @@ typedef enum SocialNetworkType : NSUInteger {
 - (void)closeFacebookConnection;
 
 - (void)openTwitterConnectionWithController:(UIViewController *)sender
-                                   callback:(void(^)(NSError *))callback;
+                                   callback:(void(^)(BOOL success))callback;
 
 - (void)closeTwitterConnection;
 
@@ -37,5 +37,17 @@ typedef enum SocialNetworkType : NSUInteger {
 - (NSString *)userNameForPlatform:(SocialNetworkType)type;
 
 - (void)setup;
+
+- (void)postOnTwitter:(NSString *)post completion:(void (^)(NSError *))completion;
+
+- (void)postOnTumblr:(NSString *)post
+                link:(NSString *)link
+          completion:(void (^)(NSError *))completion;
+
++ (void)presentFacebookShareDialogWithLink:(NSString *)shareLink;
+
+- (void)postOnFacebook:(NSString *)post
+                  link:(NSString *)link
+            completion:(void (^)(NSError *))completion;
 
 @end

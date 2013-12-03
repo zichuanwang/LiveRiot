@@ -162,7 +162,7 @@
                 [actionSheet showInView:self.view];
             } else {
                 // the access token is not existed or invalid, authenticate user with OAuth
-                [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:self callback:^(NSError *error) {
+                [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:self callback:^(BOOL success) {
                     [self.tableView reloadData];
                 }];
             }
