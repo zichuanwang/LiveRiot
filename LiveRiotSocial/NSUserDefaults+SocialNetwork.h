@@ -1,5 +1,5 @@
 //
-//  NSUserDefaults+Addition.h
+//  NSUserDefaults+SocialNetwork.h
 //  LiveRiotSocial
 //
 //  Created by Gabriel Yeah on 13-11-19.
@@ -10,19 +10,15 @@
 
 @interface NSUserDefaults (SocialNetwork)
 
-+ (NSString *)getTMToken;
-+ (NSString *)getTMSecret;
-+ (BOOL)isTMLoggedIn;
++ (NSString *)getFacebookUserName;
++ (void)setFacebookUserName:(NSString *)userName;
 
-+ (void)setTMToken:(NSString *)token;
-+ (void)setTMSecret:(NSString *)secret;
-+ (void)setTMLoggedIn:(BOOL)loggedIn;
-
-+ (void)loginTMWithToken:(NSString *)token secret:(NSString *)secret;
-+ (void)logoutTM;
-
-+ (NSString *)getTMUserName;
-+ (NSString *)getTMLink;
-+ (void)setTMUserName:(NSString *)userName;
++ (NSString *)getTumblrTokenKey;
++ (NSString *)getTumblrTokenSecret;
++ (void)setTumblrTokenKey:(NSString *)key;
++ (void)setTumblrTokenSecret:(NSString *)secret;
++ (NSString *)getTumblrUserName;
++ (NSString *)getTumblrUserLink;
++ (void)setTumblrUserName:(NSString *)userName;
 
 @end

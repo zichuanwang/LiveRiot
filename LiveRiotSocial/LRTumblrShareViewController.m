@@ -30,15 +30,11 @@
 #pragma mark - Actions
 
 - (void)didClickPostButton:(UIButton *)sender {
-  NSLog(@"token %@", [TMAPIClient sharedInstance].OAuthToken);
-  NSLog(@"key %@", [TMAPIClient sharedInstance].OAuthTokenSecret);
-  NSLog(@"%@", [NSUserDefaults getTMLink]);
-  
   NSString *content = self.textView.text;
   if (!content || [content isEqualToString:@""]) {
     content = @"Check it out!";
   }
-  [[TMAPIClient sharedInstance] link:[NSUserDefaults getTMLink]
+  [[TMAPIClient sharedInstance] link:[NSUserDefaults getTumblrUserLink]
                           parameters:@{@"url": self.shareLink,
                                        @"title" : @"Video from LiveRiot",
                                        @"description" : content}

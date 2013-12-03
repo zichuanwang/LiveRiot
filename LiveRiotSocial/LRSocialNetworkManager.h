@@ -36,4 +36,6 @@ typedef enum SocialNetworkType : NSUInteger {
 
 - (NSString *)userNameForPlatform:(SocialNetworkType)type;
 
+- (void)setup;
+
 @end

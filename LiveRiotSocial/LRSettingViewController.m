@@ -87,21 +87,17 @@
     settingCell.detailLabel.text = @"";
     
     BOOL signedIn = [[LRSocialNetworkManager sharedManager] checkPlatformLoginStatus:(SocialNetworkType)indexPath.row];
-    
     switch (indexPath.row) {
         case 0: {
-            
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"facebook_logo_hl" : @"facebook_logo"];
             break;
         }
         case 1: {
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"twitter_logo_hl" : @"twitter_logo"];
-            
             break;
         }
         case 2: {
             settingCell.iconImageView.image = [UIImage imageNamed:signedIn ? @"tumblr_logo_hl" : @"tumblr_logo"];
-            
             break;
         }
             

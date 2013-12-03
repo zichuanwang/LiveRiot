@@ -8,75 +8,66 @@
 
 #import "NSUserDefaults+SocialNetwork.h"
 
-#define kTMTokenKey       @"kTMTokenKey"
-#define kTMTokenSecret    @"kTMTokenSecret"
-#define kTMTokenLoggedIn  @"kTMTkTMTokenLoggedInokenKey"
-#define kTMUserName       @"kTMUserName"
-#define kTMUserLink       @"kTMUserLink"
+static NSString *kTumblrTokenKey =      @"TumblrTokenKey";
+static NSString *kTumblrTokenSecret =   @"TumblrTokenSecret";
+static NSString *kTumblrUserName =      @"TumblrUserName";
+static NSString *kTumblrUserLink =      @"TumblrUserLink";
+
+static NSString *kFacebookUserName =    @"FacebookUserName";
+
+#define STANDARD_USER_DEFAULT [NSUserDefaults standardUserDefaults]
 
 @implementation NSUserDefaults (SocialNetwork)
 
-+ (NSString *)getTMToken
++ (NSString *)getFacebookUserName
 {
-  return [[NSUserDefaults standardUserDefaults] objectForKey:kTMTokenKey];
+    return [STANDARD_USER_DEFAULT objectForKey:kFacebookUserName];
 }
 
-+ (NSString *)getTMSecret
++ (void)setFacebookUserName:(NSString *)userName
 {
-  return [[NSUserDefaults standardUserDefaults] objectForKey:kTMTokenSecret];
+    [STANDARD_USER_DEFAULT setObject:userName forKey:kFacebookUserName];
+    [STANDARD_USER_DEFAULT synchronize];
 }
 
-+ (BOOL)isTMLoggedIn
++ (NSString *)getTumblrTokenKey
 {
-  return [[[NSUserDefaults standardUserDefaults] objectForKey:kTMTokenLoggedIn] boolValue];
+    return [STANDARD_USER_DEFAULT objectForKey:kTumblrTokenKey];
 }
 
-+ (void)setTMToken:(NSString *)token
++ (NSString *)getTumblrTokenSecret
 {
-  [[NSUserDefaults standardUserDefaults] setObject:token forKey:kTMTokenKey];
+    return [STANDARD_USER_DEFAULT objectForKey:kTumblrTokenSecret];
 }
 
-+ (void)setTMSecret:(NSString *)secret
++ (void)setTumblrTokenKey:(NSString *)key
 {
-  [[NSUserDefaults standardUserDefaults] setObject:secret forKey:kTMTokenSecret];
+    [STANDARD_USER_DEFAULT setObject:key forKey:kTumblrTokenKey];
+    [STANDARD_USER_DEFAULT synchronize];
 }
 
-+ (void)setTMLoggedIn:(BOOL)loggedIn
++ (void)setTumblrTokenSecret:(NSString *)secret
 {
-  [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:loggedIn] forKey:kTMTokenLoggedIn];
+    [STANDARD_USER_DEFAULT setObject:secret forKey:kTumblrTokenSecret];
+    [STANDARD_USER_DEFAULT synchronize];
 }
 
-+ (void)loginTMWithToken:(NSString *)token secret:(NSString *)secret
++ (NSString *)getTumblrUserName
 {
-  [NSUserDefaults setTMToken:token];
-  [NSUserDefaults setTMSecret:secret];
-  [NSUserDefaults setTMLoggedIn:YES];
+    return [STANDARD_USER_DEFAULT objectForKey:kTumblrUserName];
 }
 
-+ (void)logoutTM
++ (NSString *)getTumblrUserLink
 {
-  [NSUserDefaults setTMToken:@""];
-  [NSUserDefaults setTMSecret:@""];
-  [NSUserDefaults setTMLoggedIn:NO];
-  [NSUserDefaults setTMUserName:@""];
+    return [STANDARD_USER_DEFAULT objectForKey:kTumblrUserLink];
 }
 
-+ (NSString *)getTMUserName
++ (void)setTumblrUserName:(NSString *)userName
 {
-  return [[NSUserDefaults standardUserDefaults] objectForKey:kTMUserName];
-}
-
-+ (NSString *)getTMLink
-{
-  return [[NSUserDefaults standardUserDefaults] objectForKey:kTMUserLink];
-}
-
-
-+ (void)setTMUserName:(NSString *)userName
-{
-  NSString *link = [NSString stringWithFormat:@"%@.tumblr.com", userName];
-  [[NSUserDefaults standardUserDefaults] setObject:userName forKey:kTMUserName];
-  [[NSUserDefaults standardUserDefaults] setObject:link forKey:kTMUserLink];
+    NSString *link = [NSString stringWithFormat:@"%@.tumblr.com", userName];
+    [STANDARD_USER_DEFAULT setObject:userName forKey:kTumblrUserName];
+    [STANDARD_USER_DEFAULT setObject:link forKey:kTumblrUserLink];
+    [STANDARD_USER_DEFAULT synchronize];
 }
 
 @end

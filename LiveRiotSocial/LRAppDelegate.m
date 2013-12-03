@@ -10,8 +10,6 @@
 #import <FacebookSDK/FBSessionTokenCachingStrategy.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "TMAPIClient.h"
-#import "NSUserDefaults+SocialNetwork.h"
-
 #import "LRSocialNetworkManager.h"
 
 @implementation LRAppDelegate
@@ -20,31 +18,30 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-  NSString *urlString = [url absoluteString];
-  if ([urlString rangeOfString:@"tumblr"].location != NSNotFound) {
-    return [[TMAPIClient sharedInstance] handleOpenURL:url];
-  } else {
-    // Facebook SDK * login flow *
-    // Attempt to handle URLs to complete any auth (e.g., SSO) flow.
-    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call) {
-      // Facebook SDK * App Linking *
-      // For simplicity, this sample will ignore the link if the session is already
-      // open but a more advanced app could support features like user switching.
-      if (call.accessTokenData) {
-        if ([FBSession activeSession].isOpen) {
-          NSLog(@"INFO: Ignoring app link because current session is open.");
-        }
-        else {
-          [self handleAppLink:call.accessTokenData];
-        }
-      }
-    }];
-  }
+    NSString *urlString = [url absoluteString];
+    if ([urlString rangeOfString:@"tumblr"].location != NSNotFound) {
+        return [[TMAPIClient sharedInstance] handleOpenURL:url];
+    } else {
+        // Facebook SDK * login flow *
+        // Attempt to handle URLs to complete any auth (e.g., SSO) flow.
+        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call) {
+            // Facebook SDK * App Linking *
+            // For simplicity, this sample will ignore the link if the session is already
+            // open but a more advanced app could support features like user switching.
+            if (call.accessTokenData) {
+                if ([FBSession activeSession].isOpen) {
+                    NSLog(@"INFO: Ignoring app link because current session is open.");
+                }
+                else {
+                    [self handleFacebookAppLink:call.accessTokenData];
+                }
+            }
+        }];
+    }
 }
 
-
 // Helper method to wrap logic for handling app links.
-- (void)handleAppLink:(FBAccessTokenData *)appLinkToken {
+- (void)handleFacebookAppLink:(FBAccessTokenData *)appLinkToken {
     // Initialize a new blank session instance...
     FBSession *appLinkSession = [[FBSession alloc] initWithAppID:nil
                                                      permissions:nil
@@ -67,35 +64,11 @@
     // Override point for customization after application launch.
     
     // TODO:
-    [LRSocialNetworkManager sharedManager];
+    [[LRSocialNetworkManager sharedManager] setup];
     
-    if (!FBSession.activeSession.isOpen) {
-        // create a fresh session object
-        
-        // if we don't have a cached token, a call to open here would cause UX for login to
-        // occur; we don't want that to happen unless the user clicks the login button, and so
-        // we check here to make sure we have a token before calling open
-        if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-            // even though we had a cached token, we need to login to make the session usable
-            [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
-                                                              FBSessionState status,
-                                                              NSError *error) {
-                // we recurse here, in order to update buttons and labels
-                NSLog(@"Facebook session status %d", status);
-            }];
-        }
-    }
-  
-  [TMAPIClient sharedInstance].OAuthConsumerKey = @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
-  [TMAPIClient sharedInstance].OAuthConsumerSecret = @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
-  if ([NSUserDefaults isTMLoggedIn]) {
-    [TMAPIClient sharedInstance].OAuthToken = [NSUserDefaults getTMToken];
-    [TMAPIClient sharedInstance].OAuthTokenSecret = [NSUserDefaults getTMSecret];
-  }
-  
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -104,7 +77,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -115,7 +88,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface. 
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [FBAppEvents activateApp];
     
     // Facebook SDK * login flow *

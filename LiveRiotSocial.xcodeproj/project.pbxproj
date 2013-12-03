@@ -20,6 +20,7 @@
 		E10FE85018219D0400A31323 /* LRSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E10FE84F18219D0400A31323 /* LRSettingCell.xib */; };
 		E1844F70184D60290047CE85 /* LRSocialNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1844F6F184D60290047CE85 /* LRSocialNetworkManager.m */; };
 		E1844F77184D65BD0047CE85 /* LRShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1844F76184D65BD0047CE85 /* LRShareViewController.m */; };
+		E1844F7A184DA0DD0047CE85 /* LRFacebookTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1844F79184DA0DD0047CE85 /* LRFacebookTestCase.m */; };
 		E1945919182060B1003BA03B /* Gothic Tropic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945915182060B1003BA03B /* Gothic Tropic.jpg */; };
 		E194591A182060B1003BA03B /* Hands.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945916182060B1003BA03B /* Hands.jpg */; };
 		E194591B182060B1003BA03B /* The Dead Ships.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1945917182060B1003BA03B /* The Dead Ships.jpg */; };
@@ -83,6 +84,8 @@
 		E1844F6F184D60290047CE85 /* LRSocialNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRSocialNetworkManager.m; sourceTree = "<group>"; };
 		E1844F75184D65BD0047CE85 /* LRShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRShareViewController.h; sourceTree = "<group>"; };
 		E1844F76184D65BD0047CE85 /* LRShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRShareViewController.m; sourceTree = "<group>"; };
+		E1844F78184DA0DD0047CE85 /* LRFacebookTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRFacebookTestCase.h; sourceTree = "<group>"; };
+		E1844F79184DA0DD0047CE85 /* LRFacebookTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRFacebookTestCase.m; sourceTree = "<group>"; };
 		E1945915182060B1003BA03B /* Gothic Tropic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Gothic Tropic.jpg"; sourceTree = "<group>"; };
 		E1945916182060B1003BA03B /* Hands.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hands.jpg; sourceTree = "<group>"; };
 		E1945917182060B1003BA03B /* The Dead Ships.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "The Dead Ships.jpg"; sourceTree = "<group>"; };
@@ -307,6 +310,8 @@
 			children = (
 				E1A4825D17FC560D00ECFF57 /* LiveRiotSocialTests.m */,
 				E1A4825817FC560D00ECFF57 /* Supporting Files */,
+				E1844F78184DA0DD0047CE85 /* LRFacebookTestCase.h */,
+				E1844F79184DA0DD0047CE85 /* LRFacebookTestCase.m */,
 			);
 			path = LiveRiotSocialTests;
 			sourceTree = "<group>";
@@ -498,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A4825E17FC560D00ECFF57 /* LiveRiotSocialTests.m in Sources */,
+				E1844F7A184DA0DD0047CE85 /* LRFacebookTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

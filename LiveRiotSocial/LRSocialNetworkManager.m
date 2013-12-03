@@ -10,8 +10,13 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "FHSTwitterEngine.h"
 #import "NSUserDefaults+SocialNetwork.h"
-
 #import "TMAPIClient.h"
+
+static NSString *kTwitterCosumerKey =       @"Sh5JfGh1T74hpE8lh35Rhg";
+static NSString *kTwitterCosumerSecret =    @"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo";
+
+static NSString *kTumblrCosumerKey =        @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
+static NSString *kTumblrCosumerSecret =     @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
 
 @interface LRSocialNetworkManager () <FHSTwitterEngineAccessTokenDelegate>
 @end
@@ -24,11 +29,17 @@ static LRSocialNetworkManager *sharedManager = nil;
 + (LRSocialNetworkManager *)sharedManager {
     dispatch_once(&LRSocialNetworkManagerPredicate, ^{
         sharedManager = [[LRSocialNetworkManager alloc] init];
-        [sharedManager setupTwitterEngine];
     });
     
     return sharedManager;
 }
+
+- (void)setup {
+    [self setupFacebook];
+    [self setupTwitter];
+    [self setupTumblr];
+}
+
 
 - (BOOL)checkPlatformLoginStatus:(SocialNetworkType)type {
     BOOL result = NO;
@@ -46,7 +57,7 @@ static LRSocialNetworkManager *sharedManager = nil;
             
         case SocialNetworkTypeTumblr:
             
-            result = [NSUserDefaults isTMLoggedIn];
+            result = [NSUserDefaults getTumblrTokenKey] && [NSUserDefaults getTumblrTokenSecret];
             break;
             
         default:
@@ -60,18 +71,15 @@ static LRSocialNetworkManager *sharedManager = nil;
     NSString *result = nil;
     switch (type) {
         case SocialNetworkTypeFacebook:
-            
-            result = [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentFacebookUserName];
+            result = [NSUserDefaults getFacebookUserName];
             break;
             
         case SocialNetworkTypeTwitter:
-            
             result = [[FHSTwitterEngine sharedEngine] loggedInUsername];
             break;
             
         case SocialNetworkTypeTumblr:
-            
-            result = [NSUserDefaults getTMUserName];
+            result = [NSUserDefaults getTumblrUserName];
             break;
             
         default:
@@ -83,16 +91,33 @@ static LRSocialNetworkManager *sharedManager = nil;
 
 #pragma mark - Facebook
 
-static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
+
+
+- (void)setupFacebook {
+    if (!FBSession.activeSession.isOpen) {
+        // create a fresh session object
+        
+        // if we don't have a cached token, a call to open here would cause UX for login to
+        // occur; we don't want that to happen unless the user clicks the login button, and so
+        // we check here to make sure we have a token before calling open
+        if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+            // even though we had a cached token, we need to login to make the session usable
+            [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
+                                                                 FBSessionState status,
+                                                                 NSError *error) {
+                // we recurse here, in order to update buttons and labels
+                NSLog(@"Facebook session status %d", status);
+            }];
+        }
+    }
+}
 
 - (void)populateFacebookUserDetailsWithCallback:(void(^)(NSError *))callback {
     if (FBSession.activeSession.isOpen) {
         [[FBRequest requestForMe] startWithCompletionHandler:
          ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
              if (!error) {
-                 [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:kCurrentFacebookUserName];
-                 [[NSUserDefaults standardUserDefaults] synchronize];
-                 // self.userProfileImage.profileID = [user objectForKey:@"id"];
+                 [NSUserDefaults setFacebookUserName:user.name];
              }
              if (callback) callback(error);
          }];
@@ -119,6 +144,13 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
 
 #pragma mark - Twitter
 
+- (void)setupTwitter {
+    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:kTwitterCosumerKey
+                                                     andSecret:kTwitterCosumerSecret];
+    [[FHSTwitterEngine sharedEngine] setDelegate:self];
+    [[FHSTwitterEngine sharedEngine] loadAccessToken];
+}
+
 - (void)closeTwitterConnection {
     [[FHSTwitterEngine sharedEngine] clearAccessToken];
 }
@@ -129,13 +161,6 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
 
 - (NSString *)loadAccessToken {
     return [[NSUserDefaults standardUserDefaults] objectForKey:@"SavedAccessHTTPBody"];
-}
-
-- (void)setupTwitterEngine {
-    // twitter engine set up...
-    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:@"Sh5JfGh1T74hpE8lh35Rhg" andSecret:@"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo"];
-    [[FHSTwitterEngine sharedEngine] setDelegate:self];
-    [[FHSTwitterEngine sharedEngine] loadAccessToken];
 }
 
 - (void)openTwitterConnectionWithController:(UIViewController *)sender
@@ -149,8 +174,27 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
 
 #pragma mark - Tumblr
 
+- (void)setupTumblr {
+    [TMAPIClient sharedInstance].OAuthConsumerKey = kTumblrCosumerKey;
+    [TMAPIClient sharedInstance].OAuthConsumerSecret = kTumblrCosumerSecret;
+    if ([self checkPlatformLoginStatus:SocialNetworkTypeTumblr]) {
+        [TMAPIClient sharedInstance].OAuthToken = [NSUserDefaults getTumblrTokenKey];
+        [TMAPIClient sharedInstance].OAuthTokenSecret = [NSUserDefaults getTumblrTokenSecret];
+    }
+}
+
 - (void)closeTumblrConnection {
-    [NSUserDefaults logoutTM];
+    [NSUserDefaults setTumblrTokenKey:nil];
+    [NSUserDefaults setTumblrTokenSecret:nil];
+    
+    NSHTTPCookieStorage *cookieStorage =  [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie  *cookie in [cookieStorage cookies]) {
+        NSLog(@"%@, %@", cookie.name, cookie.domain);
+        if ([cookie.domain rangeOfString:@"tumblr"].location != NSNotFound) {
+            NSLog(@"%@", cookie.name);
+            [cookieStorage deleteCookie:cookie];
+        }
+    }
 }
 
 - (void)populateTumblrUserDetailsWithCallback:(void(^)(NSError *))callback {
@@ -159,7 +203,7 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
             if ([dict isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *userInfoDict = dict[@"user"];
                 NSString *userName = userInfoDict[@"name"];
-                [NSUserDefaults setTMUserName:userName];
+                [NSUserDefaults setTumblrUserName:userName];
             }
         }
         if (callback) callback(error);
@@ -169,11 +213,12 @@ static NSString *kCurrentFacebookUserName = @"kCurrentFacebookUserName";
 - (void)openTumblrConnectionWithCallback:(void(^)(NSError *))callback {
     [[TMAPIClient sharedInstance] authenticate:@"LiveRiotSocial" callback:^(NSError *error) {
         if (!error) {
-            [NSUserDefaults loginTMWithToken:[TMAPIClient sharedInstance].OAuthToken
-                                      secret:[TMAPIClient sharedInstance].OAuthTokenSecret];
+            [NSUserDefaults setTumblrTokenKey:[TMAPIClient sharedInstance].OAuthToken];
+            [NSUserDefaults setTumblrTokenSecret:[TMAPIClient sharedInstance].OAuthTokenSecret];
             
-            [self populateFacebookUserDetailsWithCallback:callback];
+            [self populateTumblrUserDetailsWithCallback:callback];
         } else {
+            NSLog(@"%@", error.localizedDescription);
             if (callback) callback(error);
         }
     }];
