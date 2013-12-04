@@ -1336,7 +1336,9 @@ id removeNull(id rootObject) {
     mutableParams[@"oauth_nonce"] = nonce;
     mutableParams[@"oauth_version"] = @"1.0";
     
-    if (reverseAuth) mutableParams[@"x_auth_mode"] = @"reverse_auth";
+    if (reverseAuth) {
+        mutableParams[@"x_auth_mode"] = @"reverse_auth";
+    }
     
     if (tokenString.length > 0) {
         mutableParams[@"oauth_token"] = [tokenString fhs_URLEncode];

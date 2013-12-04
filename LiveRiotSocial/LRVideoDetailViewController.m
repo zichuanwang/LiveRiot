@@ -46,7 +46,8 @@
             ((UIScrollView *)view).scrollEnabled = NO;
         }
     }*/
-    NSURL *ytvideo = [NSURL URLWithString:@"https://s3.amazonaws.com/lr-chaos/videos/files/000/000/548/original/sd_Hands-Elegant-Road-04-22-13.mp4"];
+    NSURL *ytvideo = nil;
+    // [NSURL URLWithString:@"https://s3.amazonaws.com/lr-chaos/videos/files/000/000/548/original/sd_Hands-Elegant-Road-04-22-13.mp4"];
     _videoPlayer = [[MPMoviePlayerController alloc] initWithContentURL:ytvideo];
     [_videoPlayer prepareToPlay];
     

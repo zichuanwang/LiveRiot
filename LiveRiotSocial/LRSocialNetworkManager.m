@@ -275,12 +275,15 @@ static LRSocialNetworkManager *sharedManager = nil;
     [accountStore requestAccessToAccountsWithType:twitterType options:nil completion:^(BOOL granted, NSError *error) {
         if (!granted) {
             // handle this scenario gracefully
-            if (callback) callback(NO);
+            //if (callback) callback(NO);
         } else {
             // obtain all the local account instances
-            NSArray *accounts =
-            [accountStore accountsWithAccountType:twitterType];
             
+            NSArray *accounts = [accountStore accountsWithAccountType:twitterType];
+            if (accounts.count == 0) {
+                if (callback) callback(NO);
+                return;
+            }
             // for simplicity, we will choose the first account returned - in
             // your app, you should ensure that the user chooses the correct
             // Twitter account to use with your application.  DO NOT FORGET THIS
@@ -305,6 +308,13 @@ static LRSocialNetworkManager *sharedManager = nil;
 
 - (void)openTwitterConnectionWithController:(UIViewController *)sender
                                    callback:(void(^)(BOOL success))callback {
+    [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:sender withCompletion:^(BOOL success) {
+        NSString* userName = [[FHSTwitterEngine sharedEngine] loggedInUsername];
+        NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
+        if (callback) callback(success);
+    }];
+    return;
+    
     [self authenticateTwitterCallback:^(BOOL success) {
         if (success) {
             if (callback) callback(YES);
