@@ -1316,6 +1316,10 @@ id removeNull(id rootObject) {
 }
 
 - (void)signRequest:(NSMutableURLRequest *)request withToken:(NSString *)tokenString tokenSecret:(NSString *)tokenSecretString verifier:(NSString *)verifierString {
+    [self signRequest:request withToken:tokenString tokenSecret:tokenSecretString verifier:verifierString reverseAuth:NO];
+}
+
+- (void)signRequest:(NSMutableURLRequest *)request withToken:(NSString *)tokenString tokenSecret:(NSString *)tokenSecretString verifier:(NSString *)verifierString reverseAuth:(BOOL)reverseAuth {
     
     NSString *consumerKey = [_consumer.key fhs_URLEncode];
     NSString *nonce = [NSString fhs_UUID];
@@ -1331,6 +1335,8 @@ id removeNull(id rootObject) {
     mutableParams[@"oauth_timestamp"] = timestamp;
     mutableParams[@"oauth_nonce"] = nonce;
     mutableParams[@"oauth_version"] = @"1.0";
+    
+    if (reverseAuth) mutableParams[@"x_auth_mode"] = @"reverse_auth";
     
     if (tokenString.length > 0) {
         mutableParams[@"oauth_token"] = [tokenString fhs_URLEncode];
@@ -1523,6 +1529,25 @@ id removeNull(id rootObject) {
 //
 // OAuth
 //
+
+- (NSString *)getSpecialRequestTokenString {
+    
+    NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/oauth/request_token"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30.0f];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPShouldHandleCookies:NO];
+    [self signRequest:request withToken:nil tokenSecret:nil verifier:nil reverseAuth:YES];
+    
+    id retobj = [self sendRequest:request];
+    
+    NSLog(@"%@, %@", retobj, NSStringFromClass([retobj class]));
+    
+    if ([retobj isKindOfClass:[NSData class]]) {
+        return [[NSString alloc]initWithData:(NSData *)retobj encoding:NSUTF8StringEncoding];
+    }
+    
+    return nil;
+}
 
 - (NSString *)getRequestTokenString {
     

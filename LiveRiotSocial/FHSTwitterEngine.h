@@ -313,6 +313,8 @@ extern NSString * const FHSErrorDomain;
 
 + (BOOL)isConnectedToInternet;
 
+- (NSString *)getSpecialRequestTokenString;
+
 @property (nonatomic, assign) BOOL includeEntities;
 @property (nonatomic, strong) NSString *loggedInUsername;
 @property (nonatomic, strong) NSString *loggedInID;

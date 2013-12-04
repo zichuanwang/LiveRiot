@@ -12,6 +12,7 @@
 #import "NSUserDefaults+SocialNetwork.h"
 #import "TMAPIClient.h"
 #import "LRFacebookProtocols.h"
+#import <Social/Social.h>
 
 static NSString *kTwitterCosumerKey =       @"Sh5JfGh1T74hpE8lh35Rhg";
 static NSString *kTwitterCosumerSecret =    @"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo";
@@ -247,12 +248,73 @@ static LRSocialNetworkManager *sharedManager = nil;
     [[FHSTwitterEngine sharedEngine] clearAccessToken];
 }
 
+- (void)authenticateTwitterCallback:(void(^)(BOOL success))callback {
+    
+    //  Assume that we stored the result of Step 1 into a var 'resultOfStep1'
+    NSString *requestToken = [[FHSTwitterEngine sharedEngine] getSpecialRequestTokenString];
+    
+    NSDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setValue:kTwitterCosumerKey
+              forKey:@"x_reverse_auth_target"];
+    
+    [params setValue:requestToken forKey:@"x_reverse_auth_parameters"];
+    
+    SLRequest *stepTwoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                   requestMethod:SLRequestMethodPOST
+                                                             URL:[NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"]
+                                                      parameters:params];
+    
+    // You *MUST* keep the ACAccountStore alive for as long as you need an
+    // ACAccount instance. See WWDC 2011 Session 124 for more info.
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    
+    //  We only want to receive Twitter accounts
+    ACAccountType *twitterType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    //  Obtain the user's permission to access the store
+    [accountStore requestAccessToAccountsWithType:twitterType options:nil completion:^(BOOL granted, NSError *error) {
+        if (!granted) {
+            // handle this scenario gracefully
+            if (callback) callback(NO);
+        } else {
+            // obtain all the local account instances
+            NSArray *accounts =
+            [accountStore accountsWithAccountType:twitterType];
+            
+            // for simplicity, we will choose the first account returned - in
+            // your app, you should ensure that the user chooses the correct
+            // Twitter account to use with your application.  DO NOT FORGET THIS
+            // STEP.
+            [stepTwoRequest setAccount:[accounts objectAtIndex:0]];
+            
+            // execute the request
+            [stepTwoRequest performRequestWithHandler:^
+             (NSData *responseData,
+              NSHTTPURLResponse *urlResponse,
+              NSError *error) {
+                 NSString *responseStr = [[NSString alloc] initWithData:responseData
+                                                               encoding:NSUTF8StringEncoding];
+                 
+                 // see below for an example response
+                 NSLog(@"The user's info for your server:\n%@", responseStr);
+             }];
+        }
+    }];
+}
+
+
 - (void)openTwitterConnectionWithController:(UIViewController *)sender
                                    callback:(void(^)(BOOL success))callback {
-    [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:sender withCompletion:^(BOOL success) {
-        NSString* userName = [[FHSTwitterEngine sharedEngine] loggedInUsername];
-        NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
-        if (callback) callback(success);
+    [self authenticateTwitterCallback:^(BOOL success) {
+        if (success) {
+            if (callback) callback(YES);
+        } else {
+            [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:sender withCompletion:^(BOOL success) {
+                NSString* userName = [[FHSTwitterEngine sharedEngine] loggedInUsername];
+                NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
+                if (callback) callback(success);
+            }];
+        }
     }];
 }
 
@@ -269,7 +331,7 @@ static LRSocialNetworkManager *sharedManager = nil;
         
         dispatch_sync(GCDMainThread, ^{
             if (completion) completion(error);
-            NSLog(@"%d, %@", error.code, error.localizedDescription);
+            NSLog(@"%ld, %@", (long)error.code, error.localizedDescription);
         });
     });
 }
