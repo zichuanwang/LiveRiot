@@ -14,6 +14,11 @@
 
 @implementation LRTwitterShareViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -47,7 +52,7 @@
 // Post tweets to Twitter after OAuth success
 - (void)postTweets {
     [self.textView resignFirstResponder];
-    [[LRSocialNetworkManager sharedManager] postOnTwitter:self.textView.text completion:^(NSError *error) {
+    [[LRSocialNetworkManager sharedManager] postOnTwitterWithController:self initText:nil post:self.textView.text completion:^(NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:@"Failure" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         } else {

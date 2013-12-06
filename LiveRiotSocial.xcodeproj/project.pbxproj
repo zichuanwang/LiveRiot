@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		180C8E851851A43800C41F5B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C8E841851A43800C41F5B /* Accounts.framework */; };
+		180C8E871851A44100C41F5B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C8E861851A44100C41F5B /* Twitter.framework */; };
+		180C8EB11851C0DE00C41F5B /* LRTwitterOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C8EB01851C0DE00C41F5B /* LRTwitterOS.m */; };
 		18461BAA181F725E009438F7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18461BA9181F725E009438F7 /* SystemConfiguration.framework */; };
 		18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */; };
 		18461BB7181F7B2E009438F7 /* LRTwitterShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */; };
@@ -64,6 +67,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		180C8E841851A43800C41F5B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		180C8E861851A44100C41F5B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		180C8EAF1851C0DE00C41F5B /* LRTwitterOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRTwitterOS.h; sourceTree = "<group>"; };
+		180C8EB01851C0DE00C41F5B /* LRTwitterOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LRTwitterOS.m; sourceTree = "<group>"; };
 		18461BA9181F725E009438F7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		18461BAC181F7633009438F7 /* FHSTwitterEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FHSTwitterEngine.h; sourceTree = "<group>"; };
 		18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FHSTwitterEngine.m; sourceTree = "<group>"; };
@@ -140,6 +147,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				180C8E871851A44100C41F5B /* Twitter.framework in Frameworks */,
+				180C8E851851A43800C41F5B /* Accounts.framework in Frameworks */,
 				CA664F411821A4A70057082C /* MediaPlayer.framework in Frameworks */,
 				18461BAA181F725E009438F7 /* SystemConfiguration.framework in Frameworks */,
 				E1A4827B17FD81C500ECFF57 /* Social.framework in Frameworks */,
@@ -167,6 +176,8 @@
 		18461BAB181F75F9009438F7 /* FHSTwitterEngine */ = {
 			isa = PBXGroup;
 			children = (
+				180C8EAF1851C0DE00C41F5B /* LRTwitterOS.h */,
+				180C8EB01851C0DE00C41F5B /* LRTwitterOS.m */,
 				18461BAC181F7633009438F7 /* FHSTwitterEngine.h */,
 				18461BAD181F76AF009438F7 /* FHSTwitterEngine.m */,
 			);
@@ -261,6 +272,8 @@
 		E1A4822E17FC560D00ECFF57 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				180C8E861851A44100C41F5B /* Twitter.framework */,
+				180C8E841851A43800C41F5B /* Accounts.framework */,
 				CA664F401821A4A70057082C /* MediaPlayer.framework */,
 				18461BA9181F725E009438F7 /* SystemConfiguration.framework */,
 				E1A4828117FD94DA00ECFF57 /* FacebookSDK.framework */,
@@ -483,6 +496,7 @@
 				18461BAE181F76AF009438F7 /* FHSTwitterEngine.m in Sources */,
 				E10FE84E18219CF100A31323 /* LRSettingCell.m in Sources */,
 				E1A4828017FD822900ECFF57 /* RDActivityViewController.m in Sources */,
+				180C8EB11851C0DE00C41F5B /* LRTwitterOS.m in Sources */,
 				E1A4827917FD7DE800ECFF57 /* LRVideoDetailViewController.m in Sources */,
 				184F7860183C6A0300D73488 /* NSUserDefaults+SocialNetwork.m in Sources */,
 				E1BAE432180FAB5B00895A69 /* LRSearchViewController.m in Sources */,

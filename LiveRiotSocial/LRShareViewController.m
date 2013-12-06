@@ -91,7 +91,15 @@
             if (!signedIn) {
                 [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:viewController callback:nil];
             } else {
-                vc = [[LRTwitterShareViewController alloc] init];
+                NSString* initText = [NSString stringWithFormat:@"#LiveRiotMusic %@", shareLink];
+                bool tweetSuccess = [[LRSocialNetworkManager sharedManager] postOnTwitterWithController:viewController initText:initText post:@"" completion:^(NSError *error) {
+                    if (error) {
+                        NSLog(@"tweet action: %@", error);
+                    }
+                }];
+                if (!tweetSuccess) {
+                    vc = [[LRTwitterShareViewController alloc] init];
+                }
             }
             
             break;

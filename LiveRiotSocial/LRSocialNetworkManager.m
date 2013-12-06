@@ -9,6 +9,7 @@
 #import "LRSocialNetworkManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "FHSTwitterEngine.h"
+#import "LRTwitterOS.h"
 #import "NSUserDefaults+SocialNetwork.h"
 #import "TMAPIClient.h"
 #import "LRFacebookProtocols.h"
@@ -21,6 +22,7 @@ static NSString *kTumblrCosumerKey =        @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0W
 static NSString *kTumblrCosumerSecret =     @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
 
 @interface LRSocialNetworkManager ()
+
 @end
 
 @implementation LRSocialNetworkManager
@@ -54,7 +56,7 @@ static LRSocialNetworkManager *sharedManager = nil;
             
         case SocialNetworkTypeTwitter:
             
-            result = [[FHSTwitterEngine sharedEngine] isAuthorized];
+            result = [[FHSTwitterEngine sharedEngine] isAuthorized] || [[LRTwitterOS twitterIOSEngine] isLoggedIn];
             break;
             
         case SocialNetworkTypeTumblr:
@@ -77,7 +79,11 @@ static LRSocialNetworkManager *sharedManager = nil;
             break;
             
         case SocialNetworkTypeTwitter:
-            result = [[FHSTwitterEngine sharedEngine] loggedInUsername];
+            if ([[LRTwitterOS twitterIOSEngine] isLoggedIn]) {
+                result = [[LRTwitterOS twitterIOSEngine]loggedInUserName];
+            } else {
+                result = [[FHSTwitterEngine sharedEngine] loggedInUsername];
+            }
             break;
             
         case SocialNetworkTypeTumblr:
@@ -242,10 +248,21 @@ static LRSocialNetworkManager *sharedManager = nil;
     [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:kTwitterCosumerKey
                                                      andSecret:kTwitterCosumerSecret];
     [[FHSTwitterEngine sharedEngine] loadAccessToken];
+    [[LRTwitterOS twitterIOSEngine] loadTwitterAccount];
 }
 
 - (void)closeTwitterConnection {
-    [[FHSTwitterEngine sharedEngine] clearAccessToken];
+    bool webLoggedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
+    bool iosLoggedIn = [[LRTwitterOS twitterIOSEngine] isLoggedIn];
+    if (webLoggedIn) {
+        [[FHSTwitterEngine sharedEngine] clearAccessToken];
+    } else if (iosLoggedIn) {
+        [[LRTwitterOS twitterIOSEngine]closeTwitterConnection];
+    }
+}
+
+- (NSArray *) twitterIOSAccountsWithCallback:(void (^)(NSError *))callback {
+    return [[LRTwitterOS twitterIOSEngine]twitterIOSAccountswithCallback:callback];
 }
 
 - (void)authenticateTwitterCallback:(void(^)(BOOL success))callback {
@@ -305,6 +322,9 @@ static LRSocialNetworkManager *sharedManager = nil;
     }];
 }
 
+- (void)openTwitterIOSConnectionWithName:(NSString *)twitterAccount {
+    [[LRTwitterOS twitterIOSEngine]openTwitterIOSConnectionWithName:twitterAccount];
+}
 
 - (void)openTwitterConnectionWithController:(UIViewController *)sender
                                    callback:(void(^)(BOOL success))callback {
@@ -328,22 +348,30 @@ static LRSocialNetworkManager *sharedManager = nil;
     }];
 }
 
-- (void)postOnTwitter:(NSString *)post completion:(void (^)(NSError *))completion {
-    dispatch_async(GCDBackgroundThread, ^{
-        // append the twitter photo card link to the tweet
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        NSError *error = [[FHSTwitterEngine sharedEngine] postTweet:post];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        
-        if (error.code == 204) {
-            error = [NSError errorWithDomain:@"" code:204 userInfo:@{NSLocalizedDescriptionKey : @"Whoops!You already tweeted that..."}];
-        }
-        
-        dispatch_sync(GCDMainThread, ^{
-            if (completion) completion(error);
-            NSLog(@"%ld, %@", (long)error.code, error.localizedDescription);
+- (bool)postOnTwitterWithController:(UIViewController *)sender initText:(NSString *)initText post:(NSString *)post completion:(void (^)(NSError *))completion {
+    bool webLoggedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
+    bool iOSLoggedIn = [[LRTwitterOS twitterIOSEngine] isLoggedIn];
+    if (webLoggedIn == YES) {
+        dispatch_async(GCDBackgroundThread, ^{
+            // append the twitter photo card link to the tweet
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+            NSError *error = [[FHSTwitterEngine sharedEngine] postTweet:post];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            
+            if (error.code == 204) {
+                error = [NSError errorWithDomain:@"" code:204 userInfo:@{NSLocalizedDescriptionKey : @"Whoops!You already tweeted that..."}];
+            }
+            
+            dispatch_sync(GCDMainThread, ^{
+                if (completion) completion(error);
+                NSLog(@"%ld, %@", (long)error.code, error.localizedDescription);
+            });
         });
-    });
+    } else if (iOSLoggedIn == YES) {
+        [[LRTwitterOS twitterIOSEngine]showTweetSheetWithController:sender initText:initText completion:completion];
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - Tumblr
