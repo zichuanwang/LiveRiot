@@ -19,18 +19,17 @@ typedef enum SocialNetworkType : NSUInteger {
 
 + (LRSocialNetworkManager *)sharedManager;
 
+- (void)setup;
+
+- (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+
 - (BOOL)checkPlatformLoginStatus:(SocialNetworkType)type;
 
 - (void)openFacebookConnectionWithCallback:(void(^)(NSError *))callback;
 
 - (void)closeFacebookConnection;
 
-- (void)openTwitterConnectionWithController:(UIViewController *)sender
-                                   callback:(void(^)(BOOL success))callback;
-
-- (void)openTwitterIOSConnectionWithName:(NSString *)twitterAccount;
-
-- (NSArray *) twitterIOSAccountsWithCallback:(void (^)(NSError *))callback;
+- (void)openTwitterConnectionWithCallback:(void(^)(NSError *error))callback;
 
 - (void)closeTwitterConnection;
 
@@ -40,12 +39,8 @@ typedef enum SocialNetworkType : NSUInteger {
 
 - (NSString *)userNameForPlatform:(SocialNetworkType)type;
 
-- (void)setup;
-
-// post tweet on Twitter
-// return true if using tweet sheet
-// return false if using Twitter OAuth
-- (bool)postOnTwitterWithController:(UIViewController *)sender initText:(NSString *)initText post:(NSString *)post completion:(void (^)(NSError *))completion;
+- (void)postOnTwitter:(NSString *)post
+           completion:(void (^)(NSError *))completion;
 
 - (void)postOnTumblr:(NSString *)post
                 link:(NSString *)link

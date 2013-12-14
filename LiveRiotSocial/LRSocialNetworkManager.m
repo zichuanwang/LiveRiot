@@ -8,8 +8,7 @@
 
 #import "LRSocialNetworkManager.h"
 #import <FacebookSDK/FacebookSDK.h>
-#import "FHSTwitterEngine.h"
-#import "LRTwitterOS.h"
+#import "STTwitter.h"
 #import "NSUserDefaults+SocialNetwork.h"
 #import "TMAPIClient.h"
 #import "LRFacebookProtocols.h"
@@ -21,7 +20,13 @@ static NSString *kTwitterConsumerSecret =    @"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD
 static NSString *kTumblrConsumerKey =        @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
 static NSString *kTumblrConsumerSecret =     @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
 
-@interface LRSocialNetworkManager ()
+typedef void(^TwitterOAuthCompletionHandler)(NSError *error);
+
+@interface LRSocialNetworkManager () <UIActionSheetDelegate>
+
+@property (nonatomic, strong) STTwitterAPI *twitterAPI;
+@property (nonatomic, copy) TwitterOAuthCompletionHandler twitterOAuthCompletionHandler;
+@property (nonatomic, strong) NSArray *twitterAccounts;
 
 @end
 
@@ -44,6 +49,68 @@ static LRSocialNetworkManager *sharedManager = nil;
     [self setupTumblr];
 }
 
+- (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+    NSString *urlString = [url absoluteString];
+    if ([urlString rangeOfString:@"tumblr"].location != NSNotFound) {
+        return [[TMAPIClient sharedInstance] handleOpenURL:url];
+    } else if ([urlString rangeOfString:@"twitter"].location != NSNotFound) {
+        return [self handleTwitterOpenURL:url];
+    }else {
+        // Facebook SDK * login flow *
+        // Attempt to handle URLs to complete any auth (e.g., SSO) flow.
+        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call) {
+            // Facebook SDK * App Linking *
+            // For simplicity, this sample will ignore the link if the session is already
+            // open but a more advanced app could support features like user switching.
+            if (call.accessTokenData) {
+                if ([FBSession activeSession].isOpen) {
+                    NSLog(@"INFO: Ignoring app link because current session is open.");
+                }
+                else {
+                    [self handleFacebookAppLink:call.accessTokenData];
+                }
+            }
+        }];
+    }
+}
+
+- (NSDictionary *)parametersDictionaryFromQueryString:(NSString *)queryString {
+    
+    NSMutableDictionary *md = [NSMutableDictionary dictionary];
+    
+    NSArray *queryComponents = [queryString componentsSeparatedByString:@"&"];
+    
+    for(NSString *s in queryComponents) {
+        NSArray *pair = [s componentsSeparatedByString:@"="];
+        if([pair count] != 2) continue;
+        
+        NSString *key = pair[0];
+        NSString *value = pair[1];
+        
+        md[key] = value;
+    }
+    
+    return md;
+}
+
+// Helper method to wrap logic for handling app links.
+- (void)handleFacebookAppLink:(FBAccessTokenData *)appLinkToken {
+    // Initialize a new blank session instance...
+    FBSession *appLinkSession = [[FBSession alloc] initWithAppID:nil
+                                                     permissions:nil
+                                                 defaultAudience:FBSessionDefaultAudienceNone
+                                                 urlSchemeSuffix:nil
+                                              tokenCacheStrategy:[FBSessionTokenCachingStrategy defaultInstance]];
+    [FBSession setActiveSession:appLinkSession];
+    // ... and open it from the App Link's Token.
+    [appLinkSession openFromAccessTokenData:appLinkToken
+                          completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
+                              // Forward any errors to the FBLoginView delegate.
+                              if (error) {
+                                  // [self.loginViewController loginView:nil handleError:error];
+                              }
+                          }];
+}
 
 - (BOOL)checkPlatformLoginStatus:(SocialNetworkType)type {
     BOOL result = NO;
@@ -56,7 +123,7 @@ static LRSocialNetworkManager *sharedManager = nil;
             
         case SocialNetworkTypeTwitter:
             
-            result = [[FHSTwitterEngine sharedEngine] isAuthorized] || [[LRTwitterOS twitterIOSEngine] isLoggedIn];
+            result = [NSUserDefaults getTwitterSelectedAccount] || ([NSUserDefaults getTwitterTokenKey] && [NSUserDefaults getTwitterTokenSecret]);
             break;
             
         case SocialNetworkTypeTumblr:
@@ -79,11 +146,7 @@ static LRSocialNetworkManager *sharedManager = nil;
             break;
             
         case SocialNetworkTypeTwitter:
-            if ([[LRTwitterOS twitterIOSEngine] isLoggedIn]) {
-                result = [[LRTwitterOS twitterIOSEngine]loggedInUserName];
-            } else {
-                result = [[FHSTwitterEngine sharedEngine] loggedInUsername];
-            }
+            result = [NSUserDefaults getTwitterUserName];
             break;
             
         case SocialNetworkTypeTumblr:
@@ -245,133 +308,160 @@ static LRSocialNetworkManager *sharedManager = nil;
 #pragma mark - Twitter
 
 - (void)setupTwitter {
-    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:kTwitterConsumerKey
-                                                     andSecret:kTwitterConsumerSecret];
-    [[FHSTwitterEngine sharedEngine] loadAccessToken];
-    [[LRTwitterOS twitterIOSEngine] loadTwitterAccount];
+    if ([NSUserDefaults getTwitterSelectedAccount]) {
+        ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+        ACAccountType *twitterType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+        [accountStore requestAccessToAccountsWithType:twitterType options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted) {
+                NSArray *twitterAccounts = [accountStore accountsWithAccountType:twitterType];
+                self.twitterAccounts = twitterAccounts;
+                for (ACAccount *account in self.twitterAccounts) {
+                    if ([account.username isEqualToString:[NSUserDefaults getTwitterSelectedAccount]]) {
+                        self.twitterAPI = [STTwitterAPI twitterAPIOSWithAccount:account];
+                    }
+                }
+            }
+            if (!self.twitterAPI) {
+                [self closeTwitterConnection];
+            }
+        }];
+    } else if ([NSUserDefaults getTwitterTokenKey] && [NSUserDefaults getTwitterTokenSecret]) {
+        self.twitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:kTwitterConsumerKey consumerSecret:kTwitterConsumerSecret oauthToken:[NSUserDefaults getTwitterTokenKey] oauthTokenSecret:[NSUserDefaults getTwitterTokenSecret]];
+        if (!self.twitterAPI) {
+            [self closeTwitterConnection];
+        }
+    }
 }
 
 - (void)closeTwitterConnection {
-    bool webLoggedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
-    bool iosLoggedIn = [[LRTwitterOS twitterIOSEngine] isLoggedIn];
-    if (webLoggedIn) {
-        [[FHSTwitterEngine sharedEngine] clearAccessToken];
-    } else if (iosLoggedIn) {
-        [[LRTwitterOS twitterIOSEngine]closeTwitterConnection];
-    }
+    [NSUserDefaults setTwitterSelectedAccount:nil];
+    [NSUserDefaults setTwitterUserName:nil];
+    [NSUserDefaults setTwitterTokenKey:nil];
+    [NSUserDefaults setTwitterTokenSecret:nil];
+    self.twitterAPI = nil;
+    self.twitterAccounts = nil;
 }
 
-- (NSArray *) twitterIOSAccountsWithCallback:(void (^)(NSError *))callback {
-    return [[LRTwitterOS twitterIOSEngine]twitterIOSAccountswithCallback:callback];
-}
+#define TWITTER_SELECT_ACCOUNT_ACTION_SHEET_TAG 1
 
-- (void)authenticateTwitterCallback:(void(^)(BOOL success))callback {
-    
-    //  Assume that we stored the result of Step 1 into a var 'resultOfStep1'
-    NSString *requestToken = [[FHSTwitterEngine sharedEngine] getSpecialRequestTokenString];
-    
-    NSDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setValue:kTwitterConsumerKey
-              forKey:@"x_reverse_auth_target"];
-    
-    [params setValue:requestToken forKey:@"x_reverse_auth_parameters"];
-    
-    SLRequest *stepTwoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                                   requestMethod:SLRequestMethodPOST
-                                                             URL:[NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"]
-                                                      parameters:params];
-    
-    // You *MUST* keep the ACAccountStore alive for as long as you need an
-    // ACAccount instance. See WWDC 2011 Session 124 for more info.
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    
-    //  We only want to receive Twitter accounts
-    ACAccountType *twitterType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    
-    //  Obtain the user's permission to access the store
-    [accountStore requestAccessToAccountsWithType:twitterType options:nil completion:^(BOOL granted, NSError *error) {
-        if (!granted) {
-            // handle this scenario gracefully
-            //if (callback) callback(NO);
-        } else {
-            // obtain all the local account instances
-            
-            NSArray *accounts = [accountStore accountsWithAccountType:twitterType];
-            if (accounts.count == 0) {
-                if (callback) callback(NO);
-                return;
-            }
-            // for simplicity, we will choose the first account returned - in
-            // your app, you should ensure that the user chooses the correct
-            // Twitter account to use with your application.  DO NOT FORGET THIS
-            // STEP.
-            [stepTwoRequest setAccount:[accounts objectAtIndex:0]];
-            
-            // execute the request
-            [stepTwoRequest performRequestWithHandler:^
-             (NSData *responseData,
-              NSHTTPURLResponse *urlResponse,
-              NSError *error) {
-                 NSString *responseStr = [[NSString alloc] initWithData:responseData
-                                                               encoding:NSUTF8StringEncoding];
-                 
-                 // see below for an example response
-                 NSLog(@"The user's info for your server:\n%@", responseStr);
-             }];
+- (void)verifyTwitterAccountCredentials {
+    [self.twitterAPI verifyCredentialsWithSuccessBlock:^(NSString *username) {
+        [NSUserDefaults setTwitterUserName:username];
+        [NSUserDefaults setTwitterSelectedAccount:username];
+        if (self.twitterOAuthCompletionHandler) {
+            self.twitterOAuthCompletionHandler(nil);
+            self.twitterOAuthCompletionHandler = nil;
+        };
+        
+    } errorBlock:^(NSError *error) {
+        if (self.twitterOAuthCompletionHandler) {
+            self.twitterOAuthCompletionHandler(error);
+            self.twitterOAuthCompletionHandler = nil;
         }
     }];
 }
 
-- (void)openTwitterIOSConnectionWithName:(NSString *)twitterAccount {
-    [[LRTwitterOS twitterIOSEngine]openTwitterIOSConnectionWithName:twitterAccount];
-}
-
-- (void)openTwitterConnectionWithController:(UIViewController *)sender
-                                   callback:(void(^)(BOOL success))callback {
-    [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:sender withCompletion:^(BOOL success) {
-        NSString* userName = [[FHSTwitterEngine sharedEngine] loggedInUsername];
-        NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
-        if (callback) callback(success);
-    }];
-    return;
-    
-    [self authenticateTwitterCallback:^(BOOL success) {
-        if (success) {
-            if (callback) callback(YES);
-        } else {
-            [[FHSTwitterEngine sharedEngine] showOAuthLoginControllerFromViewController:sender withCompletion:^(BOOL success) {
-                NSString* userName = [[FHSTwitterEngine sharedEngine] loggedInUsername];
-                NSLog(success ? @"Twitter OAuth Login success with UserName %@" : @"Twitter OAuth Loggin Failed %@", userName);
-                if (callback) callback(success);
-            }];
-        }
-    }];
-}
-
-- (bool)postOnTwitterWithController:(UIViewController *)sender initText:(NSString *)initText post:(NSString *)post completion:(void (^)(NSError *))completion {
-    bool webLoggedIn = [[FHSTwitterEngine sharedEngine] isAuthorized];
-    bool iOSLoggedIn = [[LRTwitterOS twitterIOSEngine] isLoggedIn];
-    if (webLoggedIn == YES) {
-        dispatch_async(GCDBackgroundThread, ^{
-            // append the twitter photo card link to the tweet
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-            NSError *error = [[FHSTwitterEngine sharedEngine] postTweet:post];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            
-            if (error.code == 204) {
-                error = [NSError errorWithDomain:@"" code:204 userInfo:@{NSLocalizedDescriptionKey : @"Whoops!You already tweeted that..."}];
+- (void)openTwitterConnectionUsingSystemAccountWithCallback:(void(^)(NSError *error))callback {
+    if (self.twitterAccounts) {
+        if (self.twitterAccounts.count > 1) {
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithFrame:[UIScreen mainScreen].bounds];
+            actionSheet.tag = TWITTER_SELECT_ACCOUNT_ACTION_SHEET_TAG;
+            actionSheet.title = @"Choose an account";
+            actionSheet.delegate = self;
+            for (ACAccount *account in self.twitterAccounts) {
+                [actionSheet addButtonWithTitle:account.username];
             }
-            
-            dispatch_sync(GCDMainThread, ^{
-                if (completion) completion(error);
-                NSLog(@"%ld, %@", (long)error.code, error.localizedDescription);
+            [actionSheet addButtonWithTitle:@"Cancel"];
+            actionSheet.cancelButtonIndex = self.twitterAccounts.count;
+            NSLog(@"Going to show a action sheet");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
             });
-        });
-    } else if (iOSLoggedIn == YES) {
-        [[LRTwitterOS twitterIOSEngine]showTweetSheetWithController:sender initText:initText completion:completion];
-        return YES;
+        } else {
+            self.twitterAPI = [STTwitterAPI twitterAPIOSWithFirstAccount];
+        }
+        self.twitterOAuthCompletionHandler = callback;
+        [self verifyTwitterAccountCredentials];
     }
-    return NO;
+}
+
+- (void)openTwitterConnectionUsingSafariWithCallback:(void(^)(NSError *error))callback {
+    self.twitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:kTwitterConsumerKey
+                                                    consumerSecret:kTwitterConsumerSecret];
+    
+    self.twitterOAuthCompletionHandler = callback;
+    
+    [self.twitterAPI postTokenRequest:^(NSURL *url, NSString *oauthToken) {
+        NSLog(@"-- url: %@", url);
+        NSLog(@"-- oauthToken: %@", oauthToken);
+        [[UIApplication sharedApplication] openURL:url];
+        
+    } oauthCallback:@"LiveRiotSocial://twitter_access_tokens/"
+                           errorBlock:^(NSError *error) {
+                               NSLog(@"-- error: %@", error);
+                               if (self.twitterOAuthCompletionHandler) {
+                                   self.twitterOAuthCompletionHandler(error);
+                                   self.twitterOAuthCompletionHandler = nil;
+                               }
+                           }];
+}
+
+- (void)openTwitterConnectionWithCallback:(void(^)(NSError *error))callback {
+    
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    ACAccountType *twitterType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    [accountStore requestAccessToAccountsWithType:twitterType options:nil completion:^(BOOL granted, NSError *error) {
+        if (granted) {
+            NSArray *twitterAccounts = [accountStore accountsWithAccountType:twitterType];
+            if (twitterAccounts && twitterAccounts.count) {
+                self.twitterAccounts = twitterAccounts;
+                [self openTwitterConnectionUsingSystemAccountWithCallback:callback];
+            }
+        }
+        if (!self.twitterAccounts || !self.twitterAccounts.count){
+            [self openTwitterConnectionUsingSafariWithCallback:callback];
+        }
+    }];
+}
+
+- (BOOL)handleTwitterOpenURL:(NSURL *)url {
+    if ([[url scheme] isEqualToString:@"liveriotsocial"] == NO) return NO;
+    
+    NSDictionary *d = [self parametersDictionaryFromQueryString:[url query]];
+    
+    // NSString *token = d[@"oauth_token"];
+    NSString *verifier = d[@"oauth_verifier"];
+    
+    [self.twitterAPI postAccessTokenRequestWithPIN:verifier successBlock:^(NSString *oauthToken, NSString *oauthTokenSecret, NSString *userID, NSString *screenName) {
+        NSLog(@"-- screenName: %@", screenName);
+        [NSUserDefaults setTwitterUserName:screenName];
+        [NSUserDefaults setTwitterTokenKey:oauthToken];
+        [NSUserDefaults setTwitterTokenSecret:oauthTokenSecret];
+        if (self.twitterOAuthCompletionHandler) {
+            self.twitterOAuthCompletionHandler(nil);
+            self.twitterOAuthCompletionHandler = nil;
+        }
+        
+    } errorBlock:^(NSError *error) {
+        
+        NSLog(@"-- %@", [error localizedDescription]);
+        
+        if (self.twitterOAuthCompletionHandler) {
+            self.twitterOAuthCompletionHandler(error);
+            self.twitterOAuthCompletionHandler = nil;
+        }
+    }];
+    
+    return YES;
+}
+
+- (void)postOnTwitter:(NSString *)post
+           completion:(void (^)(NSError *))completion {
+    [self.twitterAPI postStatusUpdate:post inReplyToStatusID:nil latitude:nil longitude:nil placeID:nil displayCoordinates:nil trimUser:nil successBlock:^(NSDictionary *status) {
+        if (completion) completion(nil);
+    } errorBlock:^(NSError *error) {
+        if (completion) completion(error);
+    }];
 }
 
 #pragma mark - Tumblr
@@ -436,6 +526,22 @@ static LRSocialNetworkManager *sharedManager = nil;
             if (callback) callback(error);
         }
     }];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.tag == TWITTER_SELECT_ACCOUNT_ACTION_SHEET_TAG) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            self.twitterAPI = [STTwitterAPI twitterAPIOSWithAccount:self.twitterAccounts[buttonIndex]];
+            [self verifyTwitterAccountCredentials];
+        } else {
+            if (self.twitterOAuthCompletionHandler) {
+                self.twitterOAuthCompletionHandler(nil);
+                self.twitterOAuthCompletionHandler = nil;
+            }
+        }
+    }
 }
 
 @end

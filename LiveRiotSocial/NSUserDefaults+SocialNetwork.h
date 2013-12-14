@@ -21,4 +21,13 @@
 + (NSString *)getTumblrUserLink;
 + (void)setTumblrUserName:(NSString *)userName;
 
++ (NSString *)getTwitterUserName;
++ (void)setTwitterUserName:(NSString *)userName;
++ (NSString *)getTwitterSelectedAccount;
++ (void)setTwitterSelectedAccount:(NSString *)accountUserName;
++ (NSString *)getTwitterTokenKey;
++ (NSString *)getTwitterTokenSecret;
++ (void)setTwitterTokenKey:(NSString *)key;
++ (void)setTwitterTokenSecret:(NSString *)secret;
+
 @end

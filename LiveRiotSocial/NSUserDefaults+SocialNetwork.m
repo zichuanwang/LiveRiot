@@ -15,9 +15,58 @@ static NSString *kTumblrUserLink =      @"TumblrUserLink";
 
 static NSString *kFacebookUserName =    @"FacebookUserName";
 
+static NSString *kTwitterTokenKey =      @"TwitterTokenKey";
+static NSString *kTwitterTokenSecret =   @"TwitterTokenSecret";
+static NSString *kTwitterUserName =      @"TwitterUserName";
+static NSString *kTwitterSelectedAccount = @"TwitterSelectedAccount";
+
 #define STANDARD_USER_DEFAULT [NSUserDefaults standardUserDefaults]
 
 @implementation NSUserDefaults (SocialNetwork)
+
++ (NSString *)getTwitterSelectedAccount
+{
+    return [STANDARD_USER_DEFAULT objectForKey:kTwitterSelectedAccount];
+}
+
++ (void)setTwitterSelectedAccount:(NSString *)accountUserName
+{
+    [STANDARD_USER_DEFAULT setObject:accountUserName forKey:kTwitterSelectedAccount];
+    [STANDARD_USER_DEFAULT synchronize];
+}
+
++ (NSString *)getTwitterUserName
+{
+    return [STANDARD_USER_DEFAULT objectForKey:kTwitterUserName];
+}
+
++ (void)setTwitterUserName:(NSString *)userName
+{
+    [STANDARD_USER_DEFAULT setObject:userName forKey:kTwitterUserName];
+    [STANDARD_USER_DEFAULT synchronize];
+}
+
++ (NSString *)getTwitterTokenKey
+{
+    return [STANDARD_USER_DEFAULT objectForKey:kTwitterTokenKey];
+}
+
++ (NSString *)getTwitterTokenSecret
+{
+    return [STANDARD_USER_DEFAULT objectForKey:kTwitterTokenSecret];
+}
+
++ (void)setTwitterTokenKey:(NSString *)key
+{
+    [STANDARD_USER_DEFAULT setObject:key forKey:kTwitterTokenKey];
+    [STANDARD_USER_DEFAULT synchronize];
+}
+
++ (void)setTwitterTokenSecret:(NSString *)secret
+{
+    [STANDARD_USER_DEFAULT setObject:secret forKey:kTwitterTokenSecret];
+    [STANDARD_USER_DEFAULT synchronize];
+}
 
 + (NSString *)getFacebookUserName
 {

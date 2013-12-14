@@ -35,16 +35,7 @@
 #pragma mark - Action
 
 - (void)didClickPostButton:(UIButton *)sender {
-    
-    if ([[LRSocialNetworkManager sharedManager] checkPlatformLoginStatus:SocialNetworkTypeTwitter]) {
-        // the access token is authorzied
-        [self postTweets];
-    } else {
-        // the access token is not existed or invalid, authenticate user with OAuth
-        [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:self callback:^(BOOL success) {
-            if (success) [self postTweets];
-        }];
-    }
+    [self postTweets];
 }
 
 #pragma mark - Twitter
@@ -52,7 +43,7 @@
 // Post tweets to Twitter after OAuth success
 - (void)postTweets {
     [self.textView resignFirstResponder];
-    [[LRSocialNetworkManager sharedManager] postOnTwitterWithController:self initText:nil post:self.textView.text completion:^(NSError *error) {
+    [[LRSocialNetworkManager sharedManager] postOnTwitter:self.textView.text completion:^(NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:@"Failure" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         } else {

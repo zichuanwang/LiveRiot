@@ -79,7 +79,11 @@
             if (!signedIn) {
                 // You can unquote this method to post in Facebook app
                 // [LRFacebookShareViewController presentShareDialogForVideoInfo:shareLink];
-                [[LRSocialNetworkManager sharedManager] openFacebookConnectionWithCallback:nil];
+                [[LRSocialNetworkManager sharedManager] openFacebookConnectionWithCallback:^(NSError *error) {
+                    if (!error) {
+                        [LRShareViewController showInViewController:viewController shareLink:shareLink shareImageName:imageName socialNetworkType:type];
+                    }
+                }];
             } else {
                 vc = [[LRFacebookShareViewController alloc] init];
             }
@@ -89,17 +93,11 @@
         case SocialNetworkTypeTwitter:
             
             if (!signedIn) {
-                [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:viewController callback:nil];
-            } else {
-                NSString* initText = [NSString stringWithFormat:@"#LiveRiotMusic %@", shareLink];
-                bool tweetSuccess = [[LRSocialNetworkManager sharedManager] postOnTwitterWithController:viewController initText:initText post:@"" completion:^(NSError *error) {
-                    if (error) {
-                        NSLog(@"tweet action: %@", error);
-                    }
+                [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithCallback:^(NSError *error) {
+                    [LRShareViewController showInViewController:viewController shareLink:shareLink shareImageName:imageName socialNetworkType:type];
                 }];
-                if (!tweetSuccess) {
-                    vc = [[LRTwitterShareViewController alloc] init];
-                }
+            } else {
+                vc = [[LRTwitterShareViewController alloc] init];
             }
             
             break;
@@ -108,7 +106,7 @@
             
             if (!signedIn) {
                 [[LRSocialNetworkManager sharedManager] openTumblrConnectionWithCallback:^(NSError *error) {
-                    
+                    [LRShareViewController showInViewController:viewController shareLink:shareLink shareImageName:imageName socialNetworkType:type];
                 }];
             } else {
                 vc = [[LRTumblrShareViewController alloc] init];

@@ -9,9 +9,6 @@
 #import "LRSettingViewController.h"
 #import "LRSettingCell.h"
 #import "LRSocialNetworkManager.h"
-#import <Social/SLComposeViewController.h>
-#import <Social/SLServiceTypes.h>
-#import <Accounts/Accounts.h>
 
 @interface LRSettingViewController () <UIActionSheetDelegate>
 @property NSArray* twitterAccounts;
@@ -122,8 +119,7 @@
 
 #define FACEBOOK_LOGOUT_ACTION_TAG  1
 #define TWITTER_LOGOUT_ACTION_TAG   2
-#define TWITTER_LOGIN_ACTION_TAG    3
-#define TUMBLR_LOGOUT_ACTION_TAG    4
+#define TUMBLR_LOGOUT_ACTION_TAG    3
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (actionSheet.tag == FACEBOOK_LOGOUT_ACTION_TAG) {
@@ -133,14 +129,6 @@
     } else if (actionSheet.tag == TWITTER_LOGOUT_ACTION_TAG) {
         if (buttonIndex != actionSheet.cancelButtonIndex) {
             [[LRSocialNetworkManager sharedManager] closeTwitterConnection];
-        }
-    } else if (actionSheet.tag == TWITTER_LOGIN_ACTION_TAG) {
-        if (buttonIndex == 1) {
-            [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithController:self callback:^(BOOL success) {
-            }];
-        } else if (buttonIndex != actionSheet.cancelButtonIndex) {
-            NSString *name = [[_twitterAccounts objectAtIndex:buttonIndex - 2] username];
-            [[LRSocialNetworkManager sharedManager] openTwitterIOSConnectionWithName:name];
         }
     } else if (actionSheet.tag == TUMBLR_LOGOUT_ACTION_TAG) {
         if (buttonIndex != actionSheet.cancelButtonIndex) {
@@ -167,29 +155,16 @@
             
             break;
         case 1:
-            if (signedIn) {
+            
+            if (!signedIn) {
+                [[LRSocialNetworkManager sharedManager] openTwitterConnectionWithCallback:^(NSError *error) {
+                    [self.tableView reloadData];
+                }];
+            } else {
                 // the access token is authorzied
                 // ask user to unlink twitter or not.
                 UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to disconnect from Twitter?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Disconnect Twitter" otherButtonTitles:nil];
                 actionSheet.tag = TWITTER_LOGOUT_ACTION_TAG;
-                [actionSheet showInView:self.view];
-            } else {
-                NSArray *twitterAccounts = [[LRSocialNetworkManager sharedManager] twitterIOSAccountsWithCallback:^(NSError *error) {
-                }];
-                int size = -1;
-                if (twitterAccounts != nil) {
-                    size = [twitterAccounts count];
-                    _twitterAccounts = twitterAccounts;
-                }
-                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you wan to connect to Twitter?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
-                actionSheet.tag = TWITTER_LOGIN_ACTION_TAG;
-                [actionSheet addButtonWithTitle:@"Web Login"];
-                if (size != -1) {
-                    for (int i = 0; i < size; i++) {
-                        ACAccount* user = [twitterAccounts objectAtIndex:i];
-                        [actionSheet addButtonWithTitle: [user username]];
-                    }
-                }
                 [actionSheet showInView:self.view];
             }
             break;
