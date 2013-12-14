@@ -19,11 +19,7 @@
     return [[LRSocialNetworkManager sharedManager] handleOpenURL:url sourceApplication:sourceApplication];
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
-    
-    // TODO:
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[LRSocialNetworkManager sharedManager] setup];
     
     return YES;

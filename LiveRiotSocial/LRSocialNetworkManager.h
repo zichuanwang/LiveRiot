@@ -19,11 +19,16 @@ typedef enum SocialNetworkType : NSUInteger {
 
 + (LRSocialNetworkManager *)sharedManager;
 
+// Call this method in AppDelegate |- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions|
 - (void)setup;
 
+// Call this method in AppDelgate |- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation|
 - (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 
+// Return Yes for login accounts, return No for signed out accounts
 - (BOOL)checkPlatformLoginStatus:(SocialNetworkType)type;
+
+- (NSString *)userNameForPlatform:(SocialNetworkType)type;
 
 - (void)openFacebookConnectionWithCallback:(void(^)(NSError *))callback;
 
@@ -36,8 +41,6 @@ typedef enum SocialNetworkType : NSUInteger {
 - (void)openTumblrConnectionWithCallback:(void(^)(NSError *))callback;
 
 - (void)closeTumblrConnection;
-
-- (NSString *)userNameForPlatform:(SocialNetworkType)type;
 
 - (void)postOnTwitter:(NSString *)post
            completion:(void (^)(NSError *))completion;
