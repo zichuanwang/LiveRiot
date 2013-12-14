@@ -15,11 +15,11 @@
 #import "LRFacebookProtocols.h"
 #import <Social/Social.h>
 
-static NSString *kTwitterCosumerKey =       @"Sh5JfGh1T74hpE8lh35Rhg";
-static NSString *kTwitterCosumerSecret =    @"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo";
+static NSString *kTwitterConsumerKey =       @"Sh5JfGh1T74hpE8lh35Rhg";
+static NSString *kTwitterConsumerSecret =    @"YAEI63uVUqwCw1cDlVFdocPfbBGedYAYD3odDYO8fOo";
 
-static NSString *kTumblrCosumerKey =        @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
-static NSString *kTumblrCosumerSecret =     @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
+static NSString *kTumblrConsumerKey =        @"9qs9PBtl643JGC0CBmTkQjA2fg2fupqp0WSsSwu6D8qNZMfSQd";
+static NSString *kTumblrConsumerSecret =     @"U4JsgunwPqWfnXQ0oeVoV9j5QTphYR7lU8MnIVXoaPyYXXxuDw";
 
 @interface LRSocialNetworkManager ()
 
@@ -245,8 +245,8 @@ static LRSocialNetworkManager *sharedManager = nil;
 #pragma mark - Twitter
 
 - (void)setupTwitter {
-    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:kTwitterCosumerKey
-                                                     andSecret:kTwitterCosumerSecret];
+    [[FHSTwitterEngine sharedEngine] permanentlySetConsumerKey:kTwitterConsumerKey
+                                                     andSecret:kTwitterConsumerSecret];
     [[FHSTwitterEngine sharedEngine] loadAccessToken];
     [[LRTwitterOS twitterIOSEngine] loadTwitterAccount];
 }
@@ -271,7 +271,7 @@ static LRSocialNetworkManager *sharedManager = nil;
     NSString *requestToken = [[FHSTwitterEngine sharedEngine] getSpecialRequestTokenString];
     
     NSDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setValue:kTwitterCosumerKey
+    [params setValue:kTwitterConsumerKey
               forKey:@"x_reverse_auth_target"];
     
     [params setValue:requestToken forKey:@"x_reverse_auth_parameters"];
@@ -389,8 +389,8 @@ static LRSocialNetworkManager *sharedManager = nil;
 }
 
 - (void)setupTumblr {
-    [TMAPIClient sharedInstance].OAuthConsumerKey = kTumblrCosumerKey;
-    [TMAPIClient sharedInstance].OAuthConsumerSecret = kTumblrCosumerSecret;
+    [TMAPIClient sharedInstance].OAuthConsumerKey = kTumblrConsumerKey;
+    [TMAPIClient sharedInstance].OAuthConsumerSecret = kTumblrConsumerSecret;
     if ([self checkPlatformLoginStatus:SocialNetworkTypeTumblr]) {
         [TMAPIClient sharedInstance].OAuthToken = [NSUserDefaults getTumblrTokenKey];
         [TMAPIClient sharedInstance].OAuthTokenSecret = [NSUserDefaults getTumblrTokenSecret];

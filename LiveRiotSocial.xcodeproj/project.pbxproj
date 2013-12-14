@@ -196,7 +196,6 @@
 				18461BB4181F7B2E009438F7 /* LRTwitterShareViewController.h */,
 				18461BB5181F7B2E009438F7 /* LRTwitterShareViewController.m */,
 				E10FE848182118C400A31323 /* LRTwitterShareViewController.xib */,
-				E19A6A551808055900266DDF /* LRFacebookProtocols.h */,
 				E1BAE433180FAFC600895A69 /* LRSettingViewController.h */,
 				E1BAE434180FAFC600895A69 /* LRSettingViewController.m */,
 				E10FE84C18219CF100A31323 /* LRSettingCell.h */,
@@ -301,6 +300,7 @@
 				184F785F183C6A0300D73488 /* NSUserDefaults+SocialNetwork.m */,
 				E1844F6E184D60290047CE85 /* LRSocialNetworkManager.h */,
 				E1844F6F184D60290047CE85 /* LRSocialNetworkManager.m */,
+				E19A6A551808055900266DDF /* LRFacebookProtocols.h */,
 			);
 			path = LiveRiotSocial;
 			sourceTree = "<group>";
